@@ -13,8 +13,12 @@ $app-warn:    mat-palette($mat-pink);
 $primary: mat-color($app-primary);
 $accent: mat-color($app-accent);
 $warn: mat-color($app-warn);
-html, body { height: 100%; }
+html, body { height: 100%; background-color: #FDFDFD; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-typography {
+  font: 400 15px/25px Roboto, "Helvetica Neue", sans-serif !important;
+}
