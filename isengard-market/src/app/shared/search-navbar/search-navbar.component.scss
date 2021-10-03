@@ -17,6 +17,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    a {
+      text-decoration: none;
+      color: black;
+    }
     .list-item {
       margin: 10px;
       cursor: pointer;
