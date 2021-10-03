@@ -1,0 +1,68 @@
+.motive-container {
+    display: flex;
+    justify-content: flex-start;
+    .motive-content {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-left: 3rem;
+        width: 50%;
+        .title {
+            font-size: 3rem;
+            padding: 2rem;
+        }
+        .content {
+            width: 80%;
+        }
+    }
+}
+
+.people-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 3rem 0;
+    .people-content {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 50%;
+        .title {
+            font-size: 3rem;
+            padding: 2rem;
+        }
+        .content {
+            width: 80%;
+        }
+    }
+}
+
+.people-images {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.people-card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .title {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    .image {
+        img {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 70px;
+        }
+    }
+}
+
+.people-second-row {
+    display: flex;
+    justify-content: space-around;
+    margin: 3rem 0;
+}
