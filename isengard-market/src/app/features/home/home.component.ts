@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NFTCollection } from 'src/app/core/models/nft-collection.model';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public nftCollections: NFTCollection[] = [];
 
-  constructor() { }
+  constructor(
+    private coreService: CoreService
+  ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.coreService.getAllCollections().subscribe(
+      (data) => {
+        this.nftCollections = data;
+      }
+    );
   }
 
 }

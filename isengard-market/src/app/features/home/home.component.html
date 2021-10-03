@@ -1,6 +1,5 @@
 <app-search-navbar></app-search-navbar>
 
-
 <h2>MAIN SHAIT</h2>
 <div class="list">
   <app-nftcard></app-nftcard>
@@ -8,5 +7,9 @@
   <app-nftcard></app-nftcard>
 </div>
 
+<h2>All nft Collections</h2>
+<div class="list" *ngFor="let collection of nftCollections">
+  <div>{{collection.name}}</div>
+</div>
 
 <app-info-footer></app-info-footer>
