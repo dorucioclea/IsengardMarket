@@ -7,8 +7,8 @@ import { SharedClassicModule } from './shared/shared-classic.module';
 import { HomeComponent } from './features/home/home.component';
 import { AboutPageComponent } from './features/about-page/about-page.component';
 import { ActivityPageComponent } from './features/activity-page/activity-page.component';
-import { ArtistPageComponent } from './features/artist-page/artist-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ArtistPageModule } from './features/artist-page/artist-page.module';
 
 @NgModule({
   declarations: [
@@ -16,8 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     // TODO transform those in modules when they get bigger
     HomeComponent,
     AboutPageComponent,
-    ActivityPageComponent,
-    ArtistPageComponent
+    ActivityPageComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     SharedClassicModule,
     HttpClientModule,
+    ArtistPageModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 500px;
+    margin: 5px 20px;
+
+    .wallet-address-container {
+        display: flex;
+        justify-content: center;
+        box-shadow: 0px 3px 15px -3px rgba(0, 0, 0, 0.5);
+        padding: 8px;
+        border-radius: 17px;
+        width: 50%;
+        .wallet-address {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        button {
+            background-color: white;
+            border: none;
+        }
+    }
+
+    .artist-name {
+        font-size: 45px;
+        font-weight: 500;
+    }
+
+    .artist-username {
+        font-weight: 600;
+        font-size: 18px;
+        display:inline-block;
+        background: -webkit-linear-gradient(90deg, #1b46c2 0%, #791198 100%);
+        background: linear-gradient(90deg, #1b46c2 0%, #791198 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .artist-bio {
+        border-top: 1px solid #d5c6c6;
+
+        .artist-bio-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 15px 0;
+        }
+
+        span {
+            color: #877979;
+        }
+    }
+}
