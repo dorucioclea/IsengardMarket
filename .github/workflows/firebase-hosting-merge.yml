@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-        cd isengard-market
-        npm build --prod
+          cd isengard-market
+          npm build --prod
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
