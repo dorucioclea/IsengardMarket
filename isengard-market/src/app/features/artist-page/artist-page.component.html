@@ -1,1 +1,23 @@
-<p>artist-page works!</p>
+<artist-page-header></artist-page-header>
+<div class="wrapper">
+  <div class="left-grid">
+    <app-artist-page-info></app-artist-page-info>
+  </div>
+  <div class="right-grid">
+    <div class="menu-bar">
+      <div>
+        <span>Created</span>
+      </div>
+      <div>
+        <span>Owned</span>
+      </div>
+    </div>
+    <div class="list">
+      <div *ngFor="let nft of nfts">
+        <app-nftcard [nft]="nft">a</app-nftcard>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-info-footer></app-info-footer>

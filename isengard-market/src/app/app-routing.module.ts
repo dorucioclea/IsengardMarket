@@ -20,7 +20,7 @@ const routes: Routes = [
     component: ActivityPageComponent
   },
   {
-    path: 'artist',
+    path: 'artist/:artistaddress',
     component: ArtistPageComponent
   },
   {
