@@ -8,6 +8,7 @@ import { HomeComponent } from './features/home/home.component';
 import { AboutPageComponent } from './features/about-page/about-page.component';
 import { ActivityPageComponent } from './features/activity-page/activity-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NFTPageModule } from './features/nft-page/nft-page.module';
 import { ArtistPageModule } from './features/artist-page/artist-page.module';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ArtistPageModule } from './features/artist-page/artist-page.module';
     // TODO transform those in modules when they get bigger
     HomeComponent,
     AboutPageComponent,
+    ActivityPageComponent,
     ActivityPageComponent
   ],
   imports: [
@@ -24,7 +26,8 @@ import { ArtistPageModule } from './features/artist-page/artist-page.module';
     BrowserAnimationsModule,
     SharedClassicModule,
     HttpClientModule,
-    ArtistPageModule
+    ArtistPageModule,
+    NFTPageModule
   ],
   providers: [],
   bootstrap: [AppComponent],
