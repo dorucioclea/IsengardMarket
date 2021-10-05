@@ -18,4 +18,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ISENGARD_20253 }}'
           channelId: live
           projectId: isengard-20253
-          path: "/isengard-market"
+          entryPoint: "./isengard-market"
