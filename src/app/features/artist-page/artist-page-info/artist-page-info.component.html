@@ -2,9 +2,9 @@
     <div class="wallet-address-container" >
         <div class="wallet-address">
             <span>{{walletAddress}}</span>
-            
+
         </div>
-        <button [cdkCopyToClipboard]="walletAddress">
+        <button [cdkCopyToClipboard]="walletAddress!">
             <mat-icon>content_copy</mat-icon>
         </button>
     </div>
