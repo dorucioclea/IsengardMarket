@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cd isengard-market
-          npm build --prod
+          npm run-script build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
