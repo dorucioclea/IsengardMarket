@@ -7,6 +7,8 @@ import { Profile } from '../models/profile';
   providedIn: 'root'
 })
 export class ProfileService {
+  // TODO @razvan: Split this class or adjust name because it handles authentication.
+  // TODO @razvan: Update how the "isLoggedIn" works in order to allow it to update without the page refresh.
 
   public isLoggedIn: boolean;
 
