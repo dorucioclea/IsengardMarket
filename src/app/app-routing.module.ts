@@ -6,6 +6,7 @@ import { ArtistPageComponent } from './features/artist-page/artist-page.componen
 import { HomeComponent } from './features/home/home.component';
 import { NFTPageComponent } from './features/nft-page/nft-page.component';
 import { LoginComponent } from './shared/login/login.component';
+import { LogoutComponent } from './shared/logout/logout.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'nft-page', component: NFTPageComponent },
   { path: 'artist/:artistaddress', component: ArtistPageComponent },
   { path: 'about', component: AboutPageComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

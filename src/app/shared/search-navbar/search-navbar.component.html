@@ -25,6 +25,11 @@
         My Profile
       </a>
     </div>
+    <div class="list-item" *ngIf="isLoggedIn">
+      <a [routerLink]="['/logout']">
+        Log out
+      </a>
+    </div>
     <div class="list-item">Ce vrei tu</div>
   </div>
 </div>

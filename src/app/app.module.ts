@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NFTPageModule } from './features/nft-page/nft-page.module';
 import { ArtistPageModule } from './features/artist-page/artist-page.module';
 import { LoginComponent } from './shared/login/login.component';
+import { LogoutComponent } from './shared/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './shared/login/login.component';
     AboutPageComponent,
     ActivityPageComponent,
     ActivityPageComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

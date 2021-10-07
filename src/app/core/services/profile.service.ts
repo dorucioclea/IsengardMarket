@@ -8,9 +8,11 @@ import { Profile } from '../models/profile';
 })
 export class ProfileService {
 
-  constructor(private http: HttpClient) { }
+  public isLoggedIn: boolean;
 
-  public isLoggedIn: boolean = false;
+  constructor(private http: HttpClient) {
+    this.isLoggedIn = this.loggedIn();
+   }
 
   public getProfile(wallet: string): Observable<Profile> {
     return this.http.get<Profile>('https://isengardappapidev.azurewebsites.net/profiles/' + wallet);
@@ -22,6 +24,10 @@ export class ProfileService {
 
   public login(profile: Profile){
     localStorage.setItem('profile',JSON.stringify(profile));
+  }
+
+  public logout(){
+    localStorage.clear();
   }
 
   public loggedIn() : boolean{

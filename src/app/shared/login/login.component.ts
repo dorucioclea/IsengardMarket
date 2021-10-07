@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
               this.profile = profile;
             }
 
-            this.router.navigate(['profile', this.profile.username])
+            this.router.navigate(['artist', this.profile.username])
           });
         }
       });
