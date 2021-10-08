@@ -8,7 +8,7 @@ import { CoreService } from 'src/app/core/services/core.service';
 })
 
 export class ArtistPageInfoComponent implements OnInit {
-  public walletAddress: string | undefined;
+  public walletAddress: string;
 
   constructor (private coreService: CoreService) 
   { 
