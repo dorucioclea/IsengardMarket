@@ -10,6 +10,8 @@ import { ActivityPageComponent } from './features/activity-page/activity-page.co
 import { HttpClientModule } from '@angular/common/http';
 import { NFTPageModule } from './features/nft-page/nft-page.module';
 import { ArtistPageModule } from './features/artist-page/artist-page.module';
+import { LoginComponent } from './shared/login/login.component';
+import { LogoutComponent } from './shared/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ArtistPageModule } from './features/artist-page/artist-page.module';
     HomeComponent,
     AboutPageComponent,
     ActivityPageComponent,
-    ActivityPageComponent
+    ActivityPageComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
