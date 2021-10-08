@@ -4,16 +4,16 @@
   box-shadow: 0px 3px 15px -3px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  flex: 1 1 25%;
   height: 425px;
+  width: 60%;
   margin: 15px;
   border-radius: 10px;
   position: relative;
-	animation: tilt-in-top-1 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: tilt-in-top-1 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
   .nft-photo {
     img {
-      width: 20vw;
+      width: 100%;
       height: 250px;
       object-fit: cover;
       border-radius: 4px 4px 0px 0px;
@@ -68,13 +68,50 @@
     }
     .price {
       color: hotpink;
-
     }
   }
 }
 
+// X-Large devices (large desktops, less than 1400px)
+@media (max-width: 1399.98px) {
+  .wrapper {
+    width: 70%;
+  }
+}
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+  .wrapper {
+    width: 80%;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+  .wrapper {
+    width: 90%;
+  }
+}
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+//TODO SCALE IT TO 2 or 1 item per row
+
+// X-Small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .wrapper {
+    width: 110%;
+  }
+}
+
+
+
 @for $i from 1 to 15 {
-  .nft-form div:nth-child(#{$i}) { animation-delay: $i * 0.25s; }
+  .nft-form div:nth-child(#{$i}) {
+    animation-delay: $i * 0.25s;
+  }
 }
 
 @keyframes tilt-in-top-1 {
@@ -87,4 +124,3 @@
     opacity: 1;
   }
 }
-
