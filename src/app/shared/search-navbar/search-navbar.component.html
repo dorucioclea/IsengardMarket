@@ -1,9 +1,8 @@
 <div class="main-container">
-  <div class="logo">  <a [routerLink]="['/home']">Iskender Logo</a></div>
+  <div class="logo"> <a [routerLink]="['/home']">Iskender Logo</a></div>
   <div class="search">
-<input type="text">
+    <input type="text">
   </div>
-
   <div class="menu-list">
     <div class="list-item">
       <a [routerLink]="['/about']">
@@ -15,7 +14,12 @@
         Activity
       </a>
     </div>
-    <div class="list-item">
+    <div class="list-item" *ngIf="isLoggedIn">
+      <a [routerLink]="['/artist', currentProfile?.username]">
+        My Profile
+      </a>
+    </div>
+    <div class="list-item" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">
         My Profile
       </a>
@@ -25,6 +29,5 @@
         Log out
       </a>
     </div>
-    <div class="list-item">Ce vrei tu</div>
   </div>
 </div>

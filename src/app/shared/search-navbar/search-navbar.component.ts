@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from 'src/app/core/services/profile.service';
+import { Profile } from 'src/app/core/models/profile';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-search-navbar',
@@ -8,13 +9,15 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 })
 export class SearchNavbarComponent implements OnInit {
 
+  public currentProfile: Profile | undefined;
   public isLoggedIn: boolean;
-  constructor(private profileService: ProfileService) {
-    this.isLoggedIn = this.profileService.isLoggedIn;
+
+  constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentProfile = this.authService.currentProfileValue;
    }
 
   ngOnInit(): void {
-    
   }
 
 }

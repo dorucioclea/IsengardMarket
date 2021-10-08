@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  marketUrl: 'http://localhost:4200',
+  backendUri: 'https://isengardappapidev.azurewebsites.net',
+  elrondApiUri:'https://testnet-api.elrond.com',
 };
 
 /*
