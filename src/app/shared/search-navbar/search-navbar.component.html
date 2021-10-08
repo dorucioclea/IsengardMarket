@@ -25,6 +25,11 @@
       </a>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
+      <a [routerLink]="['/create']">
+        Create
+      </a>
+    </div>
+    <div class="list-item" *ngIf="isLoggedIn">
       <a [routerLink]="['/logout']">
         Log out
       </a>
