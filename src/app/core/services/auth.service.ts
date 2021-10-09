@@ -26,8 +26,24 @@ export class AuthService {
   public login(walletId: string) {
     return this.http.get<any>(this.apiUrl + '/profiles/' + walletId).subscribe(
       profile => {
-        console.log(profile);
-        console.log("asd1");
+        if (profile == null) {
+          profile = {
+            accountId: walletId,
+            username: walletId,
+            firstName: undefined,
+            lastName: undefined
+          };
+
+          this.profileService.addProfile(profile).subscribe(() => {
+            if (this.currentProfileSubject == undefined) {
+              this.currentProfileSubject = new BehaviorSubject<Profile | undefined>(profile);
+            } else {
+              console.log(profile);
+              this.currentProfileSubject.next(profile);
+              console.log(this.currentProfileValue);
+            }
+          });
+        }
         if (this.currentProfileSubject == undefined) {
           console.log("asd2");
           this.currentProfileSubject = new BehaviorSubject<Profile | undefined>(profile);

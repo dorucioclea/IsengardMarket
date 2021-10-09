@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateComponent } from './create/create.component';
+import { CreateComponent } from './features/create/create.component';
 import { AboutPageComponent } from './features/about-page/about-page.component';
 import { ActivityPageComponent } from './features/activity-page/activity-page.component';
 import { ArtistPageComponent } from './features/artist-page/artist-page.component';
