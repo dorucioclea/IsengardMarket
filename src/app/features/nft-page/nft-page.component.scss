@@ -1,13 +1,18 @@
+@import "/src/styles/vars";
+
 .nft-container {
   width: 100%;
+
   .nft-thumbnail {
     position: relative;
+
     img {
       width: 100%;
       height: 50vh;
       object-fit: cover;
+      box-shadow: 0px 0px 15px 0px rgb(0 0 0 / 75%);
     }
-
+    //TODO EXTRACT Common logic and movit to GLOBAL
     .author-info {
       cursor: pointer;
       display: flex;
@@ -35,10 +40,6 @@
       }
       span {
         font-weight: 600;
-        background: -webkit-linear-gradient(90deg, #1b46c2 0%, #791198 100%);
-        background: linear-gradient(90deg, #1b46c2 0%, #791198 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         margin-right: 10px;
         font-size: 16px;
       }
@@ -47,18 +48,203 @@
 
   .main-info {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     margin: 25px 125px;
     flex-direction: row;
 
-
     .art-info {
+      .name {
+        font-size: 26px;
+      }
 
+      .sub-name {
+        color: rgb(208, 212, 213);
+      }
+
+      .description-container {
+        margin: 25px 0px;
+        .label {
+          font-weight: 600;
+          font-size: 22;
+        }
+        .big-description {
+          width: 70%;
+        }
+      }
+
+      .links-container {
+        .link-badge {
+          background-color: rgb(152, 57, 135);
+          box-shadow: 0px 0px 17px -8px rgba(0, 0, 0, 0.75);
+          color: white;
+          border-radius: 20px;
+          margin: 15px 0px;
+          width: fit-content;
+          height: 40px;
+          display: flex;
+          a {
+            margin: 8px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            .mat-icon {
+              padding: 3px 5px 3px 15px;
+              width: 20px;
+              height: 20px;
+              font-size: 20px;
+            }
+          }
+        }
+        .link-badge:hover {
+          animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+      }
     }
 
     .bid-info {
+      margin: 50px;
+      .owner-container {
+        background: rgb(11, 11, 11);
+        background: linear-gradient(164deg, #90a0a9 0%, #ffffff 100%);
+        border-radius: 25px;
+        width: 350px;
+        height: 125px;
+        box-shadow: $shadows-2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 55px;
+        position: relative;
 
+        .price {
+          .sold-label {
+            font-size: 16px;
+            position: absolute;
+            z-index: 100;
+            top: 25px;
+            left: 26px;
+            color: #f6f6f6;
+          }
+          .value {
+            color: black;
+            margin-right: 25px;
+            font-weight: 600;
+            font-size: 22px;
+            font-family: "OpenSans", sans-serif;
+          }
+        }
+        .divider {
+          width: 1px;
+          height: 70%;
+          background-color: black;
+        }
+
+        .owned {
+          color: #f6f6f6;
+          width: 50%;
+        }
+      }
     }
   }
+
+  .creator-container {
+    margin: 10px 125px;
+    .name-label {
+      font-size: 30px;
+      font-weight: 500;
+      padding: 15px;
+    }
+    .splitter {
+      border-bottom: 1px solid black;
+    }
+    .about-creator-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .creator-main-info {
+        display: flex;
+        align-items: center;
+        width: 30%;
+        margin: 15px;
+        .logo {
+          margin: 10px 0px;
+          width: 50px;
+          height: 50px;
+          img {
+            border-radius: 150px;
+            width: 50px;
+            height: 50px;
+          }
+        }
+        span {
+          cursor: pointer;
+          padding: 0px 20px;
+          font-weight: 500;
+          font-size: 25px;
+        }
+      }
+
+      .about {
+        width: 40%;
+      }
+    }
+  }
+}
+
+// & :hover {
+//   animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+//   font-weight: 500;
+// }
+
+@-webkit-keyframes shadow-drop-center {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+  }
+}
+@keyframes shadow-drop-center {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.author-info {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  width: max-content;
+  height: 40px;
+  border-radius: 25px;
+  box-shadow: $shadows-1;
+  .author-logo {
+    margin: 10px 0px;
+    width: 30px;
+    height: 30px;
+    margin: 0px 5px;
+    img {
+      border-radius: 150px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  span {
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+}
+
+.author-info:hover {
+  box-shadow: $shadows-3;
 }

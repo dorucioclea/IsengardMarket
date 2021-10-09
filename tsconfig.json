@@ -19,7 +19,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@isengard/shared/*": ["./src/app/shared/*"],
+      "@isengard/assets/*": ["./src/assets/*"],
+      "@isengard/features/*": ["./src/app/features/*"],
+      "@isengard/styles/*": ["./src/styles/*"],
+      "@isengard/env/*": ["./src/environments/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

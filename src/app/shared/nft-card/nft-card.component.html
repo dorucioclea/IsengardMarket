@@ -1,7 +1,15 @@
 <div class="nft-form">
   <div class="wrapper">
     <div class="nft-photo">
-      <img mat-card-image src="{{imageURI}}">
+      <div *ngIf="isVideoNFT">
+        <video width="100%" height="250" controls>
+          <source src="{{imageURI}}" >
+        </video>
+
+      </div>
+      <div *ngIf="!isVideoNFT">
+        <img mat-card-image src="{{imageURI}}">
+      </div>
     </div>
     <div class="nft-info-section">
       <div class="nft-name">{{nft.name}} #{{nft.nonce}}</div>
