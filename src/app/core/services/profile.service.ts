@@ -14,11 +14,18 @@ export class ProfileService {
   }
 
   public getProfile(wallet: string): Observable<Profile> {
-    console.log("call is done for wallet  " + wallet);
     return this.http.get<Profile>(this.apiUrl + '/profiles/' + wallet);
   }
 
   public addProfile(profile: Profile): Observable<any> {
     return this.http.post(this.apiUrl + '/profiles', profile);
+  }
+
+  async getProfileAsync(wallet: string): Promise<Profile> {
+    return this.http.get<Profile>(this.apiUrl + '/profiles/' + wallet).toPromise();
+  }
+
+  async loginAsync(wallet: string): Promise<string> {
+    return this.http.post<string>(this.apiUrl + '/auth/login?address=' + wallet, '').toPromise();
   }
 }
