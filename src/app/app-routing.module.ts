@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateComponent } from './features/create/create.component';
 import { AboutPageComponent } from './features/about-page/about-page.component';
 import { ActivityPageComponent } from './features/activity-page/activity-page.component';
 import { ArtistPageComponent } from './features/artist-page/artist-page.component';
@@ -12,12 +13,12 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'activity', component: ActivityPageComponent },
-  { path: 'artist/:artistaddress/nft/:nftaddress', component: NFTPageComponent },
-  { path: 'nft-page', component: NFTPageComponent },
+  { path: 'nft/create', component: CreateComponent },
+  { path: 'nft/:nftaddress', component: NFTPageComponent },
   { path: 'artist/:artistaddress', component: ArtistPageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'logout', component: LogoutComponent}
+  { path: 'logout', component: LogoutComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

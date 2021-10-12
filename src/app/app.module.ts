@@ -12,6 +12,7 @@ import { NFTPageModule } from './features/nft-page/nft-page.module';
 import { ArtistPageModule } from './features/artist-page/artist-page.module';
 import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
+import { CreateComponent } from './features/create/create.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LogoutComponent } from './shared/logout/logout.component';
     ActivityPageComponent,
     ActivityPageComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
