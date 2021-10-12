@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
       } else {
         console.error("Something went wrong while connecting to Maiar Wallet");
       }
+
     }
   }
 

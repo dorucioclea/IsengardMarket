@@ -15,19 +15,19 @@
     <p>Name*</p>
     <p class="description-text">See if this can be done with spaces. Elrond wallet only allows TextLikeThis not Text
       Like This)</p>
-    <input type="text" name="name" placeholder="Name of your NFT">
+    <input type="text" [(ngModel)]="name" name="name" placeholder="Name of your NFT">
 
     <p>External Link</p>
     <p class="description-text">We wil include a link to this url on the NFT page so the users can navigate and find out more about this.</p>
-    <input type="text" name="url" placeholder="url">
+    <input type="text" [(ngModel)]="url" name="url" placeholder="url">
 
     <p>Description</p>
     <p class="description-text">The description will be seen in the item page.</p>
-    <input type="text" name="description" placeholder="description">
+    <input type="text" [(ngModel)]="description" name="description" placeholder="description">
 
     <p>Tags</p>
     <p class="description-text">A list of tags</p>
-    <input type="text" name="tags" placeholder="tag1,tag2,tag3,tag4">
+    <input type="text" [(ngModel)]="tags" name="tags" placeholder="tag1,tag2,tag3,tag4">
    
     <p>Royalties</p>
     <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.</p>
@@ -35,12 +35,13 @@
 
     <input type="range" min="100" max="10000" value="100" class="slider" [(ngModel)]="royalties" id="myRange">
     <p>Collection</p>
-    <select type="select" name="collection">
+    <select type="select" [(ngModel)]="collection" name="collection">
       <option name="collection" selected value="ASDASDAS-12bd8a">ASDASDAS-12bd8a</option>
       <option name="new" value="new">Create new</option>
     </select>
 
 
+    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> On the blockchain (this involves costs)
     <!-- <p>
       // Create and send transaction ?!?! or just create one locally.
       Tests to do:
@@ -48,7 +49,7 @@
       Make sure this is created on the network and that the appropriate fees are taken by the market.
     </p> -->
 
-    <button type="submit">SUBMIT</button>
+    <button (click)="addNFT()">SUBMIT</button>
   </div>
 
 

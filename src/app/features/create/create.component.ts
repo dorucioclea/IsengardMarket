@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { Account, Address, NetworkConfig, ProxyProvider } from '@elrondnetwork/erdjs/out';
+import { IsengardNFT } from 'src/app/core/models/nft.model';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { NftService } from 'src/app/core/services/nft.service';
 
 @Component({
   selector: 'app-create',
@@ -7,19 +11,88 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-
-  public royalties: number;
-  public imagePath: string;
-  imgURL: any;
+  public file: string | SafeUrl = "assets/images/add-media.png";
+  public royalties: number = 50;
+  public name: string | undefined;
+  public imagePath: string = '';
+  public externalLink: string | undefined;
+  public tags: string[] = [];
+  public description: string | undefined;
+  public collection: string | undefined;
+  public url: string = '';
+  public onBlockchain = false;
+  public formData = new FormData();
+  public mediaFile: any;
   public message: string | undefined;
 
-  constructor(private sanitizer: DomSanitizer) { 
-    this.imagePath ='';
-    this.royalties = 100;
+  constructor(
+    private sanitizer: DomSanitizer,
+    private authService: AuthService,
+    private nftService: NftService
+  ) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     console.log(this.ascii_to_hex("ASDASDAS-12bd8a"));
+
+    if (this.authService.isLoggedIn()) {
+      var walletAddress = this.authService.currentProfileValue?.accountId;
+      let provider = new ProxyProvider("https://devnet-gateway.elrond.com");
+      await NetworkConfig.getDefault().sync(provider);
+
+      console.log(NetworkConfig.getDefault().MinGasPrice);
+      console.log(NetworkConfig.getDefault().ChainID);
+
+      let address = new Address(walletAddress);
+      let user = new Account(address);
+      await user.sync(provider);
+
+      console.log(user.nonce);
+      console.log(user.balance);
+    }
+  }
+
+  addNFT() {
+    this.formData = new FormData();
+    let err = [];
+    if (this.mediaFile == undefined)
+      err.push('No file uploaded.');
+    else
+      this.formData.append('media', this.mediaFile);
+
+    if (this.name == undefined)
+      err.push('A name is required');
+    else
+      this.formData.append('name', this.name);
+
+    if (this.description == undefined)
+      err.push('Please provide a description');
+    else
+      this.formData.append('description', this.description);
+
+    if (this.royalties == undefined)
+      err.push('Royalties have to be between 50 and 10000 (0.5%  to 100%)');
+    else
+      this.formData.append('royalties', this.royalties.toString());
+
+    if (this.collection == undefined)
+      err.push('Please select or create a new collection!');
+    else
+      this.formData.append('collection', this.collection);
+
+    if (err.length != 0) {
+      alert(err);
+      throw 'Sry, conditions not met.';
+    }
+
+    this.formData.append('tags', JSON.stringify(this.tags));
+    this.formData.append('url', JSON.stringify(this.url));
+    this.formData.append('onBlockchain', JSON.stringify(this.onBlockchain));
+    this.formData.forEach(data => {
+      console.log(data);
+    })
+
+    this.nftService.addNftAsync(this.formData);
   }
 
   ascii_to_hex(str: string) {
@@ -31,10 +104,8 @@ export class CreateComponent implements OnInit {
     return arr1.join('');
   }
 
-  file: string | SafeUrl =
-    "assets/images/add-media.png";
-
-  updateImage(ev:any) {
+  updateImage(ev: any) {
+    this.mediaFile = ev.target.files[0];
     this.file = this.sanitizer.bypassSecurityTrustUrl(
       window.URL.createObjectURL(ev.target.files[0])
     );
