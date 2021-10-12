@@ -1,14 +1,9 @@
-<app-search-navbar></app-search-navbar>
+<app-search-navbar [initalStyle]="'white'"></app-search-navbar>
 
 <div class="nft-container">
   <div class="nft-thumbnail">
     <img src="../../../assets/nft-cover.jpg">
-    <div class="author-info">
-      <div class="author-logo">
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-      </div>
-      <span class="isengard-text"> @bereanu99</span>
-    </div>
+    <app-name-card></app-name-card>
   </div>
 
   <div class="main-info">
@@ -54,12 +49,7 @@
           <div class="owned">
             <div>Owned by</div>
             <div>
-              <div class="author-info">
-                <div class="author-logo">
-                  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-                </div>
-                <span class="isengard-text"> @bereanu99</span>
-              </div>
+              <app-name-card></app-name-card>
             </div>
           </div>
         </div>

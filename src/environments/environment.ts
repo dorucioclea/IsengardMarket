@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   marketUrl: 'http://localhost:4200',
   backendUri: 'https://localhost:7288',
-  elrondApiUri:'https://testnet-api.elrond.com',
+  elrondApiUri:'https://devnet-api.elrond.com',
 };
 
 /*
