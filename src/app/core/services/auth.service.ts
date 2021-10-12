@@ -44,7 +44,6 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    console.log(this.currentProfileValue);
     return this.currentProfileValue ? true : false;
   }
 
