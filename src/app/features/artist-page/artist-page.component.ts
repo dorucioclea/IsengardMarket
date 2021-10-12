@@ -9,8 +9,11 @@ import { CoreService } from 'src/app/core/services/core.service';
 })
 export class ArtistPageComponent implements OnInit {
   public nfts: NFT[] = [];
-
-  constructor(private coreService: CoreService) { }
+  public walletAddress: string = '0x2737c01183aA097BbdE6e8cC6a3Eb2E737A88bc7';
+  
+  constructor(private coreService: CoreService) {
+    
+  }
 
   public ngOnInit(): void {
     this.coreService.getAllNFTS().subscribe(

@@ -6,6 +6,7 @@ import { ArtistPageComponent } from './artist-page.component';
 import { SharedClassicModule } from 'src/app/shared/shared-classic.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatIconModule } from '@angular/material/icon';
+import { ArtistPageTopInfoComponent } from './artist-page-top-info/artist-page-top-info.component';
 
 @NgModule({
   imports: [
@@ -14,9 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
     ClipboardModule,
     MatIconModule
   ],
-  declarations: [ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent],
+  declarations: [ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent, ArtistPageTopInfoComponent],
   exports: [
-    ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent
+    ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent, ArtistPageTopInfoComponent
   ]
 })
 export class ArtistPageModule { }

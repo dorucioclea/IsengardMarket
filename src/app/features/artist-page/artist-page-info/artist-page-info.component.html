@@ -1,18 +1,34 @@
 <div class="container">
-    <div class="wallet-address-container" >
-        <div class="wallet-address">
-            <span>{{walletAddress}}</span>
-
-        </div>
-        <button [cdkCopyToClipboard]="walletAddress!">
-            <mat-icon>content_copy</mat-icon>
-        </button>
+    
+    <div class="artist-name">
+        <span>Suicanul</span> 
     </div>
-    <div class="artist-name">Suicanul</div>
-    <div class="artist-username">@suicabagapumnu</div>
+    <div class="artist-username">
+        <div class="username-wrapper">
+            <span>@suicabagapumnu</span>
+        </div>
+    </div>
+    <div class="followers-info">
+        <div class="followers">
+            <div class="number">
+                <span>420</span>
+            </div>
+            <div class="title">
+                <span>Following</span>
+            </div>
+        </div>
+        <div class="followers">
+            <div class="number">
+                <span>521</span>
+            </div>
+            <div class="title">
+                <span>Followers</span>
+            </div>
+        </div>
+    </div>
     <div class="artist-bio">
         <div class="artist-bio-title">
-            About me
+            Bio
         </div>
         <span>
             My name is Zdenek Benjamin Cehelsky and i am known as @rykyart
@@ -22,5 +38,25 @@
 
             Why? Because i can create my own worlds! And you're always welcome.
         </span>
+    </div>
+    <div class="invited-by">
+        <span>Invited by @mrazvanalex</span>
+        <div class="inviter-photo">
+            <img src="assets/images/people/merdi.jpg" alt="">
+        </div>
+        
+    </div>
+    <div class="links-info">
+        <div class="title">
+            <span>Links</span>
+        </div>
+        <div class="links">
+            <img src="assets/icons/instagram.eps" alt="">
+            <span>suicanul</span>
+        </div>
+        
+    </div>
+    <div class="joined">
+        Joined in December 2021
     </div>
 </div>
