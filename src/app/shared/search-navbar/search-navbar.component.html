@@ -1,12 +1,19 @@
-<div class="main-container">
+<div class="main-container" (scroll)="onWindowScroll($event);">
   <div class="logo">
-    <img src="assets\images\logo.png" alt="team-photo">
-
-    <a [routerLink]="['/home']">Iskender Logo</a></div>
+    <span [routerLink]="['/home']">ISENGARD</span>
+  </div>
   <div class="search">
-    <input type="text">
+      <span class="input">
+        <input type="text" placeholder="Search for NFTs">
+        <span></span>
+      </span>
   </div>
   <div class="menu-list">
+    <div class="list-item">
+      <a [routerLink]="['/about']">
+        Marketplace
+      </a>
+    </div>
     <div class="list-item">
       <a [routerLink]="['/about']">
         About
@@ -24,7 +31,7 @@
     </div>
     <div class="list-item" *ngIf="!isLoggedIn">
       <a [routerLink]="['/login']">
-        My Profile
+        Login
       </a>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
