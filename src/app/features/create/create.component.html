@@ -1,42 +1,60 @@
 <app-search-navbar></app-search-navbar>
-<p>Create a new NFT Collection</p>
-<input type="text" name="name">
 
-<input type="text" name="collection">
+<div class="container">
+  <p class="medium-title create-nft-title">Create a new NFT</p>
 
-// Create and send transaction ?!?! or just create one locally. 
 
-<p>Create a new NFT</p>
-Image, Video, Audio, or 3D Model
-File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 40 MB
 
-Media
-<input type="file" name="media">
+  <img [src]="file" (click)="selectImage.click()" />
+  <input type="file" (change)="updateImage($event)" style="display: none" #selectImage />
+  <p class="description-text center">Image, Video, Audio, or 3D Model</p>
+  <p class="description-text center">File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
+    size: 40 MB</p>
 
-Name ( see if this can be done with spaces. Elrond wallet only allows TextLikeThis not Text Like This)
-<input type="text" name="name">
+  <div class="inputs-container">
+    <p>Name*</p>
+    <p class="description-text">See if this can be done with spaces. Elrond wallet only allows TextLikeThis not Text
+      Like This)</p>
+    <input type="text" [(ngModel)]="name" name="name" placeholder="Name of your NFT">
 
-Url
+    <p>External Link</p>
+    <p class="description-text">We wil include a link to this url on the NFT page so the users can navigate and find out more about this.</p>
+    <input type="text" [(ngModel)]="url" name="url" placeholder="url">
 
-<input type="text" name = "url">
+    <p>Description</p>
+    <p class="description-text">The description will be seen in the item page.</p>
+    <input type="text" [(ngModel)]="description" name="description" placeholder="description">
 
-Tags
-<input type="text" name="tags" placeholder="tag1,tag2,tag3,tag4">
+    <p>Tags</p>
+    <p class="description-text">A list of tags</p>
+    <input type="text" [(ngModel)]="tags" name="tags" placeholder="tag1,tag2,tag3,tag4">
+   
+    <p>Royalties</p>
+    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.</p>
+    <input type="number" disabled min="1" max="10000" name="royalties" [(ngModel)]="royalties">
 
-Description
-<input type="text" name ="description">
+    <input type="range" min="100" max="10000" value="100" class="slider" [(ngModel)]="royalties" id="myRange">
+    <p>Collection</p>
+    <select type="select" [(ngModel)]="collection" name="collection">
+      <option name="collection" selected value="ASDASDAS-12bd8a">ASDASDAS-12bd8a</option>
+      <option name="new" value="new">Create new</option>
+    </select>
 
-Royalties
-<input type="number" min="1" max="10000" name="royalties" placeholder="royalties">
 
-<p>
-    Tests to do:
-    Create an NFT with a wallet and buy it with another wallet. 
-    Make sure this is created on the network and that the appropriate fees are taken by the market.
-</p>
+    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> On the blockchain (this involves costs)
+    <!-- <p>
+      // Create and send transaction ?!?! or just create one locally.
+      Tests to do:
+      Create an NFT with a wallet and buy it with another wallet.
+      Make sure this is created on the network and that the appropriate fees are taken by the market.
+    </p> -->
 
-<p>
-    
+    <button (click)="addNFT()">SUBMIT</button>
+  </div>
+
+
+
+  <!-- <textarea rows="30" cols="150">
         "identifier": "ASDASDAS-12bd8a-01",
         "collection": "ASDASDAS-12bd8a",
         "timestamp": 1633725510,
@@ -57,6 +75,6 @@ Royalties
           "tag3",
           "tag4"
         ]
-      
-    </p>
-    <app-info-footer></app-info-footer>
+      </textarea> -->
+</div>
+<app-info-footer></app-info-footer>

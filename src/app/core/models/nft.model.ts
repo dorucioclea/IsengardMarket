@@ -4,9 +4,28 @@ export interface NFT {
   timestamp: Date;
   attributes: string;
   nonce: number;
-  type: string;
+  type: NFTType;
   name: string;
   creator: string;
-  royalties: null;
+  royalties: number;
   uris: string[];
+  tags: [string];
+  metadata: Metadata;
+}
+
+export interface IsengardNFT extends NFT {
+  createdAt: Date;
+  minted:boolean;
+}
+
+export enum NFTType{
+  NonFungibleESDT,
+  FungibleESDT
+}
+
+export interface Metadata {
+  description: string;
+  fileType: string;
+  fileUri: string;
+  fileName: string;
 }
