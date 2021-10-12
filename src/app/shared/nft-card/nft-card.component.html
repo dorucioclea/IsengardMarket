@@ -3,7 +3,7 @@
     <div class="nft-photo">
       <div *ngIf="isVideoNFT">
         <video width="100%" height="250" controls>
-          <source src="{{imageURI}}" >
+          <source src="{{imageURI}}">
         </video>
 
       </div>
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="nft-info-section">
-      <div class="nft-name">{{nft.name}} #{{nft.nonce}}</div>
+      <div class="nft-name" [routerLink]="['/nft',nft.identifier]" routerLinkActive="router-link-active">{{nft.name}}</div>
       <div class="author-info">
         <div class="author-logo">
           <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">

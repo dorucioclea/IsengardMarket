@@ -13,8 +13,14 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           npm i
+      - name: Replace Action
+        uses: datamonsters/replace-action@v2
+        with:
+          files: '/home/runner/work/IsengardMarket/IsengardMarket/node_modules/@elrondnetwork/erdjs/out/smartcontracts/wrapper/systemWrapper.js'
+          replacements: '__dirname="."'
+      - run: |
+          npm i @angular/cli
           npm run-script build
-
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
