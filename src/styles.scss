@@ -14,23 +14,23 @@ $accent: mat-color($app-accent);
 $warn: mat-color($app-warn);
 html,
 body {
-  height: 100%;
+  height: max-content;
   background-color: #fdfdfd;
 }
 body {
   margin: 0;
-  font-family: "OpenSans", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 html,
 body {
-  height: 100%;
+  height: max-content;
 }
 body {
   margin: 0;
-  font-family: "OpenSans", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .mat-typography {
-  font: 400 15px/25px Roboto, "OpenSans", sans-serif !important;
+  font: 400 15px/25px Roboto, "Poppins", sans-serif !important;
 }
