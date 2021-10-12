@@ -8,13 +8,13 @@
 
   .nft-content {
     border-radius: 20px;
-    box-shadow: $shadows-1;
     position: relative;
+    cursor: pointer;
 
     img {
       border-radius: 20px;
       object-fit: cover;
-      box-shadow: 0px 10px 20px -17px rgb(0 0 0 / 10%);
+      box-shadow: $shadows-2;
     }
   }
 
@@ -36,15 +36,26 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .current-bid {
+    .current-bid-container {
+      .current-bid {
+        font-weight: 500;
+      }
       .value-egld {
         margin: 10px 0px;
         font-size: 35px;
+      }
+      .value-usd {
+        color: grey;
       }
     }
     .current-auction {
       margin: 0px 20px;
       position: relative;
+      .auction-ending {
+        font-weight: 500;
+        position: absolute;
+        top: 10px;
+      }
       .auction-time {
         display: flex;
         align-items: center;

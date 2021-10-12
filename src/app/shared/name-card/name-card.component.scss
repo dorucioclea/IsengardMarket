@@ -1,26 +1,28 @@
-   .author-info {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: white;
-    width: fit-content;
-    height: 40px;
-    border-radius: 25px;
-    box-shadow: 0px 0px 30px -8px rgba(0, 0, 0, 0.75);
-    .author-logo {
-      margin: 10px;
+@import "/src/styles/vars";
+
+.author-info {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  width: fit-content;
+  height: 40px;
+  border-radius: 25px;
+  box-shadow: $shadows-1;
+  .author-logo {
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    img {
+      border-radius: 150px;
       width: 30px;
       height: 30px;
-      img {
-        border-radius: 150px;
-        width: 30px;
-        height: 30px;
-      }
-    }
-    span {
-      font-weight: 600;
-      margin-right: 10px;
-      font-size: 16px;
     }
   }
+  span {
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+}

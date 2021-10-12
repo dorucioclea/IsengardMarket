@@ -11,6 +11,7 @@ import { SearchNavbarComponent } from "./search-navbar/search-navbar.component";
 import { NFTCardComponent } from "./nft-card/nft-card.component";
 import { HeroNFTComponent } from './hero-nft/hero-nft.component';
 import { NameCardComponent } from './name-card/name-card.component';
+import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { NameCardComponent } from './name-card/name-card.component';
     InfoFooterComponent,
     MagicCardCaruselComponent,
     HeroNFTComponent,
-    NameCardComponent
+    NameCardComponent,
+    NFTCollectionComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { NameCardComponent } from './name-card/name-card.component';
     InfoFooterComponent,
     MagicCardCaruselComponent,
     HeroNFTComponent,
-    NameCardComponent
+    NameCardComponent,
+    NFTCollectionComponent
   ]
 })
 
