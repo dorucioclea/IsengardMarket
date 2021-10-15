@@ -1,0 +1,74 @@
+@import "/src/styles/vars";
+
+.hero-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 35px;
+
+  .nft-content {
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+
+    img {
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: $shadows-2;
+    }
+  }
+
+  .nft-info-container {
+    margin: 20px;
+    .nft-name {
+      font-size: 50px;
+      font-weight: 500;
+      padding: 20px 0px;
+    }
+    .nft-collection {
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 0px;
+    }
+  }
+
+  .nft-billing-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .current-bid-container {
+      .current-bid {
+        font-weight: 500;
+      }
+      .value-egld {
+        margin: 10px 0px;
+        font-size: 35px;
+      }
+      .value-usd {
+        color: grey;
+      }
+    }
+    .current-auction {
+      margin: 0px 20px;
+      position: relative;
+      .auction-ending {
+        font-weight: 500;
+        position: absolute;
+        top: 10px;
+      }
+      .auction-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .item-unit {
+          margin: 30px 15px 15px 15px;
+          .value {
+            padding: 10px 0px;
+            font-size: 35px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { SearchNavbarComponent } from "./search-navbar/search-navbar.component";
 import { NFTCardComponent } from "./nft-card/nft-card.component";
+import { HeroNFTComponent } from './hero-nft/hero-nft.component';
+import { NameCardComponent } from './name-card/name-card.component';
+import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { NFTCardComponent } from "./nft-card/nft-card.component";
     NFTCardComponent,
     SearchNavbarComponent,
     InfoFooterComponent,
-    MagicCardCaruselComponent
+    MagicCardCaruselComponent,
+    HeroNFTComponent,
+    NameCardComponent,
+    NFTCollectionComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +37,10 @@ import { NFTCardComponent } from "./nft-card/nft-card.component";
     NFTCardComponent,
     SearchNavbarComponent,
     InfoFooterComponent,
-    MagicCardCaruselComponent
+    MagicCardCaruselComponent,
+    HeroNFTComponent,
+    NameCardComponent,
+    NFTCollectionComponent
   ]
 })
 

@@ -1,41 +1,48 @@
-<div class="main-container">
+<div class="main-container" [ngClass]="{'navbar-black': initalStyle == 'black', 'navbar-white': initalStyle == 'white'}" (scroll)="onWindowScroll();">
   <div class="logo">
-    <img src="assets\images\logo.png" alt="team-photo">
-
-    <a [routerLink]="['/home']">Iskender Logo</a></div>
+    <span [routerLink]="['/home']">ISENGARD</span>
+  </div>
   <div class="search">
-    <input type="text">
+    <span class="input">
+      <input type="text" placeholder="Search for NFTs">
+      <span></span>
+    </span>
   </div>
   <div class="menu-list">
     <div class="list-item">
-      <a [routerLink]="['/about']">
-        About
-      </a>
+      <div [routerLink]="['/about']">
+        Marketplace
+      </div>
     </div>
     <div class="list-item">
-      <a [routerLink]="['/activity']">
+      <div [routerLink]="['/about']">
+        About
+      </div>
+    </div>
+    <div class="list-item">
+      <div [routerLink]="['/activity']">
         Activity
-      </a>
+      </div>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
-      <a [routerLink]="['/artist', currentProfile?.username]">
+      <div [routerLink]="['/artist', currentProfile?.username]">
         My Profile
-      </a>
+      </div>
     </div>
     <div class="list-item" *ngIf="!isLoggedIn">
-      <a [routerLink]="['/login']">
-        My Profile
-      </a>
+      <div [routerLink]="['/login']">
+        Login
+      </div>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
-      <a [routerLink]="['/nft/create']">
+      <div [routerLink]="['/nft/create']">
         Create
-      </a>
+      </div>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
-      <a [routerLink]="['/logout']">
+      <div [routerLink]="['/logout']">
         Log out
-      </a>
+      </div>
     </div>
   </div>
 </div>

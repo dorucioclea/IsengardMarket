@@ -1,76 +1,174 @@
+@import "/src/styles/vars";
+
 .main-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid gray;
-  height: 60px;
-  padding: 0px 20px;
-  color: black;
+  height: 70px;
+  width: 100%;
+  top: 0;
+  background: transparent;
+  z-index: 1000;
   .logo {
-    display: flex;
-    align-items: center;
-    img {
-      padding: 0px 10px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50px;
-    }
+    margin-left: 20px;
+    font-size: 32px;
+    cursor: pointer;
   }
   .search {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 25px;
   }
   .menu-list {
     display: flex;
     justify-content: center;
     align-items: center;
-    a {
-      text-decoration: none;
-      color: black;
-    }
+    margin-right: 20px;
+
     .list-item {
       margin: 10px;
       cursor: pointer;
     }
     & :hover {
-      color: rebeccapurple !important;
       animation: shadow-pop-bl 0.3s cubic-bezier(0.47, 0, 0.745, 0.715) both;
       font-weight: 600;
     }
   }
 }
 
+.input {
+  position: relative;
+  font-size: 20px;
+  padding: 4px;
+  height: 30px;
+  border-radius: 300px;
+  box-shadow: $shadows-1;
+
+  // style of the actual input field
+  *:not(span) {
+    position: relative;
+    display: inherit;
+    border-radius: inherit;
+    margin: 3px;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    min-width: 150px;
+    max-width: 550px;
+    width: 30vw;
+    z-index: 1; // needs to be above the :focus span
+
+    // summon fancy shadow styles when focussed
+    &:focus + span {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  // we don't animate box-shadow directly as that can't be done on the GPU, only animate opacity and transform for high performance animations.
+  span {
+    transform: scale(0.993, 0.94); // scale it down just a little bit
+    transition: transform 0.5s, opacity 0.25s;
+    opacity: 0; // is hidden by default
+    position: absolute;
+    z-index: 0; // needs to be below the field (would block input otherwise)
+    margin: 4px; // a bit bigger than .input padding, this prevents background color pixels shining through
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    pointer-events: none; // this allows the user to click through this element, as the shadow is rather wide it might overlap with other fields and we don't want to block those.
+    box-shadow: inset 0 0 0 10px #fff, 0 0 0 4px #fff, -5px -1px 11px 0px #1b46c2, 5px 1px 11px 0px #b45ece;
+  }
+}
+
+input {
+  font-family: inherit;
+  line-height: inherit;
+  color: #2e3750;
+  min-width: 12em;
+  font-size: 16px;
+}
+
+::placeholder {
+  color: #cbd0d5;
+}
+
+.navbar-scrolled {
+  position: sticky !important;
+  animation: slide-in-top 0.5s cubic-bezier(0.680, -0.550, 0.265, 1.550) both;
+  background-color: white !important;
+  box-shadow: $shadows-3;
+  color: black !important;
+}
+
+.navbar-black {
+  position: sticky;
+  color: black;
+}
+//THIS IS USED AS INITAL SETTINGS IN THE NFT PAGE
+.navbar-white {
+  position: absolute;
+  color: white;
+}
+
+@-webkit-keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @-webkit-keyframes shadow-pop-bl {
   0% {
-    -webkit-box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e,
-      0 0 #3e3e3e;
-    box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+    -webkit-box-shadow: 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece,
+      0 0 #b45ece;
+    box-shadow: 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece;
     -webkit-transform: translateX(0) translateY(0);
     transform: translateX(0) translateY(0);
   }
   100% {
-    -webkit-box-shadow: -1px 1px #3e3e3e, -2px 2px #3e3e3e, -3px 3px #3e3e3e, -4px 4px #3e3e3e, -5px 5px #3e3e3e,
-      -6px 6px #3e3e3e, -7px 7px #3e3e3e, -8px 8px #3e3e3e;
-    box-shadow: -1px 1px #3e3e3e, -2px 2px #3e3e3e, -3px 3px #3e3e3e, -4px 4px #3e3e3e, -5px 5px #3e3e3e,
-      -6px 6px #3e3e3e, -7px 7px #3e3e3e, -8px 8px #3e3e3e;
+    -webkit-box-shadow: -1px 1px #b45ece, -2px 2px #b45ece, -3px 3px #b45ece, -4px 4px #b45ece, -5px 5px #b45ece,
+      -6px 6px #b45ece, -7px 7px #b45ece, -8px 8px #b45ece;
+    box-shadow: -1px 1px #b45ece, -2px 2px #b45ece, -3px 3px #b45ece, -4px 4px #b45ece, -5px 5px #b45ece,
+      -6px 6px #b45ece, -7px 7px #b45ece, -8px 8px #b45ece;
     -webkit-transform: translateX(8px) translateY(-8px);
     transform: translateX(8px) translateY(-8px);
   }
 }
 @keyframes shadow-pop-bl {
   0% {
-    -webkit-box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e,
-      0 0 #3e3e3e;
-    box-shadow: 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e, 0 0 #3e3e3e;
+    -webkit-box-shadow: 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece,
+      0 0 #b45ece;
+    box-shadow: 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece, 0 0 #b45ece;
     -webkit-transform: translateX(0) translateY(0);
     transform: translateX(0) translateY(0);
   }
   100% {
-    -webkit-box-shadow: -1px 1px #3e3e3e, -2px 2px #3e3e3e, -3px 3px #3e3e3e, -4px 4px #3e3e3e, -5px 5px #3e3e3e,
-      -6px 6px #3e3e3e, -7px 7px #3e3e3e, -8px 8px #3e3e3e;
-    box-shadow: -1px 1px #3e3e3e, -2px 2px #3e3e3e, -3px 3px #3e3e3e, -4px 4px #3e3e3e, -5px 5px #3e3e3e,
-      -6px 6px #3e3e3e, -7px 7px #3e3e3e, -8px 8px #3e3e3e;
+    -webkit-box-shadow: -1px 1px #b45ece, -2px 2px #b45ece, -3px 3px #b45ece, -4px 4px #b45ece, -5px 5px #b45ece,
+      -6px 6px #b45ece, -7px 7px #b45ece, -8px 8px #b45ece;
+    box-shadow: -1px 1px #b45ece, -2px 2px #b45ece, -3px 3px #b45ece, -4px 4px #b45ece, -5px 5px #b45ece,
+      -6px 6px #b45ece, -7px 7px #b45ece, -8px 8px #b45ece;
     -webkit-transform: translateX(8px) translateY(-8px);
     transform: translateX(8px) translateY(-8px);
   }
