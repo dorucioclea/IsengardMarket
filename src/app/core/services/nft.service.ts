@@ -33,16 +33,20 @@ export class NftService {
     return this.http.get<any[]>(this.elrondApiUrl + '/transactions?search=' + searchCondition).toPromise();
   }
 
-  async getNFTsByCreatorAsync(wallet: string) : Promise<NFT[]>{
-    return this.http.get<any[]>(this.elrondApiUrl + '/nfts?creator=' + wallet).toPromise();
+  async getNFTsByCreatorAsync(wallet: string, size: number = 100): Promise<NFT[]> {
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?creator=' + wallet + '&size=' + size).toPromise();
   }
 
-  async getOwnedNFTsAsync(wallet: string) : Promise<NFT[]>{
-    return this.http.get<any[]>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts').toPromise();
+  async getOwnedNFTsAsync(wallet: string, size: number = 100): Promise<NFT[]> {
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts?size=' + size).toPromise();
   }
 
-  async getCollectionAsync(collection: string) : Promise<Collection>{
+  async getCollectionAsync(collection: string): Promise<Collection> {
     return this.http.get<Collection>(this.elrondApiUrl + '/collections/' + collection).toPromise();
+  }
+
+  async getNFTsInCollectionAsync(collection: string, size: number = 100): Promise<NFT[]> {
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?collection=' + collection + '?size=' + size).toPromise();
   }
 
   private getSearchConditions(collection: string, nonce: number) {

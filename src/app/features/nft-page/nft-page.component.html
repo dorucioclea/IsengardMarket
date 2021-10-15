@@ -88,10 +88,10 @@
       </li>
     </ul>
 
-    <h2>CreateBy:</h2>
+    <h2>Created By:</h2>
     <div class="user-container shadow">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <span class="username">@{{creatorUsername}}</span>
+      <span [routerLink]="['/artist',creatorUsername]" class="username">@{{creatorUsername}}</span>
     </div>
 
   </div>
