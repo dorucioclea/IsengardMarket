@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { NFT } from 'src/app/core/models/nft.model';
 import { Profile } from 'src/app/core/models/profile';
@@ -17,16 +18,20 @@ export class ArtistPageComponent implements OnInit {
   public createdNFTs: NFT[] = [];
   public ownedNFTs: NFT[] = [];
   public favouritedNFTs: NFT[] = [];
-  public walletAddress: string = '0x2737c01183aA097BbdE6e8cC6a3Eb2E737A88bc7';
+  public walletAddress: string | undefined;
   public profile: Profile | undefined;
   public joinedDate: string;
 
   constructor(
     private coreService: CoreService,
     private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     private nftService: NftService) {
     this.profile = this.authService.currentProfileValue;
-
+    this.activatedRoute.params.subscribe(params => {
+      this.walletAddress = params['artistAddress'];
+    })
+    
     this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
   }
 
@@ -37,9 +42,9 @@ export class ArtistPageComponent implements OnInit {
       }
     );
 
-    if(this.profile?.accountId != undefined){
-      this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.profile?.accountId);
-      this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.profile?.accountId);
+    if(this.walletAddress != undefined){
+      this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.walletAddress);
+      this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.walletAddress);
     }
     console.log(this.createdNFTs);
     console.log(this.ownedNFTs);

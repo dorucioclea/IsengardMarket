@@ -9,7 +9,7 @@
 
     <div class="username-container">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <h3 style="word-wrap: break-word;" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
+      <h3 [routerLink]="['/artist', ownerUsername]" routerLinkActive="router-link-active"  style="word-wrap: break-word;" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
         @{{ownerUsername}}
       </h3>
     </div>
