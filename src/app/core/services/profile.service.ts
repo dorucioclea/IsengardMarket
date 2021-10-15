@@ -25,7 +25,11 @@ export class ProfileService {
     return this.http.get<Profile>(this.apiUrl + '/profiles/' + wallet).toPromise();
   }
 
-  async loginAsync(wallet: string): Promise<string> {
-    return this.http.post<string>(this.apiUrl + '/auth/login?address=' + wallet, '').toPromise();
+  async loginAsync(wallet: string, signature: string): Promise<string> {
+    return this.http.post<string>(this.apiUrl + '/auth/login?address=' + wallet +'&signature=' + signature, '').toPromise();
+  }
+
+  async getUserSecretNonceAsync(wallet: string){
+    return this.http.get<string>(this.apiUrl + '/auth/login/' + wallet).toPromise();
   }
 }

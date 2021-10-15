@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Account, Address, NetworkConfig, ProxyProvider } from '@elrondnetwork/erdjs/out';
-import { IsengardNFT } from 'src/app/core/models/nft.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { environment } from 'src/environments/environment';
