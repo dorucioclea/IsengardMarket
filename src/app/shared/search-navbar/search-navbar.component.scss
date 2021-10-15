@@ -29,10 +29,15 @@
     .list-item {
       margin: 10px;
       cursor: pointer;
+      border-bottom:1px solid transparent;
+      transition:0.2s;
     }
     & :hover {
-      animation: shadow-pop-bl 0.3s cubic-bezier(0.47, 0, 0.745, 0.715) both;
-      font-weight: 600;
+      background: -webkit-linear-gradient(90deg, #1b46c2 0%, #791198 100%);
+      background: linear-gradient(90deg, #1b46c2 0%, #791198 100%);
+      transition:0.2s;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 }
