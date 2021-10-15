@@ -1,12 +1,13 @@
 .wrapper {
   display: flex;
+  margin-top: 35px;
 
   .left-grid {
-    width: 35%;
+    width: 30%;
   }
 
   .right-grid {
-    width: 65%;
+    width: 63%;
 
     .menu-bar {
       display: flex;
@@ -14,14 +15,19 @@
       font-size: 25px;
       font-weight: 500;
       margin: 10px 35px;
+      border-bottom: 1px solid black;
 
-      .owned {
-        padding-left: 5px;
+      button {
+        border: none;
+        background-color: white;
+        font-size: 20px;
+        font-weight: 500;
+        font-family: Poppins;
       }
-
+      
       div {
         padding: 5px 10px;
-        border-bottom: 1px solid black;
+        
       }
 
       div:nth-child(1) {
@@ -37,3 +43,5 @@
     }
   }
 }
+
+

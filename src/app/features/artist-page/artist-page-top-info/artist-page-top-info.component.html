@@ -1,0 +1,25 @@
+<div class="artist-top-info">
+  <div class="left-info">
+    <div class="artist-photo">
+      <img src="assets/images/people/merdi.jpg" alt="">
+    </div>
+    <div class="follow-btn">
+      <button>Follow</button>
+    </div>
+  </div>
+  <div class="right-info">
+    <div class="wallet-address-container">
+      <div class="wallet-address">
+        <span>{{walletAddressToShow}}</span>
+      </div>
+      <button [cdkCopyToClipboard]="_walletAddress!">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div>
+    <div class="share-btn">
+      <button>
+        <mat-icon>share</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
