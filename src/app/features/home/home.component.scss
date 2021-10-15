@@ -1,17 +1,4 @@
-.list {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px 20px;
-  flex-wrap: wrap;
-}
 
-.responsive-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0px 10%;
-  grid-column-gap: 5%;
-}
 
 .nft-collections-info {
   display: flex;

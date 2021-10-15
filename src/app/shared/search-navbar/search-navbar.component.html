@@ -25,6 +25,11 @@
       </div>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
+      <div [routerLink]="['/nft/create']">
+        Create
+      </div>
+    </div>
+    <div class="list-item" *ngIf="isLoggedIn">
       <div [routerLink]="['/artist', currentProfile?.username]">
         My Profile
       </div>
@@ -32,11 +37,6 @@
     <div class="list-item" *ngIf="!isLoggedIn">
       <div [routerLink]="['/login']">
         Login
-      </div>
-    </div>
-    <div class="list-item" *ngIf="isLoggedIn">
-      <div [routerLink]="['/nft/create']">
-        Create
       </div>
     </div>
     <div class="list-item" *ngIf="isLoggedIn">
