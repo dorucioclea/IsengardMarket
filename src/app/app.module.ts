@@ -13,6 +13,7 @@ import { ArtistPageModule } from './features/artist-page/artist-page.module';
 import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
 import { CreateComponent } from './features/create/create.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CreateComponent } from './features/create/create.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedClassicModule,

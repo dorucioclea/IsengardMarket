@@ -20,7 +20,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@elrondnetwork/erdjs": "^8.0.1-alpha.5",
+    "@elrondnetwork/erdjs": "^8.0.1-alpha.6",
     "browserify": "^17.0.0",
     "browserify-fs": "^1.0.0",
     "crypto-browserify": "^3.12.0",
