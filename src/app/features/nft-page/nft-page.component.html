@@ -1,90 +1,182 @@
 <app-search-navbar></app-search-navbar>
 
-<div class="nft-container">
-  <div class="nft-thumbnail">
-    <img src="../../../assets/nft-cover.jpg">
-    <div class="author-info">
-      <div class="author-logo">
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-      </div>
-      <span class="isengard-text"> @bereanu99</span>
-    </div>
+
+<div class="cover">
+  <div class="nft-container">
+    <img src="{{nft?.url}}">
   </div>
+  <div class="container middle-line">
 
-  <div class="main-info">
-    <div class="art-info">
-      <div class="name">NFT Haze</div>
-      <div class="sub-name">art information</div>
-      <div class="description-container">
-        <div class="label">Description</div>
-
-        <div class="big-description">
-          This is the first piece in a series that expands Kristen's Cuboid Vortex series into cityscapes. Created with
-          vintage paint software from 1990-91: Ultrapaint for 68k Macintosh and Deluxe Paint IV for Commodore Amiga.
-          This work uses colour range/palette cycling, and speaks to the history of paint software for early personal
-          computers. Kristen's work is a living document of the processes associated with historic software for early
-          personal computers.
-
-          Created in the standard Amiga scale 320x256(x4), 24fps, 2021
-        </div>
-      </div>
-
-      <div class="links-container">
-        <div class="link-badge">
-          <a href="https://maiar.com/">Check my FB<mat-icon>open_in_new</mat-icon></a>
-        </div>
-        <div class="link-badge">
-          <a href="https://maiar.com/">Check my insta<mat-icon>open_in_new</mat-icon></a>
-        </div>
-        <div class="link-badge">
-          <a href="https://maiar.com/">Check my onlyfans<mat-icon>open_in_new</mat-icon></a>
-        </div>
-
-      </div>
+    <div class="username-container">
+      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      <h3 style="word-wrap: break-word;" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
+        @{{ownerUsername}}
+      </h3>
     </div>
 
-    <div class="bid-info">
-      <div class="owner-container">
-        <div class="price">
-          <div class="sold-label">sold for</div>
-          <div class="value">12.211 ETH</div>
-        </div>
-        <div class="divider"></div>
+
+
+    <ul class="button-list">
+      <li class="shadow">
         <div>
-          <div class="owned">
-            <div>Owned by</div>
-            <div>
-              <div class="author-info">
-                <div class="author-logo">
-                  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-                </div>
-                <span class="isengard-text"> @bereanu99</span>
-              </div>
-            </div>
-          </div>
+          <mat-icon aria-hidden="false" class="grey-heart">
+            favorite
+          </mat-icon>
         </div>
+      </li>
+      <li class="shadow">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            share
+          </mat-icon>
+        </div>
+      </li>
+    </ul>
+
+
+  </div>
+</div>
+
+
+
+
+<div class="container info-container">
+
+  <div class="user-profile-container">
+
+    <h1>{{nft?.name}}</h1>
+    <h2>Description:</h2>
+    <p class="description">{{nft?.metadata?.description}}</p>
+    <h2>Collection:</h2>
+    <div class="collection-container">
+      <div class="collection-image-container">
+        <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      </div>
+      <div class="collection-data-container">
+        <p class="collection-name">{{collection?.name}}</p>
+        <p class="collection-ticker">{{collection?.ticker}}</p>
+      </div>
+
+    </div>
+
+    <h2>Tags:</h2>
+
+    <ul class="tags-list">
+      <li *ngFor="let tag of nft?.tags" class="tag shadow">
+        {{tag}}
+      </li>
+    </ul>
+
+    <h2>Properties:</h2>
+    <ul class="properties-list">
+      <li class="property shadow">
+        <div>
+          <p class="p-name">Background</p>
+          <p class="p-value">
+            Black
+          </p>
+        </div>
+      </li>
+
+      <li class="property shadow">
+        <div>
+          <p class="p-name">Type</p>
+          <p class="p-value">
+            Multipass
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <h2>CreateBy:</h2>
+    <div class="user-container shadow">
+      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      <span class="username">@{{creatorUsername}}</span>
+    </div>
+
+  </div>
+
+
+  <div class="timeline-container">
+    <div class="offer-details">
+      <div class="button-container">
+        <div class="black-btn">Make offer</div>
+      </div>
+
+      <div class="text-container">
+        <p class="sold-for-text">Last sold for</p>
+        <p class="sold-for-value">2.245 <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">$523.32</p>
       </div>
     </div>
-  </div>
-  <div class="creator-container">
-    <div class="name-label">MR. Panica</div>
-    <div class="splitter"></div>
 
-    <div class="about-creator-container">
-      <div class="creator-main-info">
-        <div class="logo">
-          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-        </div>
-        <span class="isengard-text">@bereanu99</span>
+
+
+    <div class="timeline-item shadow">
+      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      <div class="timeline-item-details">
+        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
+        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
       </div>
+      <div class="timeline-item-price">
+        <p class="price">2.245EGLD</p>
+        <p class="priceUsd">$523.32</p>
+      </div>
+      <div class="timeline-link-out">
+        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
+            <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
+            <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
+            </path>
+          </svg>
+        </a>
+      </div>
+    </div>
 
-      <div class="about">
-        All of Kristen's work found on Foundation is created with vintage software. His practice includes a wide range
-        of mediums including sound art, installation, textiles and printmaking.
+    <div class="timeline-item shadow">
+      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      <div class="timeline-item-details">
+        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
+        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
+      </div>
+      <div class="timeline-item-price">
+        <p class="price">2.245EGLD</p>
+        <p class="priceUsd">$523.32</p>
+      </div>
+      <div class="timeline-link-out">
+        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
+            <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
+            <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
+            </path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="timeline-item shadow">
+      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+      <div class="timeline-item-details">
+        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
+        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
+      </div>
+      <div class="timeline-item-price">
+        <p class="price">2.245EGLD</p>
+        <p class="priceUsd">$523.32</p>
+      </div>
+      <div class="timeline-link-out">
+        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
+            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
+            <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
+            <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
+            </path>
+          </svg>
+        </a>
       </div>
     </div>
   </div>
 
 </div>
+
 
 <app-info-footer></app-info-footer>

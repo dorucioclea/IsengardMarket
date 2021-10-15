@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'activity', component: ActivityPageComponent },
   { path: 'nft/create', component: CreateComponent },
-  { path: 'nft/:nftaddress', component: NFTPageComponent },
-  { path: 'artist/:artistaddress', component: ArtistPageComponent },
+  { path: 'nft/:nftAddress', component: NFTPageComponent },
+  { path: 'artist/:artistAddress', component: ArtistPageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent }

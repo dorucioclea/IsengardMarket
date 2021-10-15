@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Profile } from '../models/profile';
 import { environment } from 'src/environments/environment';
 import { IsengardNFT, NFT } from '../models/nft.model';
+import { Collection } from '../models/collection.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,11 @@ export class NftService {
   }
 
   public getNft(identifier: string): Observable<IsengardNFT> {
-    return this.http.get<IsengardNFT>(this.apiUrl + '/nfts/' + identifier);
+    return this.http.get<IsengardNFT>(this.elrondApiUrl + '/nfts/' + identifier);
   }
 
   async getNftAsync(identifier: string): Promise<IsengardNFT> {
-    return this.http.get<IsengardNFT>(this.apiUrl + '/nfts/' + identifier).toPromise();
+    return this.http.get<IsengardNFT>(this.elrondApiUrl + '/nfts/' + identifier).toPromise();
   }
 
   async addNftAsync(nft: FormData) {
@@ -30,6 +31,10 @@ export class NftService {
   async getBidAuctionTransactions(collection: string, nonce: number): Promise<any[]> {
     const searchCondition = this.getSearchConditions(collection, nonce);
     return this.http.get<any[]>(this.elrondApiUrl + '/transactions?search=' + searchCondition).toPromise();
+  }
+
+  async getCollectionAsync(collection: string) : Promise<Collection>{
+    return this.http.get<Collection>(this.elrondApiUrl + '/collections/' + collection).toPromise();
   }
 
   private getSearchConditions(collection: string, nonce: number) {

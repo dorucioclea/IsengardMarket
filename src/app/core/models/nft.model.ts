@@ -9,8 +9,10 @@ export interface NFT {
   creator: string;
   royalties: number;
   uris: string[];
+  url: string;
   tags: [string];
   metadata: Metadata;
+  owner: string;
 }
 
 export interface IsengardNFT extends NFT {
