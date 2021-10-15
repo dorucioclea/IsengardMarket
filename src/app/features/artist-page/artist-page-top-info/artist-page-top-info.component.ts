@@ -6,13 +6,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./artist-page-top-info.component.scss']
 })
 export class ArtistPageTopInfoComponent implements OnInit {
-  @Input() set walletAddress (value: string) {
-    this.walletAddressToShow = value.slice(0,5) + "..." + value.slice(-6);
+  public _walletAddress: string | undefined;
+
+  @Input()
+  set walletAddress(value: string) {
+    this.walletAddressToShow = value.slice(0, 5) + "..." + value.slice(-6);
+    this._walletAddress = value;
   }
+
   public walletAddressToShow: string | undefined;
 
   constructor() {
-   }
+  }
 
   ngOnInit() {
   }

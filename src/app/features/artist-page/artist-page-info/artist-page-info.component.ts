@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
@@ -8,11 +8,10 @@ import { CoreService } from 'src/app/core/services/core.service';
 })
 
 export class ArtistPageInfoComponent implements OnInit {
-  public walletAddress: string;
+  @Input() joinedDate: string | undefined;
 
   constructor (private coreService: CoreService) 
   { 
-    this.walletAddress = '0x2737c01183aA097BbdE6e8cC6a3Eb2E737A88bc7';
   }
 
   ngOnInit() {
