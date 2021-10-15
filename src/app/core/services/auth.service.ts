@@ -19,8 +19,8 @@ export class AuthService {
     }
   }
 
-  public async login(walletId: string) {
-    let token = await this.profileService.loginAsync(walletId); // To be used for authenticated calls.
+  public async login(walletId: string, signatureHex: string) {
+    let token = await this.profileService.loginAsync(walletId,signatureHex); // To be used for authenticated calls.
     if (token == null)
       return;
 
