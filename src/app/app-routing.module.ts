@@ -8,6 +8,7 @@ import { HomeComponent } from './features/home/home.component';
 import { NFTPageComponent } from './features/nft-page/nft-page.component';
 import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
+import { MarketComponent } from './features/market/market.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'nft/:nftAddress', component: NFTPageComponent },
   { path: 'artist/:artistAddress', component: ArtistPageComponent },
   { path: 'about', component: AboutPageComponent },
+  { path: 'marketplace', component: MarketComponent},
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent }
 ];

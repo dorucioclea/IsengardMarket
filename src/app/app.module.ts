@@ -14,7 +14,7 @@ import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
 import { CreateComponent } from './features/create/create.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { MarketComponent } from './features/market/market.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { CommonModule } from '@angular/common';
     ActivityPageComponent,
     LoginComponent,
     LogoutComponent,
-    CreateComponent
+    CreateComponent,
+    MarketComponent
   ],
   imports: [
     BrowserModule,
