@@ -30,7 +30,7 @@
         
       }
 
-      div:nth-child(1) {
+      .selected {
         border-bottom: 2px solid black;
       }
     }
@@ -40,6 +40,13 @@
       align-items: center;
       margin: 0px 20px;
       flex-wrap: wrap;
+
+      ul{
+        list-style-type: none;
+        li{
+          float:left;
+        }
+      }
     }
   }
 }

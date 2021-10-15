@@ -33,6 +33,14 @@ export class NftService {
     return this.http.get<any[]>(this.elrondApiUrl + '/transactions?search=' + searchCondition).toPromise();
   }
 
+  async getNFTsByCreatorAsync(wallet: string) : Promise<NFT[]>{
+    return this.http.get<any[]>(this.elrondApiUrl + '/nfts?creator=' + wallet).toPromise();
+  }
+
+  async getOwnedNFTsAsync(wallet: string) : Promise<NFT[]>{
+    return this.http.get<any[]>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts').toPromise();
+  }
+
   async getCollectionAsync(collection: string) : Promise<Collection>{
     return this.http.get<Collection>(this.elrondApiUrl + '/collections/' + collection).toPromise();
   }

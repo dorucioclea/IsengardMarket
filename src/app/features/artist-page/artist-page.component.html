@@ -7,19 +7,30 @@
   <div class="right-grid">
     <div class="menu-bar">
       <div>
-        <button>Created</button>
+        <button (click)="select('created')" [ngClass]="{'selected': selected=='created'}">Created</button>
       </div>
       <div>
-        <button>Owned</button>
+        <button (click)="select('owned')" [ngClass]="{'selected': selected=='owned'}">Owned</button>
       </div>
       <div>
-        <button>Favorites</button>
+        <button (click)="select('favorites')"  [ngClass]="{'selected': selected=='favorites'}" >Favorites</button>
       </div>
     </div>
     <div class="list">
-      <div *ngFor="let nft of nfts">
+      <!-- <div *ngFor="let nft of nfts">
         <app-nftcard [nft]="nft">a</app-nftcard>
-      </div>
+      </div> -->
+
+      <ul *ngIf="selected==='created'">
+        <li *ngFor="let nft of createdNFTs">
+          <app-nftcard [nft]="nft">a</app-nftcard>
+        </li>
+      </ul>
+      <ul *ngIf="selected==='owned'">
+        <li *ngFor="let nft of ownedNFTs">
+          <app-nftcard [nft]="nft">a</app-nftcard>
+        </li>
+      </ul>
     </div>
   </div>
 
