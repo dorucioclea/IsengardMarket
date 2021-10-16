@@ -15,6 +15,9 @@
       <div>
         <button (click)="select('favorites')"  [ngClass]="{'selected': selected=='favorites'}" >Favorites</button>
       </div>
+      <div>
+        <button [routerLink]="['/profile']" *ngIf="userBrowsing" routerLinkActive="router-link-active" > Edit Profile </button>
+      </div>
     </div>
     <div class="list">
       <!-- <div *ngFor="let nft of nfts">

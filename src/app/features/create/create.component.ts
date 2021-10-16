@@ -16,6 +16,7 @@ export class CreateComponent implements OnInit {
   public royalties: number = 50;
   public name: string | undefined;
   public imagePath: string = '';
+  public mediaFile: any;
   public externalLink: string | undefined;
   public tags: string[] = [];
   public description: string | undefined;
@@ -23,7 +24,6 @@ export class CreateComponent implements OnInit {
   public url: string = '';
   public onBlockchain = false;
   public formData = new FormData();
-  public mediaFile: any;
   public message: string | undefined;
 
   constructor(
@@ -36,7 +36,6 @@ export class CreateComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // Example of getting the transactions of 'bid' in an auction
     var data = await this.nftService.getBidAuctionTransactions("4STICK-fe3198", 1);
-    console.log(data)
 
     if (this.authService.isLoggedIn()) {
       var walletAddress = this.authService.currentProfileValue?.accountId;
@@ -88,10 +87,7 @@ export class CreateComponent implements OnInit {
     this.formData.append('tags', JSON.stringify(this.tags));
     this.formData.append('url', JSON.stringify(this.url));
     this.formData.append('onBlockchain', JSON.stringify(this.onBlockchain));
-    this.formData.forEach(data => {
-      console.log(data);
-    })
-
+    
     this.nftService.addNftAsync(this.formData);
   }
 

@@ -21,7 +21,10 @@ export class ArtistPageComponent implements OnInit {
   public walletAddress: string | undefined;
   public profile: Profile | undefined;
   public joinedDate: string;
+  public userBrowsing = false;
 
+
+  // On change of activatedRoute please rerun onInit. Move some of the code there ( like userBrowsing ) and rerun;
   constructor(
     private coreService: CoreService,
     private authService: AuthService,
@@ -30,7 +33,11 @@ export class ArtistPageComponent implements OnInit {
     this.profile = this.authService.currentProfileValue;
     this.activatedRoute.params.subscribe(params => {
       this.walletAddress = params['artistAddress'];
-    })
+    });
+
+    if(this.authService.currentProfileValue?.accountId == this.walletAddress){
+      this.userBrowsing = true;
+    }
     
     this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
   }
@@ -46,9 +53,6 @@ export class ArtistPageComponent implements OnInit {
       this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.walletAddress);
       this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.walletAddress);
     }
-    console.log(this.createdNFTs);
-    console.log(this.ownedNFTs);
-    
   }
 
   public select(page:string){

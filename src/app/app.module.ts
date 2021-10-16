@@ -15,6 +15,7 @@ import { LogoutComponent } from './shared/logout/logout.component';
 import { CreateComponent } from './features/create/create.component';
 import { FormsModule } from '@angular/forms';
 import { MarketComponent } from './features/market/market.component';
+import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MarketComponent } from './features/market/market.component';
     LoginComponent,
     LogoutComponent,
     CreateComponent,
-    MarketComponent
+    MarketComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,

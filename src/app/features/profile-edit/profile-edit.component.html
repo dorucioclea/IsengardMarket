@@ -1,0 +1,80 @@
+<app-search-navbar></app-search-navbar>
+
+<div class="container">
+
+    <h1>Edit your Profile</h1>
+    <div class="content shadow">
+        <section name="User info">
+            <div>
+                Share yourself to the world.
+            </div>
+            <div>
+                First Name
+                <input type="text" [(ngModel)]="profile!.firstName">
+                Last Name
+                <input type="text" [(ngModel)]="profile!.lastName">
+                Username
+                <input type="text" [(ngModel)]="profile!.username">
+            </div>
+        </section>
+        <section name="User Email">
+            <div>
+
+            </div>
+            <div>
+                Email
+                <input type="text" [(ngModel)]="profile!.email">
+            </div>
+        </section>
+
+
+        <section name="User Bio">
+            <div>
+                
+            </div>
+            <div>
+                Add bio
+                <textarea  rows="15" cols="50">{{profile!.bio}}</textarea>
+            </div>
+        </section>
+
+        <section name="User Profile">
+            <div>
+
+            </div>
+            <div>
+                Upload a profile image
+                <img [src]="profileImage" (click)="selectProfileImage.click()" />
+                <input type="file" (change)="updateImage($event, 'profile')" style="display: none" #selectProfileImage />
+            </div>
+        </section>
+
+        <section name="User Cover">
+            <div>
+
+            </div>
+            <div>
+                Upload a cover Image
+                <img [src]="coverImage" (click)="selectCoverImage.click()" />
+                <input type="file" (change)="updateImage($event,'cover')" style="display: none" #selectCoverImage />
+            </div>
+        </section>
+
+        <section name="User Links">
+            <p>Add Links</p>
+            <div>
+                Discord
+                <input type="text" [(ngModel)]="profile!.discord">
+                Twitter
+                <input type="text" [(ngModel)]="profile!.twitter">
+                Instagram
+                <input type="text" [(ngModel)]="profile!.instagram">
+            </div>
+        </section>
+
+        <button>Edit Profile</button>
+    </div>
+</div>
+
+
+<app-info-footer></app-info-footer>

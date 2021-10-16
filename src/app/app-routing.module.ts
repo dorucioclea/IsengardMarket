@@ -9,6 +9,7 @@ import { NFTPageComponent } from './features/nft-page/nft-page.component';
 import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
 import { MarketComponent } from './features/market/market.component';
+import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'artist/:artistAddress', component: ArtistPageComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'marketplace', component: MarketComponent},
+  { path: 'profile', component: ProfileEditComponent},
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent }
 ];

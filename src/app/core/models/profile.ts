@@ -3,5 +3,10 @@ export interface Profile {
     username?: string;
     lastName?: string;
     firstName?: string;
-    createdAt? : Date;
+    createdAt?: Date;
+    bio?: string;
+    email?: string;
+    discord?: string;
+    twitter?: string;
+    instagram?: string;
 }
