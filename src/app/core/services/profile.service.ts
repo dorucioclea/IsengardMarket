@@ -33,7 +33,7 @@ export class ProfileService {
     return this.http.get<string>(this.apiUrl + '/auth/login/' + address).toPromise();
   }
 
-  async updateProfileImageAsync(formData: FormData, address: string){
+  async updateProfileImageAsync(formData: FormData, address: string): Promise<any>{
     return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/profilePhoto', formData).toPromise();
   }
 }

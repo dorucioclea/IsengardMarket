@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   public async login(walletId: string, signatureHex: string) {
-    let token = await this.profileService.loginAsync(walletId,signatureHex); // To be used for authenticated calls.
+    let token = await this.profileService.loginAsync(walletId, signatureHex); // To be used for authenticated calls.
     if (token == null)
       return;
 
@@ -52,5 +52,12 @@ export class AuthService {
       return this.currentProfileSubject.value;
     else
       return undefined;
+  }
+
+  public updateProfile(profile: Profile){
+    if (this.currentProfileSubject != undefined) {
+      this.currentProfileSubject.next(profile);
+      localStorage.setItem('profile', JSON.stringify(profile));
+    }
   }
 }
