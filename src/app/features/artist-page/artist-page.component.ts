@@ -6,6 +6,7 @@ import { Profile } from 'src/app/core/models/profile';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { NftService } from 'src/app/core/services/nft.service';
+import { ProfileService } from 'src/app/core/services/profile.service';
 
 @Component({
   selector: 'app-artist-page',
@@ -20,26 +21,20 @@ export class ArtistPageComponent implements OnInit {
   public favouritedNFTs: NFT[] = [];
   public walletAddress: string | undefined;
   public profile: Profile | undefined;
-  public joinedDate: string;
+  public joinedDate: string | undefined;
   public userBrowsing = false;
 
 
   // On change of activatedRoute please rerun onInit. Move some of the code there ( like userBrowsing ) and rerun;
   constructor(
     private coreService: CoreService,
+    private profileService: ProfileService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private nftService: NftService) {
-    this.profile = this.authService.currentProfileValue;
     this.activatedRoute.params.subscribe(params => {
       this.walletAddress = params['artistAddress'];
     });
-
-    if(this.authService.currentProfileValue?.accountId == this.walletAddress){
-      this.userBrowsing = true;
-    }
-    
-    this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
   }
 
   public async ngOnInit(): Promise<void> {
@@ -50,8 +45,14 @@ export class ArtistPageComponent implements OnInit {
     );
 
     if(this.walletAddress != undefined){
+      this.profile = await this.profileService.getProfileAsync(this.walletAddress);
       this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.walletAddress);
       this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.walletAddress);
+      this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
+    }
+
+    if(this.authService.currentProfileValue?.accountId == this.walletAddress){
+      this.userBrowsing = true;
     }
   }
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Profile } from 'src/app/core/models/profile';
 
 @Component({
   selector: 'artist-page-top-info',
@@ -7,11 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ArtistPageTopInfoComponent implements OnInit {
   public _walletAddress: string | undefined;
+  public _profile : Profile | undefined;
 
   @Input()
-  set walletAddress(value: string) {
-    this.walletAddressToShow = value.slice(0, 5) + "..." + value.slice(-6);
-    this._walletAddress = value;
+  set profile (profile: Profile | undefined){
+    this._profile = profile;
+    this._walletAddress = profile?.accountId;
   }
 
   public walletAddressToShow: string | undefined;

@@ -4,6 +4,7 @@ export interface Profile {
     lastName?: string;
     firstName?: string;
     createdAt?: Date;
+    profilePicture?: string;
     bio?: string;
     email?: string;
     discord?: string;

@@ -29,7 +29,11 @@ export class ProfileService {
     return this.http.post<string>(this.apiUrl + '/auth/login?address=' + wallet +'&signature=' + signature, '').toPromise();
   }
 
-  async getUserSecretNonceAsync(wallet: string){
-    return this.http.get<string>(this.apiUrl + '/auth/login/' + wallet).toPromise();
+  async getUserSecretNonceAsync(address: string){
+    return this.http.get<string>(this.apiUrl + '/auth/login/' + address).toPromise();
+  }
+
+  async updateProfileImageAsync(formData: FormData, address: string){
+    return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/profilePhoto', formData).toPromise();
   }
 }
