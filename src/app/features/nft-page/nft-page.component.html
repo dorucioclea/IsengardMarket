@@ -14,9 +14,21 @@
       </h3>
     </div>
 
-
-
     <ul class="button-list">
+      <li class="shadow" (click)="cancelSale()" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Cancel Sale">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            money_off
+          </mat-icon>
+        </div>
+      </li>
+      <li class="shadow" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Cancel Auction">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            do_not_touch
+          </mat-icon>
+        </div>
+      </li>
       <li class="shadow" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
@@ -24,7 +36,7 @@
           </mat-icon>
         </div>
       </li>
-      <li class="shadow" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
+      <li class="shadow" (click)="sellNft()" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
             sell
@@ -114,7 +126,7 @@
   <div class="timeline-container">
     <div class="offer-details">
       <div class="button-container">
-        <div class="black-btn">Make offer</div>
+        <div class="black-btn" (click)="buyItem()">Buy Item</div>
       </div>
 
       <div class="text-container">
