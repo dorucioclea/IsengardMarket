@@ -25,6 +25,9 @@ export class ProfileEditComponent implements OnInit {
       if (this.profile?.profilePicture != undefined) {
         this.profileImage = this.profile.profilePicture;
       }
+      if (this.profile?.coverPicture != undefined) {
+        this.coverImage = this.profile.coverPicture;
+      }
     }
   }
 
@@ -50,8 +53,15 @@ export class ProfileEditComponent implements OnInit {
     form.append('profilePhoto', this.mediaFileProfile);
     form.append('coverPhoto', this.mediaFileCover);
     if (this.profile?.accountId != null) {
-      await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
-      await this.profileService.updateCoverImageAsync(form, this.profile.accountId);
+
+      if (this.mediaFileProfile != undefined) {
+        await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
+      }
+
+      if (this.mediaFileCover != undefined) { 
+        await this.profileService.updateCoverImageAsync(form, this.profile.accountId);
+      }
+
       const profile = await this.profileService.getProfileAsync(this.profile?.accountId);
       this.authService.updateProfile(profile);
     }
