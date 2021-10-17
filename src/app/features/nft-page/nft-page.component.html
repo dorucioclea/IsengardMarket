@@ -17,14 +17,28 @@
 
 
     <ul class="button-list">
-      <li class="shadow">
+      <li class="shadow" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            paid
+          </mat-icon>
+        </div>
+      </li>
+      <li class="shadow" *ngIf="1==1" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            sell
+          </mat-icon>
+        </div>
+      </li>
+      <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Add to favourites">
         <div>
           <mat-icon aria-hidden="false" class="grey-heart">
             favorite
           </mat-icon>
         </div>
       </li>
-      <li class="shadow">
+      <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Share">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
             share
