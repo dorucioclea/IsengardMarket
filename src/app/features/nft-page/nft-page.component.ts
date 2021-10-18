@@ -1,12 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Account, Address, Balance, ExtensionProvider, GasLimit, NetworkConfig, ProxyProvider, SignableMessage, Transaction, TransactionPayload } from '@elrondnetwork/erdjs/out';
+import { Account, Address, AddressValue, Balance, ContractFunction, decodeBigNumber, DefaultInteractionRunner, ExtensionProvider, GasLimit, Interaction, NetworkConfig, NumericalValue, ProxyProvider, SmartContract, SmartContractAbi, StrictChecker, StringValue, TokenIdentifierValue, Transaction, TransactionPayload, TypedValue, U64Type, U64Value } from '@elrondnetwork/erdjs/out';
+import { environment } from '@isengard/env/environment';
 import { Collection } from 'src/app/core/models/collection.model';
 import { NFT } from 'src/app/core/models/nft.model';
 import { Profile } from 'src/app/core/models/profile';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { NftSellDialog } from './dialogs/nft-sell-dialog.component';
+import BigNumber from "bignumber.js";
+import { loadAbiRegistry } from '@elrondnetwork/erdjs/out/testutils';
+import { TransactionService } from 'src/app/core/services/transaction.service';
+import { ExtendedTransaction } from 'src/app/core/models/transaction.model';
+import { Economics } from 'src/app/core/models/economics.model';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'app-nft-page',
@@ -14,27 +24,109 @@ import { ProfileService } from 'src/app/core/services/profile.service';
   styleUrls: ['./nft-page.component.scss']
 })
 export class NFTPageComponent implements OnInit {
-
-  public nft: NFT | undefined;
+  private gatewayUrl = environment.gatewayUri;
+  private contractAddress = environment.contractAddress;
+  private extProvider: ExtensionProvider;
+  private provider: ProxyProvider;
   private nftIdentifier: string | undefined;
+
+  private readonly GAS_LIMIT = 10000000;
+
   public owner: Profile | undefined;
   public ownerUsername: string | undefined;
   public creator: Profile | undefined;
   public creatorUsername: string | undefined;
   public collection: Collection | undefined;
+  public nft: NFT | undefined;
+
+  public price: number | undefined;
+  public nftTransactions: ExtendedTransaction[] = [];
+
+  public economics: Economics | undefined;
+
 
   constructor(
     private nftService: NftService,
     private activatedRoute: ActivatedRoute,
     private profileService: ProfileService,
-    private authService: AuthService
+    private coreService: CoreService,
+    private transactionService: TransactionService,
+    private snackbarService: SnackbarService,
+    public dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.nftIdentifier = params['nftAddress'];
-    })
+    });
+
+    this.extProvider = ExtensionProvider.getInstance();
+    this.provider = new ProxyProvider(this.gatewayUrl);
   }
 
   async ngOnInit(): Promise<void> {
+
+    this.loadExtensionProvider();
+    this.loadEconomics();
+
+    if (this.nftIdentifier != undefined) {
+      await this.loadNftData();
+      await this.loadCollectionData();
+      await this.loadNftSaleData();
+      await this.loadTransactions();
+    }
+  }
+
+  async openSellNft(): Promise<void> {
+    const dialogRef = this.dialog.open(NftSellDialog, {
+      width: '500px',
+      data: {
+        nft: this.nft,
+        price: 0
+      }
+    });
+
+    await dialogRef.afterClosed().subscribe(async result => {
+      if (result != null) {
+        await this.sellNft(result.price);
+      } else {
+        this.snackbarService.negativeSentiment('Maybe some other time <3');
+      }
+    });
+  }
+
+  async cancelSale(): Promise<void> {
+    let user = await this.syncUser();
+
+    if (this.nft != undefined) {
+      let nonce = this.nft?.nonce;
+      let nftSaleMessage = this.generateCancelSaleMessageData(this.nft?.collection, this.nft?.nonce);
+
+      let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT, 0, this.contractAddress)
+
+      tx.setNonce(user.nonce);
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+
+      await signedTransaction.send(this.provider);
+    }
+  }
+
+  async buyItem(): Promise<void> {
+    let user = await this.syncUser();
+
+    if (this.nft != undefined) {
+      let nftBuyMessage = this.generateBuyItemMessageData(this.nft?.collection, this.nft?.nonce);
+      if (this.price != undefined) {
+        let tx = this.generateNewTransaction(nftBuyMessage, this.GAS_LIMIT, this.price, this.contractAddress);
+        tx.setNonce(user.nonce);
+
+        let signedTransaction = await this.extProvider.signTransaction(tx);
+        await signedTransaction.send(this.provider);
+        await signedTransaction.awaitExecuted(this.provider);
+        alert('Transaction executed');
+      }
+    }
+  }
+
+  private async loadNftData() {
     if (this.nftIdentifier != undefined) {
       this.nft = await this.nftService.getNftAsync(this.nftIdentifier);
 
@@ -49,158 +141,156 @@ export class NFTPageComponent implements OnInit {
       if (this.owner != undefined) {
         this.ownerUsername = this.owner.username
       }
+    }
+  }
 
+  private async loadEconomics() {
+    this.economics = await this.coreService.getEconomics()
+  }
+
+  private async loadExtensionProvider() {
+    await NetworkConfig.getDefault().sync(this.provider);
+    await this.extProvider.init();
+  }
+
+  private async loadTransactions() {
+    if (this.nft != undefined)
+      /// Create a method that decodes the data and separates the params by @ and see what function was called.
+      this.nftTransactions =
+        (await this.transactionService.getTokenTransactions(this.nft?.identifier))
+          .map(x => { x.value = this.nominatePrice(parseInt(x.value)).toString(); return x; })
+          .map(y => new ExtendedTransaction(y))
+          .map(y => {
+            if (y.data.includes("Y2FuY2VsX3NhbGV")) {//cancel sale
+              y.message = "Sale cancelled by";
+            } else if (y.data.includes("RVNEVE5GVFRyYW5zZmVyQ")) {
+              y.message = "Placed on sale by ";
+            }
+            else if (y.data.includes("YnV5X25mdF9mcm9tX3NhbGV")) {
+              y.message = "Bought by ";
+            }
+            else if (y.data.includes("RVNEVE5GVENyZWF0ZU")) {
+              y.message = "Minted by ";
+            }
+            return y;
+          })
+          .filter(x => !x.data.includes("RVNEVE5GVFRyYW5zZmVyQ")).filter(x => !x.data.includes("Y2FuY2VsX3NhbGV"))
+          
+          this.nftTransactions.map(async x => {
+            let profile = await this.profileService.getProfileAsync(x.sender);
+            x.sender = profile.username!;
+            return x;
+          })
+  }
+
+  private async loadCollectionData() {
+    if (this.nft != undefined)
       this.collection = await this.nftService.getCollectionAsync(this.nft.collection);
-      console.log(this.collection);
-      console.log(this.nft);
-
-      // Try to parse attributes.
-      console.log(atob(this.nft.attributes));
-      console.log(JSON.parse(atob(this.nft.attributes)));
-    }
   }
 
-  async sellNft(): Promise<void> {
-    let provider = new ProxyProvider("https://devnet-gateway.elrond.com");
-    await NetworkConfig.getDefault().sync(provider);
-
-    console.log("trying to sell nft");
-
-    let extProvider = ExtensionProvider.getInstance();
-    await extProvider.init();
-
-    let walletAddress = await extProvider.login();
-    let address = new Address(walletAddress);
-    let user = new Account(address);
-    await user.sync(provider);
-    console.log(user);
-
-    // MUIE ESDTNFTTransfer@34535449434b2d666533313938@01@01@00000000000000000500e586aad80fd63372d117bc51f0620ca58bcda97afb92@6164645f6e66745f666f725f73616c65@2386F26FC10000
-    //            ESDTNFTTransfer@41534441534441532d313262643861@3@1@000000000000000005004de06c6a783747444ae9d5049878eac8fecdbc27fb92@6164645F6E66745F666F725F73616C65@2386f26fc10000
-    // FARAMUIE   ESDTNFTTransfer@41534441534441532d313262643861@03@01@000000000000000005004de06c6a783747444ae9d5049878eac8fecdbc27fb92@6164645F6E66745F666F725F73616C65@2386F26FC10000
+  private async loadNftSaleData() {
     if (this.nft != undefined) {
-      let param1 = this.ascii_to_hex(this.nft?.collection); // Collection in hex
-      let count = 1;
-      let nonce = this.nft?.nonce;
-      let price = 10000000000000000;
-      let param2 = nonce.toString(16); // Nonce in hex number
-      if (param2.length == 1) {
-        param2 = "0" + param2;
+      let abiRegistry = await loadAbiRegistry(["assets/abi/isengard.abi.json"]);
+      let abi = new SmartContractAbi(abiRegistry, ["Isengard"]);
+      let contract = new SmartContract({ address: new Address(this.contractAddress), abi: abi });
+
+      let nonce = new U64Value(new BigNumber(this.nft?.nonce));
+      let collection = new TokenIdentifierValue(Buffer.from(this.nft?.collection, 'ascii'));
+
+      let testInteraction = <Interaction>contract.methods.getSale([collection, nonce]).withGasLimit(new GasLimit(30000000));
+
+      let query = testInteraction.buildQuery()
+      let response = await this.provider.queryContract(query);
+
+      if (response.isSuccess()) {
+        let parsedResponse = testInteraction.interpretQueryResponse(response);
+        this.price = this.nominatePrice(parsedResponse.values[0].valueOf().price.toNumber());
       }
-      let param3 = count.toString(16); // Count in hex number
-      if (param3.length == 1) {
-        param3 = "0" + param3;
-      }
-      let param4 = "000000000000000005004de06c6a783747444ae9d5049878eac8fecdbc27fb92" // contract address bech32 decoded into hex
-      let param5 = this.ascii_to_hex("add_nft_for_sale").toUpperCase() // Method in hex
-      let param6 = price.toString(16).toUpperCase(); // decimal to hex // 10000000000000000 (0.01 EGLD)
-
-      let nftSaleMessage = `ESDTNFTTransfer@${param1}@${param2}@${param3}@${param4}@${param5}@${param6}`;
-      console.log(nftSaleMessage);
-
-      // ESDTNFTTransfer@41534441534441532d313262643861@1@1@000000000000000005004de06c6a783747444ae9d5049878eac8fecdbc27fb92@6164645f6e66745f666f725f73616c65@2386f26fc10000 
-      let tx = new Transaction({
-        data: new TransactionPayload(nftSaleMessage),
-        gasLimit: new GasLimit(70000000),
-        receiver: address,
-        value: Balance.egld(0)
-      });
-
-      tx.setNonce(user.nonce);
-      let signedTransaction = await extProvider.signTransaction(tx);
-
-      await signedTransaction.send(provider);
     }
   }
 
-  async cancelSale(): Promise<void> {
-    // fn cancel_sale(
-    //   &self,
-    //   token_id: TokenIdentifier,
-    //   nonce: u64
-
-    let provider = new ProxyProvider("https://devnet-gateway.elrond.com");
-    await NetworkConfig.getDefault().sync(provider);
-
-    console.log("trying to cancel sale of nft");
-
-    let extProvider = ExtensionProvider.getInstance();
-    await extProvider.init();
-
-    let walletAddress = await extProvider.login();
-    let address = new Address(walletAddress);
-    let user = new Account(address);
-    await user.sync(provider);
+  private async sellNft(price: number): Promise<void> {
+    let user = await this.syncUser();
 
     if (this.nft != undefined) {
-      let count = 1;
-      let nonce = this.nft?.nonce;
-
-      let param1 = this.ascii_to_hex(this.nft?.collection); // Collection in hex
-      let param2 = nonce.toString(16); // Nonce in hex number
-      if (param2.length == 1) {
-        param2 = "0" + param2;
-      }
-
-      let nftSaleMessage = `cancel_sale@${param1}@${param2}`;
-      console.log(nftSaleMessage);
-
-      let tx = new Transaction({
-        data: new TransactionPayload(nftSaleMessage),
-        gasLimit: new GasLimit(70000000),
-        receiver: new Address('erd1qqqqqqqqqqqqqpgqfhsxc6ncxar5gjhf65zfs782erlvm0p8lwfq7y9mq4'),
-        value: Balance.egld(0)
-      });
-
+      let nftSaleMessage = this.generateSellNftMessageData(this.nft?.collection, this.nft?.nonce, price)
+      let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT, 0, user.address.bech32())
       tx.setNonce(user.nonce);
-      let signedTransaction = await extProvider.signTransaction(tx);
 
-      await signedTransaction.send(provider);
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+      await signedTransaction.send(this.provider);
+      await signedTransaction.awaitExecuted(this.provider);
+      alert('Transaction executed');
     }
   }
 
-  async buyItem(): Promise<void> {
+  private generateCancelSaleMessageData(collection: string, nonce: number): string {
+    let collectionHex = this.ascii_to_hex(collection);
+    let nonceHex = nonce.toString(16)
+    if (nonceHex.length == 1) {
+      nonceHex = "0" + nonceHex;
+    }
 
-    let provider = new ProxyProvider("https://devnet-gateway.elrond.com");
-    await NetworkConfig.getDefault().sync(provider);
+    let nftSaleMessage = `cancel_sale@${collectionHex}@${nonceHex}`;
 
-    console.log("trying to buy nft");
+    return nftSaleMessage;
+  }
 
-    let extProvider = ExtensionProvider.getInstance();
-    await extProvider.init();
+  private generateSellNftMessageData(collection: string, nonce: number, price: number): string {
+    let nonceHex = nonce.toString(16)
+    if (nonceHex.length == 1) {
+      nonceHex = "0" + nonceHex;
+    }
 
-    let walletAddress = await extProvider.login();
+    let priceHex = this.denominatePrice(price).toString(16).toUpperCase();
+
+    let collectionHex = this.ascii_to_hex(collection);
+    let contractAddressBech32 = new Address(this.contractAddress).hex();
+    let fnameHex = this.ascii_to_hex("add_nft_for_sale").toUpperCase();
+    let countHex = "01"; // 1 in hex
+
+    let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${priceHex}`;
+
+    return nftSaleMessage;
+  }
+
+  private generateBuyItemMessageData(collection: string, nonce: number): string {
+    let collectionHex = this.ascii_to_hex(collection); // Collection in hex
+    let nonceHex = nonce.toString(16); // Nonce in hex number
+    if (nonceHex.length == 1) {
+      nonceHex = "0" + nonceHex;
+    }
+
+    let nftSaleMessage = `buy_nft_from_sale@${collectionHex}@${nonceHex}`;
+
+    return nftSaleMessage;
+  }
+
+  private async syncUser(): Promise<Account> {
+    let walletAddress = await this.extProvider.login();
     let address = new Address(walletAddress);
     let user = new Account(address);
-    await user.sync(provider);
+    await user.sync(this.provider);
 
-    if (this.nft != undefined) {
-      let count = 1;
-      let price = 10000000000000000;
-      let nonce = this.nft?.nonce;
-
-      let param1 = this.ascii_to_hex(this.nft?.collection); // Collection in hex
-      let param2 = nonce.toString(16); // Nonce in hex number
-      if (param2.length == 1) {
-        param2 = "0" + param2;
-      }
-
-      let nftSaleMessage = `buy_nft_from_sale@${param1}@${param2}`;
-
-      let tx = new Transaction({
-        data: new TransactionPayload(nftSaleMessage),
-        gasLimit: new GasLimit(70000000),
-        receiver: new Address('erd1qqqqqqqqqqqqqpgqfhsxc6ncxar5gjhf65zfs782erlvm0p8lwfq7y9mq4'),
-        value: Balance.egld(0.01)
-      });
-
-      tx.setNonce(user.nonce);
-      let signedTransaction = await extProvider.signTransaction(tx);
-
-      await signedTransaction.send(provider);
-    }
+    return user;
   }
 
+  private generateNewTransaction(payload: string, gasLimit: number, value: number, address: string) {
+    return new Transaction({
+      data: new TransactionPayload(payload),
+      gasLimit: new GasLimit(gasLimit),
+      receiver: new Address(address),
+      value: Balance.egld(value)
+    });
+  }
+
+  private denominatePrice(price: number): number {
+    return price * 1000000000000000000;
+  }
+
+  private nominatePrice(price: number): number {
+    return price / 1000000000000000000;
+  }
 
   private ascii_to_hex(str: string) {
     var arr1 = [];
@@ -210,5 +300,4 @@ export class NFTPageComponent implements OnInit {
     }
     return arr1.join('');
   }
-
 }

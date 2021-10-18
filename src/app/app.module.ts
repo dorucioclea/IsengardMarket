@@ -16,6 +16,7 @@ import { CreateComponent } from './features/create/create.component';
 import { FormsModule } from '@angular/forms';
 import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,10 @@ import { ProfileEditComponent } from './features/profile-edit/profile-edit.compo
     LogoutComponent,
     CreateComponent,
     MarketComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
   ],
   imports: [
+    MatSnackBarModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,

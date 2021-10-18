@@ -1,0 +1,280 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.57.0-nightly",
+            "commitHash": "308dffd25cb55bbb4a1fbee9822cf82c6a5d012d",
+            "commitDate": "2021-09-22",
+            "channel": "Nightly",
+            "short": "rustc 1.57.0-nightly (308dffd25 2021-09-22)"
+        },
+        "contractCrate": {
+            "name": "isengard",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.20.0"
+        }
+    },
+    "name": "Isengard",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "empty_wallet",
+            "onlyOwner": true,
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "update_prices",
+            "onlyOwner": true,
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "isUpForAuction",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "fund",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "donate_nft",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "cancel_sale",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "add_nft_for_sale",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "price",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "add_nft_for_auction",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "starting_price",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "final_price",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "deadline",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "bid",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "endAuction",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "buy_nft_from_sale",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "retrieve",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "add",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "substract",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "test",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "get_owner",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getAcceptedPaymentToken",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "getDeposit",
+            "inputs": [
+                {
+                    "name": "donor",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getCounter",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "getTransactionCount",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getVersion",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getSale",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Sale"
+                }
+            ]
+        }
+    ],
+    "types": {
+        "Sale": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nft_owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "price",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}
