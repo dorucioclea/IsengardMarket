@@ -1,10 +1,34 @@
 <div class="main-footer-conainer isengard-bg">
-  <div class="social-list">
-    <div class="list-item">Logo</div>
-    <div class="list-item">Facebook</div>
-    <div class="list-item">Reddit</div>
+  <div class="top-container">
+    <div class="social-list">
+      <div class="list-item">Logo</div>
+      <div class="list-item">Facebook</div>
+      <div class="list-item">Reddit</div>
+    </div>
   </div>
-  <div class="menu-list">
+  <div class="divider"></div>
+
+  <div class="bottom-container">
+
+    <div class="trade-mark">
+      <span class="logo">
+        <div [routerLink]="['/home']">
+          ISENGARD
+        </div>
+      </span>
+      <span>© 2021 Isengard Marketplace </span>
+    </div>
+    <div class="menu-list">
+      <div class="privacy" [routerLink]="['/home']">
+        Privacy
+      </div>
+      <div [routerLink]="['/home']">
+        Terms of Service
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="menu-list">
     <div class="list-item" [routerLink]="['/home']">
       Home
     </div>
@@ -14,6 +38,6 @@
     <div class="list-item" [routerLink]="['/activity']">
       Activity
     </div>
-  </div>
+  </div> -->
 
 </div>

@@ -8,6 +8,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatIconModule } from '@angular/material/icon';
 import { ArtistPageTopInfoComponent } from './artist-page-top-info/artist-page-top-info.component';
 import { RouterModule } from '@angular/router';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { RouterModule } from '@angular/router';
     SharedClassicModule,
     ClipboardModule,
     RouterModule,
+    MatRippleModule,
     MatIconModule
   ],
   declarations: [ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent, ArtistPageTopInfoComponent],
