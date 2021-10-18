@@ -1,22 +1,31 @@
+import BigNumber from "bignumber.js";
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Account, Address, AddressValue, Balance, ContractFunction, decodeBigNumber, DefaultInteractionRunner, ExtensionProvider, GasLimit, Interaction, NetworkConfig, NumericalValue, ProxyProvider, SmartContract, SmartContractAbi, StrictChecker, StringValue, TokenIdentifierValue, Transaction, TransactionPayload, TypedValue, U64Type, U64Value } from '@elrondnetwork/erdjs/out';
+import { Account, Address, Balance, ExtensionProvider, GasLimit, Interaction, NetworkConfig, ProxyProvider, SmartContract, SmartContractAbi, TokenIdentifierValue, Transaction, TransactionPayload, U64Value } from '@elrondnetwork/erdjs/out';
 import { environment } from '@isengard/env/environment';
 import { Collection } from 'src/app/core/models/collection.model';
 import { NFT } from 'src/app/core/models/nft.model';
 import { Profile } from 'src/app/core/models/profile';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { NftSellDialog } from './dialogs/nft-sell-dialog.component';
-import BigNumber from "bignumber.js";
 import { loadAbiRegistry } from '@elrondnetwork/erdjs/out/testutils';
 import { TransactionService } from 'src/app/core/services/transaction.service';
 import { ExtendedTransaction } from 'src/app/core/models/transaction.model';
 import { Economics } from 'src/app/core/models/economics.model';
 import { CoreService } from 'src/app/core/services/core.service';
+
+export enum NftState{
+  Default,
+  MintedAuction,
+  MintedForSale,
+  MintedNotForSale,
+  NotMintedAuction,
+  NotMintedForSale,
+  NotMintedNotForSale,
+}
 
 @Component({
   selector: 'app-nft-page',
@@ -43,7 +52,7 @@ export class NFTPageComponent implements OnInit {
   public nftTransactions: ExtendedTransaction[] = [];
 
   public economics: Economics | undefined;
-
+  public state : NftState = NftState.Default;
 
   constructor(
     private nftService: NftService,
@@ -69,10 +78,17 @@ export class NFTPageComponent implements OnInit {
 
     if (this.nftIdentifier != undefined) {
       await this.loadNftData();
+      await this.computeNftState();
       await this.loadCollectionData();
       await this.loadNftSaleData();
       await this.loadTransactions();
     }
+  }
+
+  private async computeNftState(){
+
+    await this.loadNftState();
+    //this.state = NftState.MintedForSale;
   }
 
   async openSellNft(): Promise<void> {
@@ -175,17 +191,49 @@ export class NFTPageComponent implements OnInit {
             return y;
           })
           .filter(x => !x.data.includes("RVNEVE5GVFRyYW5zZmVyQ")).filter(x => !x.data.includes("Y2FuY2VsX3NhbGV"))
-          
-          this.nftTransactions.map(async x => {
-            let profile = await this.profileService.getProfileAsync(x.sender);
-            x.sender = profile.username!;
-            return x;
-          })
+
+    this.nftTransactions.map(async x => {
+      let profile = await this.profileService.getProfileAsync(x.sender);
+      x.sender = profile.username!;
+      return x;
+    })
   }
 
   private async loadCollectionData() {
     if (this.nft != undefined)
       this.collection = await this.nftService.getCollectionAsync(this.nft.collection);
+  }
+
+  private async loadNftState() : Promise<NftState>{
+    if (this.nft == undefined) {
+      return NftState.Default;
+    }else{
+      let abiRegistry = await loadAbiRegistry(["assets/abi/isengard.abi.json"]);
+      let abi = new SmartContractAbi(abiRegistry, ["Isengard"]);
+      let contract = new SmartContract({ address: new Address(this.contractAddress), abi: abi });
+
+      let nonce = new U64Value(new BigNumber(this.nft?.nonce));
+      let collection = new TokenIdentifierValue(Buffer.from(this.nft?.collection, 'ascii'));
+
+      let testInteraction = <Interaction>contract.methods.getNftState([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
+
+      let query = testInteraction.buildQuery()
+      let response = await this.provider.queryContract(query);
+      
+      if (response.isSuccess()) {
+        let parsedResponse = testInteraction.interpretQueryResponse(response);
+        console.log(parsedResponse);
+        if(parsedResponse.values[0].valueOf() == 'Sale'){
+          console.log('this nft is minted and for sale')
+          return NftState.MintedForSale;
+        }
+        if(parsedResponse.values[0].valueOf() == 'Auction'){
+          console.log('this nft is minted and for auction')
+          return NftState.MintedAuction;
+        }
+      }
+      return NftState.Default;
+    }
   }
 
   private async loadNftSaleData() {
@@ -197,7 +245,7 @@ export class NFTPageComponent implements OnInit {
       let nonce = new U64Value(new BigNumber(this.nft?.nonce));
       let collection = new TokenIdentifierValue(Buffer.from(this.nft?.collection, 'ascii'));
 
-      let testInteraction = <Interaction>contract.methods.getSale([collection, nonce]).withGasLimit(new GasLimit(30000000));
+      let testInteraction = <Interaction>contract.methods.getSale([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
 
       let query = testInteraction.buildQuery()
       let response = await this.provider.queryContract(query);

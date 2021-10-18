@@ -16,7 +16,7 @@ export class TransactionService {
   }
 
   async getTokenTransactions(token: string): Promise<Transaction[]> {
-    return this.http.get<Transaction[]>(this.elrondApiUrl + '/transactions?token=' + token ).toPromise();
+    return this.http.get<Transaction[]>(this.elrondApiUrl + '/transactions?token=' + token +'&size=100' ).toPromise();
   }
 
 }

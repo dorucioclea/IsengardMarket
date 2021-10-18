@@ -244,6 +244,24 @@
             ]
         },
         {
+            "name": "getNftState",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "NftState"
+                }
+            ]
+        },
+        {
             "name": "getSale",
             "inputs": [
                 {
@@ -263,6 +281,23 @@
         }
     ],
     "types": {
+        "NftState": {
+            "type": "enum",
+            "variants": [
+                {
+                    "name": "Default",
+                    "discriminant": 0
+                },
+                {
+                    "name": "Sale",
+                    "discriminant": 1
+                },
+                {
+                    "name": "Auction",
+                    "discriminant": 2
+                }
+            ]
+        },
         "Sale": {
             "type": "struct",
             "fields": [
