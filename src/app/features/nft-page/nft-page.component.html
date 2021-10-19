@@ -9,22 +9,40 @@
 
     <div class="username-container">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <h3 [routerLink]="['/artist', ownerUsername]" routerLinkActive="router-link-active"  style="word-wrap: break-word;" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
+      <h3 [routerLink]="['/artist', ownerUsername]" routerLinkActive="router-link-active" style="word-wrap: break-word;"
+        matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
         @{{ownerUsername}}
       </h3>
     </div>
-
-
+    <!--   -->
 
     <ul class="button-list">
-      <li class="shadow">
+      <li class="shadow"  (click)="openAuctionNft()"
+        *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
+        matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            paid
+          </mat-icon>
+        </div>
+      </li>
+      <li class="shadow"  (click)="openSellNft()"
+        *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
+        matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
+        <div>
+          <mat-icon aria-hidden="false" class="grey-share">
+            sell
+          </mat-icon>
+        </div>
+      </li>
+      <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Add to favourites">
         <div>
           <mat-icon aria-hidden="false" class="grey-heart">
             favorite
           </mat-icon>
         </div>
       </li>
-      <li class="shadow">
+      <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Share">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
             share
@@ -93,86 +111,95 @@
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
       <span [routerLink]="['/artist',creatorUsername]" class="username">@{{creatorUsername}}</span>
     </div>
-
   </div>
 
-
   <div class="timeline-container">
-    <div class="offer-details">
+
+    <!-- TODO: MOVE THIS TO MINTED FOR SALE AND NOT MINTED FOR SALE -->
+    <div class="offer-details"
+      *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser != ownerUsername">
       <div class="button-container">
-        <div class="black-btn">Make offer</div>
+
+        <div class="black-btn" (click)="buyItem()">Buy Item</div>
       </div>
 
       <div class="text-container">
-        <p class="sold-for-text">Last sold for</p>
-        <p class="sold-for-value">2.245 <span class="currency">EGLD</span></p>
-        <p class="usd-conversion-text">$523.32</p>
+        <p class="sold-for-text">Price</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
       </div>
     </div>
 
+    <!-- TODO: MOVE THIS TO MINTED/NOT MINTED FOR SALE -->
+    <div class="offer-details"
+      *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser == ownerUsername">
+      <div class="button-container">
 
+        <div class="black-btn" (click)="cancelSale()">Cancel Sale</div>
+      </div>
 
-    <div class="timeline-item shadow">
+      <div class="text-container">
+        <p class="sold-for-text">Price</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
+      </div>
+    </div>
+
+    <!-- Auction is ON and I am the owner! -->
+    <div class="offer-details"
+    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser == ownerUsername">
+      <div class="button-container">
+
+        <div class="black-btn" (click)="tryEndAuction()">End Auction</div>
+      </div>
+
+      <div class="text-container">
+        <p class="sold-for-text">Highest Bid</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
+      </div>
+    </div>
+
+    <!-- Auction is ON but I am not the owner -->
+    <div class="offer-details"
+    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser != ownerUsername">
+      <div class="button-container">
+        <div class="black-btn" (click)="openBidDialog()">Bid on this auction</div>
+      </div>
+
+      <div class="text-container">
+        <p class="sold-for-text">Highest Bid</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
+      </div>
+      Show my bid if bid exists. or highest bid.
+    </div>
+    
+
+    <div class="timeline-item shadow" *ngFor="let transaction of nftTransactions!">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
       <div class="timeline-item-details">
-        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
-        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
+        <p class="message">{{transaction.message}} <a
+            href="https://devnet-explorer.elrond.com/accounts/{{transaction.sender }}"
+            class="user-link">@{{transaction.sender | slice:0:22 }}...</a></p>
+        <p class="message-time">{{transaction.timestamp * 1000 | date:'dd/MM/yyyy at hh:mm:ss'}} </p>
       </div>
       <div class="timeline-item-price">
-        <p class="price">2.245EGLD</p>
-        <p class="priceUsd">$523.32</p>
+        <p class="price">{{transaction.value}} EGLD</p>
+        <p class="priceUsd">$ {{(+transaction.value) * economics!.price | number}}</p>
       </div>
       <div class="timeline-link-out">
-        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
-            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
+        <a href="https://devnet-explorer.elrond.com/transactions/{{transaction.txHash}}" target="_blank"><svg
+            viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            style="display: block;">
             <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
             <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
             </path>
           </svg>
         </a>
       </div>
-    </div>
 
-    <div class="timeline-item shadow">
-      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <div class="timeline-item-details">
-        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
-        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
-      </div>
-      <div class="timeline-item-price">
-        <p class="price">2.245EGLD</p>
-        <p class="priceUsd">$523.32</p>
-      </div>
-      <div class="timeline-link-out">
-        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
-            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
-            <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
-            <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
-            </path>
-          </svg>
-        </a>
-      </div>
-    </div>
 
-    <div class="timeline-item shadow">
-      <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <div class="timeline-item-details">
-        <p class="message">Auction won by <span class="user-link">@suicabagpumnul</span></p>
-        <p class="message-time">Oct 15, 2021 at 2:17PM</p>
-      </div>
-      <div class="timeline-item-price">
-        <p class="price">2.245EGLD</p>
-        <p class="priceUsd">$523.32</p>
-      </div>
-      <div class="timeline-link-out">
-        <a href="http://localhost:4200/nft/WORTH-8d1158-07"><svg viewBox="0 0 16 16" fill="none"
-            xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="display: block;">
-            <path d="M15 0H8v2h4.6L6.3 8.3l1.4 1.4L14 3.4V8h2V1c0-.6-.4-1-1-1z" fill="currentColor"></path>
-            <path d="M14 16H1c-.6 0-1-.4-1-1V2c0-.6.4-1 1-1h4v2H2v11h11v-3h2v4c0 .6-.4 1-1 1z" fill="currentColor">
-            </path>
-          </svg>
-        </a>
-      </div>
     </div>
   </div>
 

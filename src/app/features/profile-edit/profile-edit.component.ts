@@ -48,17 +48,18 @@ export class ProfileEditComponent implements OnInit {
   }
 
   async updateProfile() {
-    //this.profileService.updateProfileAsync(profile);
+    
     var form = new FormData();
     form.append('profilePhoto', this.mediaFileProfile);
     form.append('coverPhoto', this.mediaFileCover);
     if (this.profile?.accountId != null) {
-
+      var x = await this.profileService.updateProfileAsync(this.profile, this.profile.accountId);
+      console.log(x);
       if (this.mediaFileProfile != undefined) {
         await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
       }
 
-      if (this.mediaFileCover != undefined) { 
+      if (this.mediaFileCover != undefined) {
         await this.profileService.updateCoverImageAsync(form, this.profile.accountId);
       }
 
