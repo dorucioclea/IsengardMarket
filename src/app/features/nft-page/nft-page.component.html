@@ -17,16 +17,8 @@
     <!--   -->
 
     <ul class="button-list">
-      <li class="shadow" *ngIf="state! == NftState.MintedForSale || state! == NftState.NotMintedForSale"
-        (click)="cancelSale()" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Cancel Sale">
-        <div>
-          <mat-icon aria-hidden="false" class="grey-share">
-            money_off
-          </mat-icon>
-        </div>
-      </li>
-      <li class="shadow" (click)="openAuctionNft()"
-        *ngIf="state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted"
+      <li class="shadow"  (click)="openAuctionNft()"
+        *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
         matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
@@ -34,8 +26,8 @@
           </mat-icon>
         </div>
       </li>
-      <li class="shadow" (click)="openSellNft()"
-        *ngIf="state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted"
+      <li class="shadow"  (click)="openSellNft()"
+        *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
         matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
@@ -180,6 +172,7 @@
         <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
         <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
       </div>
+      Show my bid if bid exists. or highest bid.
     </div>
     
 

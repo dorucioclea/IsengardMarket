@@ -58,7 +58,7 @@ export class NFTPageComponent implements OnInit {
   public economics: Economics | undefined;
   public state: NftState = NftState.Default;
 
-  public NftState = NftState; 
+  public NftState = NftState;
   constructor(
     private nftService: NftService,
     private activatedRoute: ActivatedRoute,
@@ -94,7 +94,7 @@ export class NFTPageComponent implements OnInit {
 
   private async computeNftState() {
     this.state = await this.loadNftState();
-    if(this.state == NftState.MintedForSale){
+    if (this.state == NftState.MintedForSale) {
       //this.ownerUsername = "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28" // Get sale and get who owns this actually.
     }
   }
@@ -127,12 +127,12 @@ export class NFTPageComponent implements OnInit {
 
     await dialogRef.afterClosed().subscribe(async result => {
       if (result != null) {
-        await this.auctionNft(result.starting_price, result.final_price,result.deadline);
+        await this.auctionNft(result.starting_price, result.final_price, result.deadline);
       }
     });
   }
 
-  async openBidDialog(): Promise<void>{
+  async openBidDialog(): Promise<void> {
     const dialogRef = this.dialog.open(BidAuctionDialog, {
       width: '500px',
       data: {
@@ -163,7 +163,7 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
-  async tryEndAuction(): Promise<void>{
+  async tryEndAuction(): Promise<void> {
     let user = await this.syncUser();
 
     if (this.nft != undefined) {
@@ -206,7 +206,7 @@ export class NFTPageComponent implements OnInit {
       }
 
       this.ownerUsername = this.nft.owner;
-      if(this.nft.owner){}
+      if (this.nft.owner) { }
       this.owner = await this.profileService.getProfileAsync(this.nft.owner)
       if (this.owner != undefined) {
         this.ownerUsername = this.owner.username
@@ -331,12 +331,12 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
-  private async auctionNft(starting_price:number, last_price:number, deadline: number): Promise<void> {
+  private async auctionNft(starting_price: number, last_price: number, deadline: number): Promise<void> {
     let user = await this.syncUser();
 
     if (this.nft != undefined) {
       let nftSaleMessage = this.generateAuctionNftMessageData(this.nft?.collection, this.nft?.nonce, starting_price, last_price, deadline)
-      let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT*2, 0, user.address.bech32())
+      let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT * 2, 0, user.address.bech32())
       tx.setNonce(user.nonce);
 
       console.log(nftSaleMessage);
@@ -348,25 +348,25 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
-  private async bidNft(bid:number){
+  private async bidNft(bid: number) {
+
     let user = await this.syncUser();
 
     if (this.nft != undefined) {
       let nftBidMessage = this.generateBidNftMessageData(this.nft?.collection, this.nft?.nonce);
-      if (this.price != undefined) {
 
-        let tx = this.generateNewTransaction(nftBidMessage, this.GAS_LIMIT, bid, this.contractAddress);
-        tx.setNonce(user.nonce);
+      let tx = this.generateNewTransaction(nftBidMessage, this.GAS_LIMIT, bid, this.contractAddress);
+      tx.setNonce(user.nonce);
 
-        let signedTransaction = await this.extProvider.signTransaction(tx);
-        await signedTransaction.send(this.provider);
-        await signedTransaction.awaitExecuted(this.provider);
-        alert('Transaction executed');
-      }
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+      await signedTransaction.send(this.provider);
+      await signedTransaction.awaitExecuted(this.provider);
+      alert('Transaction executed');
+
     }
   }
 
-  private generateBidNftMessageData(collection: string, nonce: number){
+  private generateBidNftMessageData(collection: string, nonce: number) {
     let collectionHex = this.ascii_to_hex(collection); // Collection in hex
     let nonceHex = nonce.toString(16); // Nonce in hex number
     if (nonceHex.length == 1) {
@@ -390,7 +390,7 @@ export class NFTPageComponent implements OnInit {
     return nftSaleMessage;
   }
 
-  private generateEndAuctionMessageData(collection:string, nonce: number) : string {
+  private generateEndAuctionMessageData(collection: string, nonce: number): string {
     let collectionHex = this.ascii_to_hex(collection);
     let nonceHex = nonce.toString(16)
     if (nonceHex.length == 1) {
@@ -419,7 +419,7 @@ export class NFTPageComponent implements OnInit {
     return nftSaleMessage;
   }
 
-  private generateAuctionNftMessageData(collection: string, nonce: number, starting_price: number, final_price: number, deadline:number): string {
+  private generateAuctionNftMessageData(collection: string, nonce: number, starting_price: number, final_price: number, deadline: number): string {
     let nonceHex = nonce.toString(16)
     if (nonceHex.length % 2 == 1) {
       nonceHex = "0" + nonceHex;
