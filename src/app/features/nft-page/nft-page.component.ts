@@ -17,7 +17,7 @@ import { ExtendedTransaction } from 'src/app/core/models/transaction.model';
 import { Economics } from 'src/app/core/models/economics.model';
 import { CoreService } from 'src/app/core/services/core.service';
 
-export enum NftState{
+export enum NftState {
   Default,
   MintedAuction,
   MintedForSale,
@@ -52,7 +52,7 @@ export class NFTPageComponent implements OnInit {
   public nftTransactions: ExtendedTransaction[] = [];
 
   public economics: Economics | undefined;
-  public state : NftState = NftState.Default;
+  public state: NftState = NftState.Default;
 
   constructor(
     private nftService: NftService,
@@ -85,7 +85,7 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
-  private async computeNftState(){
+  private async computeNftState() {
 
     await this.loadNftState();
     //this.state = NftState.MintedForSale;
@@ -204,10 +204,10 @@ export class NFTPageComponent implements OnInit {
       this.collection = await this.nftService.getCollectionAsync(this.nft.collection);
   }
 
-  private async loadNftState() : Promise<NftState>{
+  private async loadNftState(): Promise<NftState> {
     if (this.nft == undefined) {
       return NftState.Default;
-    }else{
+    } else {
       let abiRegistry = await loadAbiRegistry(["assets/abi/isengard.abi.json"]);
       let abi = new SmartContractAbi(abiRegistry, ["Isengard"]);
       let contract = new SmartContract({ address: new Address(this.contractAddress), abi: abi });
@@ -219,15 +219,15 @@ export class NFTPageComponent implements OnInit {
 
       let query = testInteraction.buildQuery()
       let response = await this.provider.queryContract(query);
-      
+
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         console.log(parsedResponse);
-        if(parsedResponse.values[0].valueOf() == 'Sale'){
+        if (parsedResponse.values[0].valueOf() == 'Sale') {
           console.log('this nft is minted and for sale')
           return NftState.MintedForSale;
         }
-        if(parsedResponse.values[0].valueOf() == 'Auction'){
+        if (parsedResponse.values[0].valueOf() == 'Auction') {
           console.log('this nft is minted and for auction')
           return NftState.MintedAuction;
         }
@@ -265,6 +265,8 @@ export class NFTPageComponent implements OnInit {
       let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT, 0, user.address.bech32())
       tx.setNonce(user.nonce);
 
+      console.log(nftSaleMessage);
+
       let signedTransaction = await this.extProvider.signTransaction(tx);
       await signedTransaction.send(this.provider);
       await signedTransaction.awaitExecuted(this.provider);
@@ -296,6 +298,28 @@ export class NFTPageComponent implements OnInit {
     let contractAddressBech32 = new Address(this.contractAddress).hex();
     let fnameHex = this.ascii_to_hex("add_nft_for_sale").toUpperCase();
     let countHex = "01"; // 1 in hex
+
+    //priceHex = "000000012A05F200";
+
+    if (price > 1) { // ma fut in el pur si simplu.
+      console.log(price);
+      var len = price.toString().length
+      if (len < 16) {
+        var rest = 16 - len;
+        let denominator = "";
+        console.log(len);
+        console.log(rest);
+        for (let i = 0; i <= rest; i++) {
+          denominator += "0";
+        }
+        console.log(denominator);
+
+        priceHex = denominator + priceHex;
+      }
+    }
+
+
+    //9,223,372,036,854,775,807 max that can be encoded in hex.
 
     let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${priceHex}`;
 
@@ -333,7 +357,35 @@ export class NFTPageComponent implements OnInit {
   }
 
   private denominatePrice(price: number): number {
-    return price * 1000000000000000000;
+    //TODO : This conversion does not work right for multiple reasons.
+    // 1. Sometimes the conversion doesn't work right ( case 1.1) because it doesn't generate the 2s complement 
+    // 2. the number can be too big. bigint should be used instead as in denominatePrice2.
+
+    //let x = new BigNumber(price);
+    //let y = new BigNumber(1000000000000000000)
+    //return x.times(y);
+
+    // or just use this withoput denominator and denominate on the contract.
+    return price;
+  }
+
+
+  private denominatePrice2(price: number): bigint { // bag pl in masa.
+
+
+    let denominator = "000000000000000000";
+    let n = (price + "").split(".");
+    let i = parseInt(n[0]);
+    let f = parseInt(n[1]);
+
+    while (f >= 1) {
+      denominator = denominator.substring(0, denominator.length - 1);
+      let digit = f % 10;
+      i = i * 10 + digit;
+      f = f / 10;
+    }
+
+    return BigInt(i + denominator);
   }
 
   private nominatePrice(price: number): number {
