@@ -14,6 +14,8 @@ import { NftNotMintedForSaleComponent } from "./nft-not-minted-for-sale/nft-not-
 import { NftNotMintedNotForSaleComponent } from "./nft-not-minted-not-for-sale/nft-not-minted-not-for-sale.component";
 import { NftNotMintedAuctionComponent } from "./nft-not-minted-auction/nft-not-minted-auction.component";
 import { NftMintedAuctionComponent } from "./nft-minted-auction/nft-minted-auction.component";
+import { NftAuctionDialog } from "./dialogs/nft-auction-dialog.component";
+import { BidAuctionDialog } from "./dialogs/bid-auction-dialog.component";
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { NftMintedAuctionComponent } from "./nft-minted-auction/nft-minted-aucti
     MatIconModule],
   declarations: [NFTPageComponent,
     NftSellDialog,
+    NftAuctionDialog,
+    BidAuctionDialog,
     NftMintedNotForSaleComponent,
     NftMintedForSaleComponent,
     NftNotMintedForSaleComponent,

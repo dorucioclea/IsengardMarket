@@ -257,7 +257,7 @@
             ],
             "outputs": [
                 {
-                    "type": "NftState"
+                    "type": "NftStates"
                 }
             ]
         },
@@ -295,6 +295,19 @@
                 {
                     "name": "Auction",
                     "discriminant": 2
+                }
+            ]
+        },
+        "NftStates": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nft_owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "state",
+                    "type": "NftState"
                 }
             ]
         },

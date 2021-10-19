@@ -17,6 +17,8 @@ import { ExtendedTransaction } from 'src/app/core/models/transaction.model';
 import { Economics } from 'src/app/core/models/economics.model';
 import { CoreService } from 'src/app/core/services/core.service';
 import { AuthService } from "src/app/core/services/auth.service";
+import { NftAuctionDialog } from "./dialogs/nft-auction-dialog.component";
+import { BidAuctionDialog } from "./dialogs/bid-auction-dialog.component";
 
 export enum NftState {
   Default,
@@ -40,7 +42,7 @@ export class NFTPageComponent implements OnInit {
   private provider: ProxyProvider;
   private nftIdentifier: string | undefined;
 
-  private readonly GAS_LIMIT = 10000000;
+  private readonly GAS_LIMIT = 20000000;
 
   public owner: Profile | undefined;
   public ownerUsername: string | undefined;
@@ -93,7 +95,7 @@ export class NFTPageComponent implements OnInit {
   private async computeNftState() {
     this.state = await this.loadNftState();
     if(this.state == NftState.MintedForSale){
-      this.ownerUsername = "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28" // Get sale and get who owns this actually.
+      //this.ownerUsername = "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28" // Get sale and get who owns this actually.
     }
   }
 
@@ -109,8 +111,39 @@ export class NFTPageComponent implements OnInit {
     await dialogRef.afterClosed().subscribe(async result => {
       if (result != null) {
         await this.sellNft(result.price);
-      } else {
-        this.snackbarService.negativeSentiment('Maybe some other time <3');
+      }
+    });
+  }
+
+  async openAuctionNft(): Promise<void> {
+    const dialogRef = this.dialog.open(NftAuctionDialog, {
+      width: '500px',
+      data: {
+        nft: this.nft,
+        starting_price: 0,
+        final_price: 1,
+      }
+    });
+
+    await dialogRef.afterClosed().subscribe(async result => {
+      if (result != null) {
+        await this.auctionNft(result.starting_price, result.final_price,result.deadline);
+      }
+    });
+  }
+
+  async openBidDialog(): Promise<void>{
+    const dialogRef = this.dialog.open(BidAuctionDialog, {
+      width: '500px',
+      data: {
+        nft: this.nft,
+        bid: 0,
+      }
+    });
+
+    await dialogRef.afterClosed().subscribe(async result => {
+      if (result != null) {
+        await this.bidNft(result.bid);
       }
     });
   }
@@ -122,6 +155,21 @@ export class NFTPageComponent implements OnInit {
       let nftSaleMessage = this.generateCancelSaleMessageData(this.nft?.collection, this.nft?.nonce);
 
       let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT, 0, this.contractAddress)
+
+      tx.setNonce(user.nonce);
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+
+      await signedTransaction.send(this.provider);
+    }
+  }
+
+  async tryEndAuction(): Promise<void>{
+    let user = await this.syncUser();
+
+    if (this.nft != undefined) {
+      let nftEndAuctionMessage = this.generateEndAuctionMessageData(this.nft?.collection, this.nft?.nonce);
+
+      let tx = this.generateNewTransaction(nftEndAuctionMessage, this.GAS_LIMIT, 0, this.contractAddress)
 
       tx.setNonce(user.nonce);
       let signedTransaction = await this.extProvider.signTransaction(tx);
@@ -230,12 +278,13 @@ export class NFTPageComponent implements OnInit {
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         console.log(parsedResponse);
-        
-        if (parsedResponse.values[0].valueOf() == 'Sale') {
+        this.ownerUsername = new Address(parsedResponse.values[0].valueOf().nft_owner).bech32();
+
+        if (parsedResponse.values[0].valueOf().state == 'Sale') {
           console.log('this nft is minted and for sale')
           return NftState.MintedForSale;
         }
-        if (parsedResponse.values[0].valueOf() == 'Auction') {
+        if (parsedResponse.values[0].valueOf().state == 'Auction') {
           console.log('this nft is minted and for auction')
           return NftState.MintedForAuction;
         }
@@ -282,6 +331,53 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
+  private async auctionNft(starting_price:number, last_price:number, deadline: number): Promise<void> {
+    let user = await this.syncUser();
+
+    if (this.nft != undefined) {
+      let nftSaleMessage = this.generateAuctionNftMessageData(this.nft?.collection, this.nft?.nonce, starting_price, last_price, deadline)
+      let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT*2, 0, user.address.bech32())
+      tx.setNonce(user.nonce);
+
+      console.log(nftSaleMessage);
+
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+      await signedTransaction.send(this.provider);
+      await signedTransaction.awaitExecuted(this.provider);
+      alert('Transaction executed');
+    }
+  }
+
+  private async bidNft(bid:number){
+    let user = await this.syncUser();
+
+    if (this.nft != undefined) {
+      let nftBidMessage = this.generateBidNftMessageData(this.nft?.collection, this.nft?.nonce);
+      if (this.price != undefined) {
+
+        let tx = this.generateNewTransaction(nftBidMessage, this.GAS_LIMIT, bid, this.contractAddress);
+        tx.setNonce(user.nonce);
+
+        let signedTransaction = await this.extProvider.signTransaction(tx);
+        await signedTransaction.send(this.provider);
+        await signedTransaction.awaitExecuted(this.provider);
+        alert('Transaction executed');
+      }
+    }
+  }
+
+  private generateBidNftMessageData(collection: string, nonce: number){
+    let collectionHex = this.ascii_to_hex(collection); // Collection in hex
+    let nonceHex = nonce.toString(16); // Nonce in hex number
+    if (nonceHex.length == 1) {
+      nonceHex = "0" + nonceHex;
+    }
+
+    let bidMessage = `bid@${collectionHex}@${nonceHex}`;
+
+    return bidMessage;
+  }
+
   private generateCancelSaleMessageData(collection: string, nonce: number): string {
     let collectionHex = this.ascii_to_hex(collection);
     let nonceHex = nonce.toString(16)
@@ -292,6 +388,18 @@ export class NFTPageComponent implements OnInit {
     let nftSaleMessage = `cancel_sale@${collectionHex}@${nonceHex}`;
 
     return nftSaleMessage;
+  }
+
+  private generateEndAuctionMessageData(collection:string, nonce: number) : string {
+    let collectionHex = this.ascii_to_hex(collection);
+    let nonceHex = nonce.toString(16)
+    if (nonceHex.length == 1) {
+      nonceHex = "0" + nonceHex;
+    }
+
+    let nftEndAuctionMessage = `end_auction@${collectionHex}@${nonceHex}`;
+
+    return nftEndAuctionMessage;
   }
 
   private generateSellNftMessageData(collection: string, nonce: number, price: number): string {
@@ -306,9 +414,25 @@ export class NFTPageComponent implements OnInit {
     let fnameHex = this.ascii_to_hex("add_nft_for_sale").toUpperCase();
     let countHex = "01"; // 1 in hex
 
-
-
     let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${priceHex}`;
+
+    return nftSaleMessage;
+  }
+
+  private generateAuctionNftMessageData(collection: string, nonce: number, starting_price: number, final_price: number, deadline:number): string {
+    let nonceHex = nonce.toString(16)
+    if (nonceHex.length % 2 == 1) {
+      nonceHex = "0" + nonceHex;
+    }
+
+    let startPriceHex = this.getPriceFromNumber(starting_price);
+    let lastPriceHex = this.getPriceFromNumber(final_price);
+    let collectionHex = this.ascii_to_hex(collection);
+    let contractAddressBech32 = new Address(this.contractAddress).hex();
+    let fnameHex = this.ascii_to_hex("add_nft_for_auction").toUpperCase();
+    let countHex = "01"; // 1 in hex
+
+    let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${startPriceHex}@${lastPriceHex}@${deadline}`;
 
     return nftSaleMessage;
   }

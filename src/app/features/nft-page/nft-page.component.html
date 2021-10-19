@@ -25,15 +25,8 @@
           </mat-icon>
         </div>
       </li>
-      <li class="shadow" *ngIf="state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction"
-        matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Cancel Auction">
-        <div>
-          <mat-icon aria-hidden="false" class="grey-share">
-            do_not_touch
-          </mat-icon>
-        </div>
-      </li>
-      <li class="shadow" *ngIf="state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted"
+      <li class="shadow" (click)="openAuctionNft()"
+        *ngIf="state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted"
         matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
@@ -129,6 +122,8 @@
   </div>
 
   <div class="timeline-container">
+
+    <!-- TODO: MOVE THIS TO MINTED FOR SALE AND NOT MINTED FOR SALE -->
     <div class="offer-details"
       *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser != ownerUsername">
       <div class="button-container">
@@ -137,13 +132,13 @@
       </div>
 
       <div class="text-container">
-        <p class="sold-for-text">Last sold for</p>
+        <p class="sold-for-text">Price</p>
         <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
         <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
       </div>
     </div>
 
-
+    <!-- TODO: MOVE THIS TO MINTED/NOT MINTED FOR SALE -->
     <div class="offer-details"
       *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser == ownerUsername">
       <div class="button-container">
@@ -152,12 +147,41 @@
       </div>
 
       <div class="text-container">
-        <p class="sold-for-text">Last sold for</p>
+        <p class="sold-for-text">Price</p>
         <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
         <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
       </div>
     </div>
 
+    <!-- Auction is ON and I am the owner! -->
+    <div class="offer-details"
+    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser == ownerUsername">
+      <div class="button-container">
+
+        <div class="black-btn" (click)="tryEndAuction()">End Auction</div>
+      </div>
+
+      <div class="text-container">
+        <p class="sold-for-text">Highest Bid</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
+      </div>
+    </div>
+
+    <!-- Auction is ON but I am not the owner -->
+    <div class="offer-details"
+    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser != ownerUsername">
+      <div class="button-container">
+        <div class="black-btn" (click)="openBidDialog()">Bid on this auction</div>
+      </div>
+
+      <div class="text-container">
+        <p class="sold-for-text">Highest Bid</p>
+        <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
+        <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
+      </div>
+    </div>
+    
 
     <div class="timeline-item shadow" *ngFor="let transaction of nftTransactions!">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
