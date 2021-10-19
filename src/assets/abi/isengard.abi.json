@@ -239,7 +239,7 @@
             "inputs": [],
             "outputs": [
                 {
-                    "type": "BigUint"
+                    "type": "u64"
                 }
             ]
         },

@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Account, Address, Balance, ExtensionProvider, GasLimit, Interaction, NetworkConfig, ProxyProvider, SmartContract, SmartContractAbi, TokenIdentifierValue, Transaction, TransactionPayload, U64Value } from '@elrondnetwork/erdjs/out';
+import { Account, Address, Balance, BigUIntValue, ExtensionProvider, GasLimit, Interaction, NetworkConfig, ProxyProvider, SmartContract, SmartContractAbi, TokenIdentifierValue, Transaction, TransactionPayload, U64Value } from '@elrondnetwork/erdjs/out';
 import { environment } from '@isengard/env/environment';
 import { Collection } from 'src/app/core/models/collection.model';
 import { NFT } from 'src/app/core/models/nft.model';
@@ -16,15 +16,16 @@ import { TransactionService } from 'src/app/core/services/transaction.service';
 import { ExtendedTransaction } from 'src/app/core/models/transaction.model';
 import { Economics } from 'src/app/core/models/economics.model';
 import { CoreService } from 'src/app/core/services/core.service';
+import { AuthService } from "src/app/core/services/auth.service";
 
 export enum NftState {
   Default,
-  MintedAuction,
-  MintedForSale,
-  MintedNotForSale,
-  NotMintedAuction,
+  Minted,
+  NotMinted,
   NotMintedForSale,
-  NotMintedNotForSale,
+  NotMintedForAuction,
+  MintedForSale,
+  MintedForAuction
 }
 
 @Component({
@@ -47,6 +48,7 @@ export class NFTPageComponent implements OnInit {
   public creatorUsername: string | undefined;
   public collection: Collection | undefined;
   public nft: NFT | undefined;
+  public browsingUser: string | undefined;
 
   public price: number | undefined;
   public nftTransactions: ExtendedTransaction[] = [];
@@ -54,6 +56,7 @@ export class NFTPageComponent implements OnInit {
   public economics: Economics | undefined;
   public state: NftState = NftState.Default;
 
+  public NftState = NftState; 
   constructor(
     private nftService: NftService,
     private activatedRoute: ActivatedRoute,
@@ -61,10 +64,12 @@ export class NFTPageComponent implements OnInit {
     private coreService: CoreService,
     private transactionService: TransactionService,
     private snackbarService: SnackbarService,
+    private authService: AuthService,
     public dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.nftIdentifier = params['nftAddress'];
+      this.browsingUser = authService.currentProfileValue?.accountId;
     });
 
     this.extProvider = ExtensionProvider.getInstance();
@@ -86,9 +91,10 @@ export class NFTPageComponent implements OnInit {
   }
 
   private async computeNftState() {
-
-    await this.loadNftState();
-    //this.state = NftState.MintedForSale;
+    this.state = await this.loadNftState();
+    if(this.state == NftState.MintedForSale){
+      this.ownerUsername = "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28" // Get sale and get who owns this actually.
+    }
   }
 
   async openSellNft(): Promise<void> {
@@ -113,7 +119,6 @@ export class NFTPageComponent implements OnInit {
     let user = await this.syncUser();
 
     if (this.nft != undefined) {
-      let nonce = this.nft?.nonce;
       let nftSaleMessage = this.generateCancelSaleMessageData(this.nft?.collection, this.nft?.nonce);
 
       let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT, 0, this.contractAddress)
@@ -153,6 +158,7 @@ export class NFTPageComponent implements OnInit {
       }
 
       this.ownerUsername = this.nft.owner;
+      if(this.nft.owner){}
       this.owner = await this.profileService.getProfileAsync(this.nft.owner)
       if (this.owner != undefined) {
         this.ownerUsername = this.owner.username
@@ -175,6 +181,7 @@ export class NFTPageComponent implements OnInit {
       this.nftTransactions =
         (await this.transactionService.getTokenTransactions(this.nft?.identifier))
           .map(x => { x.value = this.nominatePrice(parseInt(x.value)).toString(); return x; })
+          //TODO: create functions for these and parse them without ltieral values. maybe we add more functions
           .map(y => new ExtendedTransaction(y))
           .map(y => {
             if (y.data.includes("Y2FuY2VsX3NhbGV")) {//cancel sale
@@ -223,13 +230,14 @@ export class NFTPageComponent implements OnInit {
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         console.log(parsedResponse);
+        
         if (parsedResponse.values[0].valueOf() == 'Sale') {
           console.log('this nft is minted and for sale')
           return NftState.MintedForSale;
         }
         if (parsedResponse.values[0].valueOf() == 'Auction') {
           console.log('this nft is minted and for auction')
-          return NftState.MintedAuction;
+          return NftState.MintedForAuction;
         }
       }
       return NftState.Default;
@@ -288,38 +296,17 @@ export class NFTPageComponent implements OnInit {
 
   private generateSellNftMessageData(collection: string, nonce: number, price: number): string {
     let nonceHex = nonce.toString(16)
-    if (nonceHex.length == 1) {
+    if (nonceHex.length % 2 == 1) {
       nonceHex = "0" + nonceHex;
     }
 
-    let priceHex = this.denominatePrice(price).toString(16).toUpperCase();
-
+    let priceHex = this.getPriceFromNumber(price)
     let collectionHex = this.ascii_to_hex(collection);
     let contractAddressBech32 = new Address(this.contractAddress).hex();
     let fnameHex = this.ascii_to_hex("add_nft_for_sale").toUpperCase();
     let countHex = "01"; // 1 in hex
 
-    //priceHex = "000000012A05F200";
 
-    if (price > 1) { // ma fut in el pur si simplu.
-      console.log(price);
-      var len = price.toString().length
-      if (len < 16) {
-        var rest = 16 - len;
-        let denominator = "";
-        console.log(len);
-        console.log(rest);
-        for (let i = 0; i <= rest; i++) {
-          denominator += "0";
-        }
-        console.log(denominator);
-
-        priceHex = denominator + priceHex;
-      }
-    }
-
-
-    //9,223,372,036,854,775,807 max that can be encoded in hex.
 
     let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${priceHex}`;
 
@@ -356,36 +343,15 @@ export class NFTPageComponent implements OnInit {
     });
   }
 
-  private denominatePrice(price: number): number {
-    //TODO : This conversion does not work right for multiple reasons.
-    // 1. Sometimes the conversion doesn't work right ( case 1.1) because it doesn't generate the 2s complement 
-    // 2. the number can be too big. bigint should be used instead as in denominatePrice2.
+  private getPriceFromNumber(price: number): string { // bag pl in masa.
 
-    //let x = new BigNumber(price);
-    //let y = new BigNumber(1000000000000000000)
-    //return x.times(y);
-
-    // or just use this withoput denominator and denominate on the contract.
-    return price;
-  }
-
-
-  private denominatePrice2(price: number): bigint { // bag pl in masa.
-
-
-    let denominator = "000000000000000000";
-    let n = (price + "").split(".");
-    let i = parseInt(n[0]);
-    let f = parseInt(n[1]);
-
-    while (f >= 1) {
-      denominator = denominator.substring(0, denominator.length - 1);
-      let digit = f % 10;
-      i = i * 10 + digit;
-      f = f / 10;
+    let x = new BigUIntValue(Balance.egld(price).valueOf());
+    let value = x.value.toString(16);
+    if (value.length % 2 == 1) {
+      value = "0" + value;
     }
 
-    return BigInt(i + denominator);
+    return value;
   }
 
   private nominatePrice(price: number): number {
