@@ -16,6 +16,7 @@ import { CreateComponent } from './features/create/create.component';
 import { FormsModule } from '@angular/forms';
 import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
+import { CollectionPageModule } from './features/collection-page/collection-page.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ProfileEditComponent } from './features/profile-edit/profile-edit.compo
     SharedClassicModule,
     HttpClientModule,
     ArtistPageModule,
-    NFTPageModule
+    NFTPageModule,
+    CollectionPageModule
   ],
   providers: [],
   bootstrap: [AppComponent],

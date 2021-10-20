@@ -9,6 +9,7 @@
 
 <h2>All nft Collections</h2>
 <div class="list" *ngFor="let collection of nftCollections">
+  
   <div>{{collection.name}}</div>
   <div> Created at {{collection.timestamp * 1000 | date:'dd/MM/yyyy'}}</div>
 </div>

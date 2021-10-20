@@ -1,0 +1,81 @@
+<app-search-navbar></app-search-navbar>
+<div class="header-wrapper">
+  <div class="header-info">
+    <div class="collection-photo center">
+      <img src="assets\mona.jpg" alt="">
+    </div>
+    <div class="collection-name center">
+      <span>Collection of NFTs</span>
+    </div>
+    <div class="collection-description center">
+      <div class="span-wrapper">
+        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus
+          vel facilisis. </span>
+      </div>
+    </div>
+  </div>
+  <div class="header-navbar">
+    <div class="info">
+      <div class="info-tab">
+        <div class="title center">
+          Items in Collection
+        </div>
+        <div class="number center">
+          {{nfts?.length}}
+        </div>
+      </div>
+      <div class="info-tab">
+        <div class="title center">
+          Owners
+        </div>
+        <div class="number center">
+          3.5K
+        </div>
+      </div>
+      <div class="info-tab">
+        <div class="title center">
+          Floor Price
+        </div>
+        <div class="number center">
+          0.01 EGLD
+        </div>
+      </div>
+      <div class="info-tab">
+        <div class="title center">
+          Sales Volume
+        </div>
+        <div class="number center">
+          501 EGLD
+        </div>
+      </div>
+    </div>
+    <div class="social">
+      <div class="social-tab">
+        <img src="assets/icons/instagram.png" alt="">
+      </div>
+      <div class="social-tab">
+        <img src="assets/icons/twitter.png" alt="">
+      </div>
+      <div class="social-tab">
+        <img src="assets/icons/telegram.png" alt="">
+      </div>
+      <div class="social-tab">
+        <img src="assets/icons/discord.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="search-wrapper">
+  <div class="searchbar">
+    <input type="text" name="" id="" placeholder="Search">
+  </div>
+  <div class="filters">
+    <input type="text" name="" id="" placeholder="Price: High to Low">
+  </div>
+</div>
+<div class="collection-wrapper">
+  <collection-nft-card *ngFor="let nft of nfts" [collectionName]="collection?.name" [name]="nft.name" [photo]="nft.url">
+  </collection-nft-card>
+</div>
+<app-info-footer></app-info-footer>
