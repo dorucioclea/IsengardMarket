@@ -267,7 +267,7 @@ export class NFTPageComponent implements OnInit {
       let nonce = new U64Value(new BigNumber(this.nft?.nonce));
       let collection = new TokenIdentifierValue(Buffer.from(this.nft?.collection, 'ascii'));
 
-      let testInteraction = <Interaction>contract.methods.getNftState([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
+      let testInteraction = <Interaction>contract.methods.getWrapper([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
 
       let query = testInteraction.buildQuery()
       let response = await this.provider.queryContract(query);
@@ -275,7 +275,8 @@ export class NFTPageComponent implements OnInit {
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         console.log(parsedResponse);
-        this.ownerUsername = new Address(parsedResponse.values[0].valueOf().nft_owner).bech32();
+        // TODO: Add this back in when nft_owner is moved up on the contract method.
+        //this.ownerUsername = new Address(parsedResponse.values[0].valueOf().nft_owner).bech32();
 
         if (parsedResponse.values[0].valueOf().state == 'Sale') {
           console.log('this nft is minted and for sale')
@@ -299,14 +300,22 @@ export class NFTPageComponent implements OnInit {
       let nonce = new U64Value(new BigNumber(this.nft?.nonce));
       let collection = new TokenIdentifierValue(Buffer.from(this.nft?.collection, 'ascii'));
 
-      let testInteraction = <Interaction>contract.methods.getSale([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
+      let testInteraction = <Interaction>contract.methods.getWrapper([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
 
       let query = testInteraction.buildQuery()
       let response = await this.provider.queryContract(query);
 
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
-        this.price = this.nominatePrice(parsedResponse.values[0].valueOf().price.toNumber());
+        if (this.state == NftState.MintedForAuction) {
+          // TODO: Generate minted for auction data? 
+          this.price = this.nominatePrice(parsedResponse.values[0].valueOf().auction.starting_price.toNumber());
+        }
+        if (this.state == NftState.MintedForSale) {
+          // TODO: Generated minted for sale data?
+          this.price = this.nominatePrice(parsedResponse.values[0].valueOf().sale.price.toNumber());
+        }
+
       }
     }
   }

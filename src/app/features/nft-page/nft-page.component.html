@@ -17,7 +17,7 @@
     <!--   -->
 
     <ul class="button-list">
-      <li class="shadow"  (click)="openAuctionNft()"
+      <li class="shadow" (click)="openAuctionNft()"
         *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
         matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Create Auction">
         <div>
@@ -26,7 +26,7 @@
           </mat-icon>
         </div>
       </li>
-      <li class="shadow"  (click)="openSellNft()"
+      <li class="shadow" (click)="openSellNft()"
         *ngIf="(state == NftState.Default || state == NftState.Minted || state ==  NftState.NotMinted) && browsingUser == ownerUsername"
         matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="List for sale">
         <div>
@@ -145,7 +145,7 @@
 
     <!-- Auction is ON and I am the owner! -->
     <div class="offer-details"
-    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser == ownerUsername">
+      *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser == ownerUsername">
       <div class="button-container">
         <div class="black-btn" (click)="tryEndAuction()">End Auction</div>
       </div>
@@ -159,7 +159,7 @@
 
     <!-- Auction is ON but I am not the owner -->
     <div class="offer-details"
-    *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser != ownerUsername">
+      *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser != ownerUsername">
       <div class="button-container">
         <div class="black-btn" (click)="openBidDialog()">Bid on this auction</div>
       </div>
@@ -169,7 +169,7 @@
         <p class="sold-for-value">{{price}} <span class="currency">EGLD</span></p>
         <p class="usd-conversion-text">${{price! * economics!.price | number}}</p>
       </div>
-      Show my bid if bid exists. or highest bid.
+      Show my bid if bid exists. or highest bid. Under work please don't work on this component.
     </div>
 
 
