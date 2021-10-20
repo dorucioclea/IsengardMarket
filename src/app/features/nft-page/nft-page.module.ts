@@ -5,6 +5,11 @@ import { SharedClassicModule } from "src/app/shared/shared-classic.module";
 import { NFTPageComponent } from "./nft-page.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from "@angular/router";
+import { MatDialogModule } from '@angular/material/dialog';
+import { NftSellDialog } from "./dialogs/nft-sell-dialog.component";
+import { FormsModule } from '@angular/forms';
+import { NftAuctionDialog } from "./dialogs/nft-auction-dialog.component";
+import { BidAuctionDialog } from "./dialogs/bid-auction-dialog.component";
 
 @NgModule({
   imports: [
@@ -13,8 +18,13 @@ import { RouterModule } from "@angular/router";
     CommonModule,
     MatTooltipModule,
     RouterModule,
+    MatDialogModule,
+    FormsModule,
     MatIconModule],
-  declarations: [NFTPageComponent],
+  declarations: [NFTPageComponent,
+    NftSellDialog,
+    NftAuctionDialog,
+    BidAuctionDialog],
   exports: [NFTPageComponent]
 })
 

@@ -15,28 +15,31 @@ export class ProfileEditComponent implements OnInit {
   public mediaFileCover: any;
   public coverImage: string | SafeUrl = "assets/images/add-media.png";
   public profileImage: string | SafeUrl = "assets/images/add-media.png";
-  public profile : Profile | undefined;
+  public profile: Profile | undefined;
 
-  constructor(private sanitizer: DomSanitizer, private authService : AuthService, private profileService: ProfileService) { }
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn()){
+    if (this.authService.isLoggedIn()) {
       this.profile = this.authService.currentProfileValue;
-      if(this.profile?.profilePicture != undefined){
+      if (this.profile?.profilePicture != undefined) {
         this.profileImage = this.profile.profilePicture;
+      }
+      if (this.profile?.coverPicture != undefined) {
+        this.coverImage = this.profile.coverPicture;
       }
     }
   }
 
   updateImage(ev: any, type: string) {
-    if(type === 'cover'){
+    if (type === 'cover') {
       this.mediaFileCover = ev.target.files[0];
       this.coverImage = this.sanitizer.bypassSecurityTrustUrl(
         window.URL.createObjectURL(ev.target.files[0])
       );
     }
 
-    if(type ==='profile'){
+    if (type === 'profile') {
       this.mediaFileProfile = ev.target.files[0];
       this.profileImage = this.sanitizer.bypassSecurityTrustUrl(
         window.URL.createObjectURL(ev.target.files[0])
@@ -44,21 +47,29 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
-  async updateProfile(){
-    //this.profileService.updateProfileAsync(profile);
+  async updateProfile() {
+    
     var form = new FormData();
     form.append('profilePhoto', this.mediaFileProfile);
-    if(this.profile?.accountId != null){
-      console.log(form);
-      console.log(this.profile.accountId);
-      await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
-      const profile =await this.profileService.getProfileAsync(this.profile?.accountId);
-      this.authService.updateProfile(profile); 
+    form.append('coverPhoto', this.mediaFileCover);
+    if (this.profile?.accountId != null) {
+      var x = await this.profileService.updateProfileAsync(this.profile, this.profile.accountId);
+      console.log(x);
+      if (this.mediaFileProfile != undefined) {
+        await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
+      }
+
+      if (this.mediaFileCover != undefined) {
+        await this.profileService.updateCoverImageAsync(form, this.profile.accountId);
+      }
+
+      const profile = await this.profileService.getProfileAsync(this.profile?.accountId);
+      this.authService.updateProfile(profile);
     }
-    
-    
+
+
     alert('Profile updated successfully');
-    
+
   }
 
 }

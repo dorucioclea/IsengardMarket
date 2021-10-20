@@ -1,16 +1,16 @@
-<artist-page-header></artist-page-header>
-<artist-page-top-info [profile]="profile"></artist-page-top-info>
+<artist-page-header [profile]="profile"></artist-page-header>
+<artist-page-top-info [profile]="profile!"></artist-page-top-info>
 <div class="wrapper">
   <div class="left-grid">
-    <app-artist-page-info [joinedDate]="joinedDate"></app-artist-page-info>
+    <app-artist-page-info  [profile]="profile!" [joinedDate]="joinedDate"></app-artist-page-info>
   </div>
   <div class="right-grid">
     <div class="menu-bar">
       <div>
-        <button (click)="select('created')" [ngClass]="{'selected': selected=='created'}">Created</button>
+        <button (click)="select('owned')" [ngClass]="{'selected': selected=='owned'}">Owned</button>
       </div>
       <div>
-        <button (click)="select('owned')" [ngClass]="{'selected': selected=='owned'}">Owned</button>
+        <button (click)="select('created')" [ngClass]="{'selected': selected=='created'}">Created</button>
       </div>
       <div>
         <button (click)="select('favorites')"  [ngClass]="{'selected': selected=='favorites'}" >Favorites</button>
@@ -38,4 +38,3 @@
   </div>
 
 </div>
-<app-info-footer></app-info-footer>

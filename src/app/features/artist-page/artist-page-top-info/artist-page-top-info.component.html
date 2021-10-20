@@ -1,25 +1,23 @@
 <div class="artist-top-info">
   <div class="left-info">
     <div class="artist-photo">
-      <img src="{{_profile?.profilePicture}}" alt="">
+      <img src="{{profile?.profilePicture}}" alt="">
     </div>
-    <div class="follow-btn">
+    <div class="isengard-button follow-btn">
       <button>Follow</button>
     </div>
   </div>
   <div class="right-info">
-    <div class="wallet-address-container">
+    <div matRipple class="wallet-address-container">
       <div class="wallet-address">
-        <span>{{walletAddressToShow}}</span>
+        <span>{{profile?.accountId}}</span>
       </div>
-      <button [cdkCopyToClipboard]="_walletAddress!">
+      <button style="cursor: pointer;" [cdkCopyToClipboard]="profile?.accountId!">
         <mat-icon>content_copy</mat-icon>
       </button>
     </div>
-    <div class="share-btn">
-      <button>
+    <div matRipple class="share-btn">
         <mat-icon>share</mat-icon>
-      </button>
     </div>
   </div>
 </div>

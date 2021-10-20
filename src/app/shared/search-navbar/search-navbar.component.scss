@@ -121,8 +121,8 @@ input {
 
 @-webkit-keyframes slide-in-top {
   0% {
-    -webkit-transform: translateY(-50px);
-            transform: translateY(-50px);
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
     opacity: 0;
   }
   100% {
@@ -133,8 +133,8 @@ input {
 }
 @keyframes slide-in-top {
   0% {
-    -webkit-transform: translateY(-50px);
-            transform: translateY(-50px);
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
     opacity: 0;
   }
   100% {
@@ -176,5 +176,14 @@ input {
       -6px 6px #b45ece, -7px 7px #b45ece, -8px 8px #b45ece;
     -webkit-transform: translateX(8px) translateY(-8px);
     transform: translateX(8px) translateY(-8px);
+  }
+}
+
+
+
+@media (max-width: 70em) {
+  .main-container {
+    //DO THE LOGIC
+    // background-color: blue !important;
   }
 }

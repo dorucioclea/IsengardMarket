@@ -4,6 +4,7 @@ import { NFTCollection } from '../models/nft-collection.model';
 import { Observable } from 'rxjs';
 import { NFT } from '../models/nft.model';
 import { environment } from 'src/environments/environment';
+import { Economics } from '../models/economics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class CoreService {
 
   public getAllNFTS(): Observable<NFT[]> {
     return this.http.get<NFT[]>(this.elrondUrl+'/nfts?type=NonFungibleESDT')
+  }
+  
+  async getEconomics(): Promise<Economics> {
+    return this.http.get<Economics>(this.elrondUrl + '/economics').toPromise();
   }
 }

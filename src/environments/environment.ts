@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   marketUrl: 'http://localhost:4200',
-  backendUri: 'https://localhost:7288',
+  backendUri: 'https://isengardappapidev.azurewebsites.net',
   elrondApiUri:'https://devnet-api.elrond.com',
-  contractAddress: 'erd1qqqqqqqqqqqqqpgqfhsxc6ncxar5gjhf65zfs782erlvm0p8lwfq7y9mq4',
+  contractAddress: 'erd1qqqqqqqqqqqqqpgq9gyw0zhwtjuxtku0ejglnxsv6zkgnkwzlwfq3fpqqu',
   gatewayUri:'https://devnet-gateway.elrond.com'
 };
 

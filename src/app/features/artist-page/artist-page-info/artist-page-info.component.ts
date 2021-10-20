@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Profile } from 'src/app/core/models/profile';
 import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { CoreService } from 'src/app/core/services/core.service';
 
 export class ArtistPageInfoComponent implements OnInit {
   @Input() joinedDate: string | undefined;
+  @Input() profile: Profile | undefined;
 
   constructor (private coreService: CoreService) 
   { 

@@ -51,6 +51,14 @@ body {
   cursor: pointer
 }
 
+.blue-snackbar {
+  background: #2196F3;
+}
+
+.red-snackbar {
+  background: #d9534f;
+}
+
 /* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
 .grey-heart svg {
   fill  : rgb(170, 170, 170);

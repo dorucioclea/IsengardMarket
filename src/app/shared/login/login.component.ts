@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         
         let signedMessage = await extProvider.signMessage(message);
 
+        console.log(signedMessage.signature.hex());
         this.authService.login(walletAddress, signedMessage.signature.hex());
 
       } else {

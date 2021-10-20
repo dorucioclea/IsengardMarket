@@ -36,4 +36,14 @@ export class ProfileService {
   async updateProfileImageAsync(formData: FormData, address: string): Promise<any>{
     return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/profilePhoto', formData).toPromise();
   }
+
+  async updateProfileAsync(profile:Profile,address:string):Promise<any>{
+    console.log(profile);
+    console.log(address);
+    return this.http.put<any>(this.apiUrl + '/profiles/' + address + '', profile).toPromise();
+  }
+
+  async updateCoverImageAsync(formData: FormData, address: string) : Promise<any>{
+    return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/coverPhoto', formData).toPromise()
+  }
 }

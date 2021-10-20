@@ -14,7 +14,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
   styleUrls: ['./artist-page.component.scss']
 })
 export class ArtistPageComponent implements OnInit {
-  public selected: string = "created";
+  public selected: string = "owned";
   public nfts: NFT[] = [];
   public createdNFTs: NFT[] = [];
   public ownedNFTs: NFT[] = [];

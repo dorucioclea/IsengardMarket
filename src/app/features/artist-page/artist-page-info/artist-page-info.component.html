@@ -1,11 +1,11 @@
 <div class="container">
 
     <div class="artist-name">
-        <span>Suicanul</span>
+        <span>{{profile?.firstName}} {{profile?.lastName}}</span>
     </div>
     <div class="artist-username">
         <div class="username-wrapper">
-            <span>@suicabagapumnu</span>
+            <span>@{{profile?.username | slice:0:42}}...</span>
         </div>
 
     </div>
@@ -32,12 +32,7 @@
             Bio
         </div>
         <span>
-            My name is Zdenek Benjamin Cehelsky and i am known as @rykyart
-
-            Most important thing about me?
-            I've been drawing my whole life!
-
-            Why? Because i can create my own worlds! And you're always welcome.
+           {{profile?.bio}}
         </span>
     </div>
     <div class="invited-by">

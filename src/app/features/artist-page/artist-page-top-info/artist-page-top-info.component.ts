@@ -7,16 +7,7 @@ import { Profile } from 'src/app/core/models/profile';
   styleUrls: ['./artist-page-top-info.component.scss']
 })
 export class ArtistPageTopInfoComponent implements OnInit {
-  public _walletAddress: string | undefined;
-  public _profile : Profile | undefined;
-
-  @Input()
-  set profile (profile: Profile | undefined){
-    this._profile = profile;
-    this._walletAddress = profile?.accountId;
-  }
-
-  public walletAddressToShow: string | undefined;
+  @Input() profile!: Profile;
 
   constructor() {
   }
