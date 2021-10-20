@@ -94,9 +94,6 @@ export class NFTPageComponent implements OnInit {
 
   private async computeNftState() {
     this.state = await this.loadNftState();
-    if (this.state == NftState.MintedForSale) {
-      //this.ownerUsername = "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28" // Get sale and get who owns this actually.
-    }
   }
 
   async openSellNft(): Promise<void> {

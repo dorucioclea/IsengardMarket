@@ -170,21 +170,6 @@
             "outputs": []
         },
         {
-            "name": "add",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "substract",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "test",
-            "inputs": [],
-            "outputs": []
-        },
-        {
             "name": "get_owner",
             "inputs": [],
             "outputs": [
@@ -213,15 +198,6 @@
             "outputs": [
                 {
                     "type": "BigUint"
-                }
-            ]
-        },
-        {
-            "name": "getCounter",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "i64"
                 }
             ]
         },
@@ -262,6 +238,24 @@
             ]
         },
         {
+            "name": "getWrapper",
+            "inputs": [
+                {
+                    "name": "nft_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "SaleWrapper"
+                }
+            ]
+        },
+        {
             "name": "getSale",
             "inputs": [
                 {
@@ -281,6 +275,35 @@
         }
     ],
     "types": {
+        "Auction": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "nft_owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "starting_price",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "current_bid",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "current_winner",
+                    "type": "Address"
+                },
+                {
+                    "name": "final_price",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "deadline",
+                    "type": "u64"
+                }
+            ]
+        },
         "NftState": {
             "type": "enum",
             "variants": [
@@ -321,6 +344,23 @@
                 {
                     "name": "price",
                     "type": "BigUint"
+                }
+            ]
+        },
+        "SaleWrapper": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "sale",
+                    "type": "Option<Sale>"
+                },
+                {
+                    "name": "auction",
+                    "type": "Option<Auction>"
+                },
+                {
+                    "name": "state",
+                    "type": "NftState"
                 }
             ]
         }

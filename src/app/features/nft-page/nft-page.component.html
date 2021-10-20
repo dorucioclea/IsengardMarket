@@ -119,7 +119,6 @@
     <div class="offer-details"
       *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser != ownerUsername">
       <div class="button-container">
-
         <div class="black-btn" (click)="buyItem()">Buy Item</div>
       </div>
 
@@ -134,7 +133,6 @@
     <div class="offer-details"
       *ngIf="(state == NftState.MintedForSale || state ==  NftState.NotMintedForSale) && browsingUser == ownerUsername">
       <div class="button-container">
-
         <div class="black-btn" (click)="cancelSale()">Cancel Sale</div>
       </div>
 
@@ -149,7 +147,6 @@
     <div class="offer-details"
     *ngIf="(state! == NftState.MintedForAuction || state! == NftState.NotMintedForAuction) && browsingUser == ownerUsername">
       <div class="button-container">
-
         <div class="black-btn" (click)="tryEndAuction()">End Auction</div>
       </div>
 

@@ -37,8 +37,12 @@ export class NftService {
     return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?creator=' + wallet + '&size=' + size).toPromise();
   }
 
-  async getOwnedNFTsAsync(wallet: string, size: number = 50): Promise<NFT[]> {
-    return this.http.get<NFT[]>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts?size=' + size).toPromise();
+  async getOwnedNFTsAsync(wallet: string, size: number = 50, startingFrom: number = 0): Promise<NFT[]> {
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts?size=' + size + '&from=' + startingFrom).toPromise();
+  }
+
+  async getOwnedNFTsCountAsync(wallet: string): Promise<number> {
+    return this.http.get<number>(this.elrondApiUrl + '/accounts/' + wallet + '/nfts/count').toPromise();
   }
 
   async getCollectionAsync(collection: string): Promise<Collection> {
