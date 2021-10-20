@@ -178,3 +178,12 @@ input {
     transform: translateX(8px) translateY(-8px);
   }
 }
+
+
+
+@media (max-width: 70em) {
+  .main-container {
+    //DO THE LOGIC
+    // background-color: blue !important;
+  }
+}

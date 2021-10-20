@@ -3,9 +3,7 @@
 <div class="container">
   <p class="medium-title create-nft-title">Create a new NFT</p>
 
-
-
-  <img [src]="file" (click)="selectImage.click()" />
+  <img style="cursor:pointer" [src]="file" (click)="selectImage.click()" />
   <input type="file" (change)="updateImage($event)" style="display: none" #selectImage />
   <p class="description-text center">Image, Video, Audio, or 3D Model</p>
   <p class="description-text center">File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
@@ -18,7 +16,8 @@
     <input type="text" [(ngModel)]="name" name="name" placeholder="Name of your NFT">
 
     <p>External Link</p>
-    <p class="description-text">We wil include a link to this url on the NFT page so the users can navigate and find out more about this.</p>
+    <p class="description-text">We wil include a link to this url on the NFT page so the users can navigate and find out
+      more about this.</p>
     <input type="text" [(ngModel)]="url" name="url" placeholder="url">
 
     <p>Description</p>
@@ -27,13 +26,27 @@
 
     <p>Tags</p>
     <p class="description-text">A list of tags</p>
-    <input type="text" [(ngModel)]="tags" name="tags" placeholder="tag1,tag2,tag3,tag4">
+
+    <mat-form-field class="chip-list" appearance="outline">
+      <mat-chip-list #chipList multiple [formControl]="tagControll">
+        <mat-chip *ngFor="let tag of tags" [selected]="tag" [removable]="true" [value]="tag" (removed)="remove(tag)">
+          {{tag}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="New tag..." [matChipInputFor]="chipList"
+          (matChipInputTokenEnd)="addTagFromInput($event)">
+      </mat-chip-list>
+    </mat-form-field>
 
     <p>Royalties</p>
-    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.</p>
+    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.
+    </p>
     <input type="number" disabled min="1" max="10000" name="royalties" [(ngModel)]="royalties">
-
-    <input type="range" min="100" max="10000" value="100" class="slider" [(ngModel)]="royalties" id="myRange">
+    <mat-slider class="royalties-slider" [max]="100" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="25"
+      [(ngModel)]="royalties">
+    </mat-slider>
     <p>Collection</p>
     <select type="select" [(ngModel)]="collection" name="collection">
       <option name="collection" selected value="ASDASDAS-12bd8a">ASDASDAS-12bd8a</option>
@@ -41,7 +54,8 @@
     </select>
 
 
-    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> On the blockchain (this involves costs)
+    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> On the blockchain (this involves
+    costs)
     <!-- <p>
       // Create and send transaction ?!?! or just create one locally.
       Tests to do:
@@ -78,4 +92,3 @@
         ]
       </textarea> -->
 </div>
-<app-info-footer></app-info-footer>

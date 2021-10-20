@@ -8,7 +8,43 @@
     max-width: 900px;
   }
 }
+.royalties-slider {
+  width: 100%;
+}
 
+.chip-list {
+  width: 100%;
+  .mat-chip.mat-standard-chip .mat-chip-remove {
+    color: white !important;
+  }
+}
+
+::ng-deep .mat-chip.mat-standard-chip {
+  background-color: #5a73ce;
+  color: rgb(255 255 255 / 87%);
+}
+
+::ng-deep .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb {
+  background-color: #5a73ce !important;
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill {
+  background: linear-gradient(90deg, #5a73ce 0%, #c43ebb 100%) !important;
+}
+
+::ng-deep .mat-accent .mat-slider-thumb {
+  background-color: #c43ebb !important;
+}
+::ng-deep .mat-accent .mat-slider-thumb-label {
+  background-color: #c43ebb !important;
+}
+::ng-deep .mat-accent .mat-slider-thumb-label {
+  background-color: #c43ebb !important;
+}
+
+::ng-deep .mat-accent .mat-slider-thumb-label-text {
+  color: white !important;
+}
 .medium-title {
   //Move this to a global scss
   font-size: 30px;

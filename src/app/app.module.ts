@@ -12,11 +12,16 @@ import { NFTPageModule } from './features/nft-page/nft-page.module';
 import { ArtistPageModule } from './features/artist-page/artist-page.module';
 import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
-import { CreateComponent } from './features/create/create.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ActivityPageComponent,
     LoginComponent,
     LogoutComponent,
-    CreateComponent,
+    CreateNFTComponent,
     MarketComponent,
     ProfileEditComponent,
   ],
@@ -41,7 +46,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SharedClassicModule,
     HttpClientModule,
     ArtistPageModule,
-    NFTPageModule
+    NFTPageModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatSliderModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

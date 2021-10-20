@@ -1,30 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Account, Address, NetworkConfig, ProxyProvider } from '@elrondnetwork/erdjs/out';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { environment } from 'src/environments/environment';
-
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  selector: 'app-create-nft',
+  templateUrl: './create.-nft.component.html',
+  styleUrls: ['./create.-nft.component.scss']
 })
-export class CreateComponent implements OnInit {
-  private gatewayUrl: string = environment.gatewayUri;
-  public file: string | SafeUrl = "assets/images/add-media.png";
-  public royalties: number = 50;
-  public name: string | undefined;
-  public imagePath: string = '';
-  public mediaFile: any;
-  public externalLink: string | undefined;
-  public tags: string[] = [];
-  public description: string | undefined;
-  public collection: string | undefined;
-  public url: string = '';
-  public onBlockchain = false;
-  public formData = new FormData();
-  public message: string | undefined;
+export class CreateNFTComponent implements OnInit {
+  file: string | SafeUrl = "assets/images/add-media.png";
+  royalties: number = 1;
+  name: string | undefined;
+  imagePath: string = '';
+  mediaFile: any;
+  externalLink: string | undefined;
+  description: string | undefined;
+  collection: string | undefined;
+  url: string = '';
+  onBlockchain = false;
+  formData = new FormData();
+  message: string | undefined;
+  selectable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagControll = new FormControl();
+  tags: string[] = [];
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -33,13 +37,29 @@ export class CreateComponent implements OnInit {
   ) {
   }
 
+  addTagFromInput(event: MatChipInputEvent) {
+    if (event.value) {
+      this.tags.push(event.value);
+      event.chipInput!.clear();
+    }
+  }
+
+  remove(keyword: string) {
+    const indexOfWordToDelete: number = this.tags.indexOf(keyword);
+    if (indexOfWordToDelete == -1) {
+      return;
+    }
+    this.tags.splice(indexOfWordToDelete, 1);
+  }
+
+
   async ngOnInit(): Promise<void> {
     // Example of getting the transactions of 'bid' in an auction
     var data = await this.nftService.getBidAuctionTransactions("4STICK-fe3198", 1);
 
     if (this.authService.isLoggedIn()) {
       var walletAddress = this.authService.currentProfileValue?.accountId;
-      let provider = new ProxyProvider(this.gatewayUrl);
+      let provider = new ProxyProvider(environment.gatewayUri);
       await NetworkConfig.getDefault().sync(provider);
 
       let address = new Address(walletAddress);
@@ -87,7 +107,7 @@ export class CreateComponent implements OnInit {
     this.formData.append('tags', JSON.stringify(this.tags));
     this.formData.append('url', JSON.stringify(this.url));
     this.formData.append('onBlockchain', JSON.stringify(this.onBlockchain));
-    
+
     this.nftService.addNftAsync(this.formData);
   }
 
