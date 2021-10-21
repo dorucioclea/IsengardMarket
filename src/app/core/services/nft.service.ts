@@ -50,7 +50,7 @@ export class NftService {
   }
 
   async getNFTsInCollectionAsync(collection: string, size: number = 50): Promise<NFT[]> {
-    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?collection=' + collection + '?size=' + size).toPromise();
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?collection=' + collection + '&size=' + size).toPromise();
   }
 
   private getSearchConditions(collection: string, nonce: number) {

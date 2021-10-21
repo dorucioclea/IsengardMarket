@@ -22,6 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
+import { CollectionPageModule } from './features/collection-page/collection-page.module';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CreateNFTComponent } from './features/create-nft/create.-nft.component'
     MatSliderModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
+    CollectionPageModule
   ],
   providers: [],
   bootstrap: [AppComponent],
