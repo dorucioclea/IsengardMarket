@@ -53,7 +53,7 @@ import { CollectionPageModule } from './features/collection-page/collection-page
     MatSliderModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
     CollectionPageModule
   ],
   providers: [],

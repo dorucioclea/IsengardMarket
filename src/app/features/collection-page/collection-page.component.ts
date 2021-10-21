@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Collection } from 'src/app/core/models/collection.model';
 import { NFT } from 'src/app/core/models/nft.model';
 import { NftService } from 'src/app/core/services/nft.service';
@@ -9,15 +10,23 @@ import { NftService } from 'src/app/core/services/nft.service';
   styleUrls: ['./collection-page.component.scss']
 })
 export class CollectionPageComponent implements OnInit {
+
   nfts: NFT[] | undefined;
   collection: Collection | undefined
+  collectionAddress: string | undefined;
 
-  constructor(private nftService: NftService) {
+  constructor(private nftService: NftService, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(params => {
+      this.collectionAddress = params['collectionAddress'];
+    });
   }
 
   async ngOnInit() {
-    this.collection = await this.nftService.getCollectionAsync("4STICK-fe3198");
-    this.nfts = await this.nftService.getNFTsInCollectionAsync("4STICK-fe3198");
+    if (this.collectionAddress) {
+      this.collection = await this.nftService.getCollectionAsync(this.collectionAddress);
+      this.nfts = await this.nftService.getNFTsInCollectionAsync(this.collectionAddress);
+    }
+
   }
 
 }

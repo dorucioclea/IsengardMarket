@@ -3,13 +3,16 @@
 
 <div class="responsive-list">
   <div *ngFor="let nft of nfts">
-    <app-nftcard [nft]="nft"></app-nftcard>
+    <div [routerLink]="['/collection', nft.collection]">
+      <app-nftcard [nft]="nft"></app-nftcard>
+    </div>
   </div>
 </div>
 
 <h2>All nft Collections</h2>
 <div class="list" *ngFor="let collection of nftCollections">
-  
-  <div>{{collection.name}}</div>
-  <div> Created at {{collection.timestamp * 1000 | date:'dd/MM/yyyy'}}</div>
+  <div [routerLink]="['/collection', collection.collection]">
+    <div>{{collection.name}}</div>
+    <div> Created at {{collection.timestamp * 1000 | date:'dd/MM/yyyy'}}</div>
+  </div>
 </div>

@@ -24,8 +24,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileEditComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: '**', component: HomeComponent }
-  { path: 'collection', component: CollectionPageComponent }
+  { path: 'collection/:collectionAddress', component: CollectionPageComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
