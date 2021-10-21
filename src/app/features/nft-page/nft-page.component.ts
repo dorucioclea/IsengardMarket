@@ -310,12 +310,13 @@ export class NFTPageComponent implements OnInit {
         if (this.state == NftState.MintedForAuction) {
           // TODO: Generate minted for auction data? 
           this.price = this.nominatePrice(parsedResponse.values[0].valueOf().auction.starting_price.toNumber());
+          this.ownerUsername = new Address(parsedResponse.values[0].valueOf().auction.nft_owner).bech32();
         }
         if (this.state == NftState.MintedForSale) {
           // TODO: Generated minted for sale data?
           this.price = this.nominatePrice(parsedResponse.values[0].valueOf().sale.price.toNumber());
+          this.ownerUsername = new Address(parsedResponse.values[0].valueOf().sale.nft_owner).bech32();
         }
-
       }
     }
   }
