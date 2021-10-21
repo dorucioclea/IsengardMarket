@@ -12,6 +12,7 @@ import { NFTCardComponent } from "./nft-card/nft-card.component";
 import { HeroNFTComponent } from './hero-nft/hero-nft.component';
 import { NameCardComponent } from './name-card/name-card.component';
 import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
+import { MatIconModule } from "@angular/material/icon";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NFTCollectionComponent } from "./nft-collection/nft-collection.componen
     ReactiveFormsModule,
     MatInputModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule
   ],
   exports: [
     NFTCardComponent,

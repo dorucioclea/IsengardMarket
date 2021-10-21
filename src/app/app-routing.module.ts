@@ -9,6 +9,7 @@ import { LoginComponent } from './shared/login/login.component';
 import { LogoutComponent } from './shared/logout/logout.component';
 import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
+import { CollectionPageComponent } from './features/collection-page/collection-page.component';
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
 
 const routes: Routes = [
@@ -23,7 +24,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileEditComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: '**', component: HomeComponent }
+  { path: 'collection/:collectionAddress', component: CollectionPageComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
