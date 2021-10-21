@@ -49,10 +49,10 @@ export class NftService {
     return this.http.get<Collection>(this.elrondApiUrl + '/collections/' + collection).toPromise();
   }
 
-  async getNFTsInCollectionAsync(collection: string, size: number = 50, from: number = 0): Promise<NFT[]> {
-    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?collection=' + collection + '?size=' + size + '&from=' + from).toPromise();
+  async getNFTsInCollectionAsync(collection: string, size: number = 50): Promise<NFT[]> {
+    return this.http.get<NFT[]>(this.elrondApiUrl + '/nfts?collection=' + collection + '&size=' + size).toPromise();
   }
-
+  
   async getUserCollectionsAsync(address: string, size: number = 50, from: number = 0): Promise<Collection[]> {
     return this.http.get<Collection[]>(this.elrondApiUrl + '/accounts/' + address + '/collections?size=' + size + '&from=' + from).toPromise();
   }
