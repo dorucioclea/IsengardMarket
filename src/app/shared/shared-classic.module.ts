@@ -14,6 +14,8 @@ import { NameCardComponent } from './name-card/name-card.component';
 import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
 import { MatIconModule } from "@angular/material/icon";
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { MatIconModule } from "@angular/material/icon";
     MatInputModule,
     MatCardModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatSelectModule
   ],
   exports: [
     NFTCardComponent,
