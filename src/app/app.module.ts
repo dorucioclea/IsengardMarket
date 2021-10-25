@@ -42,11 +42,11 @@ import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
     MaintenanceComponent,
   ],
   imports: [
-    MatSnackBarModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     SharedClassicModule,
     HttpClientModule,
     ArtistPageModule,
