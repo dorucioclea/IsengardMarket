@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Account, Address, Balance, ExtensionProvider, GasLimit, NetworkConfig, ProxyProvider, Transaction, TransactionPayload } from '@elrondnetwork/erdjs/out';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
@@ -16,27 +16,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./create.-nft.component.scss']
 })
 export class CreateNFTComponent implements OnInit {
-
   private readonly gatewayUrl = environment.gatewayUri;
-  private readonly contractAddress = environment.contractAddress;
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
   private walletAddress: string | undefined;
 
   private readonly GAS_LIMIT = 20000000;
 
-  public file: string | SafeUrl = "assets/images/add-media.png";
+  public file: string = "assets/images/add-media.png";
   public royalties: number = 1;
-  public name: string | undefined;
+  public name!: string;
   public imagePath: string = '';
-  public mediaFile: File | undefined;
-  public externalLink: string | undefined;
-  public description: string | undefined;
-  public collection: string | undefined;
+  public mediaFile!: File;
+  public externalLink!: string;
+  public description!: string;
+  public collection!: string;
   public url: string = '';
   public onBlockchain = false;
   public formData = new FormData();
-  public message: string | undefined;
+  public message!: string;
   public selectable = true;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public tagControll = new FormControl();
@@ -44,7 +42,7 @@ export class CreateNFTComponent implements OnInit {
 
   public userCollections: Collection[] = [];
 
-  private ipfs : any;
+  private ipfs: any;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -59,7 +57,7 @@ export class CreateNFTComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loadExtensionProvider();
-    
+
     // Example of getting the transactions of 'bid' in an auction
     var browsingUser = this.authService.currentProfileValue;
     if (browsingUser?.accountId != undefined) {
@@ -70,21 +68,16 @@ export class CreateNFTComponent implements OnInit {
     }
 
     //Load IPFS
-    this.ipfs = await IPFS.create({repo: 'ok' + Math.random()});
-
+    this.ipfs = await IPFS.create({ repo: 'ok' + Math.random() });
 
     if (this.authService.isLoggedIn()) {
-      var walletAddress = this.authService.currentProfileValue?.accountId;
-      this.walletAddress = walletAddress;
+      this.walletAddress = this.authService.currentProfileValue?.accountId;
       let provider = new ProxyProvider(environment.gatewayUri);
       await NetworkConfig.getDefault().sync(provider);
 
-      let address = new Address(walletAddress);
+      let address = new Address(this.walletAddress);
       let user = new Account(address);
       await user.sync(provider);
-
-      // Create transaction
-      // Sign and send. :) Waiting for Elrond  Developers
     }
   }
 
@@ -165,31 +158,8 @@ export class CreateNFTComponent implements OnInit {
   private async createNftAndBroadcast() {
     try {
       if (this.mediaFile != undefined && this.description != undefined) {
-
-        // console.log("IPFS1");
-
-        // let id = await this.IPFSService.getId();
-        // console.log(id);
-    
-        // let version = await this.IPFSService.getVersion();
-        // console.log(version);
-    
-        // let status = await this.IPFSService.getStatus();
-        // let computed = status ? 'Online' : 'Offline'
-        // console.log(computed);
-        
-        // let fileCid = await this.IPFSService.addFile(this.mediaFile);
-        // console.log(fileCid.toJSON());
-        // console.log(fileCid.toString());
-        // console.log(fileCid.toV1());
-        // console.log(fileCid.toV1().toString());
-
-        console.log("Saving media to IPFS...");
         var ipfsMediaStorageUrl = await this.saveMediaToIPFS(this.mediaFile);
-        console.log("Media Saved");
-        console.log("Saving json Data to IPFS...");
         var ipfsMetadataStorageIdentifier = await this.saveJsonToIPFS(this.description, this.mediaFile, ipfsMediaStorageUrl);
-        console.log("Data saved")
         let user = await this.syncUser();
 
         let nftCreateMessage = this.generateCreateNftMessage(ipfsMediaStorageUrl, ipfsMetadataStorageIdentifier);
@@ -198,7 +168,6 @@ export class CreateNFTComponent implements OnInit {
 
         let signedTransaction = await this.extProvider.signTransaction(tx);
         await signedTransaction.send(this.provider);
-        console.log("Executing transaction...");
         await signedTransaction.awaitExecuted(this.provider);
 
         alert('Transaction executed :)');
@@ -262,7 +231,7 @@ export class CreateNFTComponent implements OnInit {
     this.mediaFile = ev.target.files[0];
     this.file = this.sanitizer.bypassSecurityTrustUrl(
       window.URL.createObjectURL(ev.target.files[0])
-    );
+    ) as string;
   }
 
   // HELPERS:
