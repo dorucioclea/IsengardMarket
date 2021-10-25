@@ -8,6 +8,10 @@ import { environment } from 'src/environments/environment';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Collection } from 'src/app/core/models/collection.model';
+
+import { packToBlob } from 'ipfs-car/pack/blob'
+import { NFTStorage, File } from 'nft.storage'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-nft',
   templateUrl: './create.-nft.component.html',
@@ -15,12 +19,12 @@ import { Collection } from 'src/app/core/models/collection.model';
 })
 export class CreateNFTComponent implements OnInit {
 
-  private gatewayUrl = environment.gatewayUri;
-  private contractAddress = environment.contractAddress;
+  private readonly gatewayUrl = environment.gatewayUri;
+  private readonly contractAddress = environment.contractAddress;
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
   private walletAddress: string | undefined;
-  
+  private readonly nftStorageApiKey = environment.nftStorageApiKey;
 
   private readonly GAS_LIMIT = 20000000;
 
@@ -28,7 +32,7 @@ export class CreateNFTComponent implements OnInit {
   public royalties: number = 1;
   public name: string | undefined;
   public imagePath: string = '';
-  public mediaFile: any;
+  public mediaFile: File | undefined;
   public externalLink: string | undefined;
   public description: string | undefined;
   public collection: string | undefined;
@@ -43,17 +47,21 @@ export class CreateNFTComponent implements OnInit {
 
   public userCollections: Collection[] = [];
 
+  private ipfsClient: NFTStorage;
+
   constructor(
     private sanitizer: DomSanitizer,
     private authService: AuthService,
-    private nftService: NftService
+    private nftService: NftService,
+    private router: Router
   ) {
     this.extProvider = ExtensionProvider.getInstance();
     this.provider = new ProxyProvider(this.gatewayUrl);
+
+    this.ipfsClient = new NFTStorage({ token: this.nftStorageApiKey });
   }
 
   async ngOnInit(): Promise<void> {
-
     this.loadExtensionProvider();
 
     // Example of getting the transactions of 'bid' in an auction
@@ -156,40 +164,69 @@ export class CreateNFTComponent implements OnInit {
   }
 
   private async createNftAndBroadcast() {
+    try {
+      if (this.mediaFile != undefined && this.description != undefined) {
+        console.log("Saving media to IPFS...");
+        var ipfsMediaStorageUrl = await this.saveMediaToIPFS(this.mediaFile);
+        console.log("Media Saved");
+        console.log("Saving json Data to IPFS...");
+        var ipfsMetadataStorageIdentifier = await this.saveJsonToIPFS(this.description, this.mediaFile, ipfsMediaStorageUrl);
+        console.log("Data saved")
+        let user = await this.syncUser();
+        let nftCreateMessage = this.generateCreateNftMessage(ipfsMediaStorageUrl, ipfsMetadataStorageIdentifier);
+        let tx = this.generateNewTransaction(nftCreateMessage, this.GAS_LIMIT, 0, this.walletAddress!);
+        tx.setNonce(user.nonce);
 
-    let user = await this.syncUser();
-    //Upload image to ipfs then broadcast message.
-    
-    let nftCreateMessage = this.generateCreateNftMessage();
-    let value = 0;
-    let tx = this.generateNewTransaction(nftCreateMessage, this.GAS_LIMIT, value, this.walletAddress!);
-    tx.setNonce(user.nonce);
+        let signedTransaction = await this.extProvider.signTransaction(tx);
+        await signedTransaction.send(this.provider);
+        console.log("Executing transaction...");
+        await signedTransaction.awaitExecuted(this.provider);
 
-    let signedTransaction = await this.extProvider.signTransaction(tx);
-    await signedTransaction.send(this.provider);
-    await signedTransaction.awaitExecuted(this.provider);
-    alert('Transaction executed');
+        alert('Transaction executed :)');
+
+        // let watcher = new TransactionWatcher(tx3.hash, provider);
+        // await watcher.awaitStatus(status => status.isExecuted());
+
+        this.router.navigate(['/nft', this.collection])
+      }
+    } catch (ex) {
+      alert("Something went wrong, please try again.")
+      console.error(ex);
+    }
   }
 
-  private generateCreateNftMessage() {
+  private async saveMediaToIPFS(mediaFile: File): Promise<string> {
+    const url = await this.ipfsClient.storeBlob(mediaFile);
 
+    return 'https://ipfs.io/ipfs/' + url;
+  }
+
+  private async saveJsonToIPFS(description: string, file: File, fileUri: string): Promise<string> {
+    let data = {
+      description,
+      fileType: file.type,
+      fileName: file.name,
+      fileUri
+    };
+
+    let blobData = new Blob([JSON.stringify(data)])
+    const identifier = await this.ipfsClient.storeBlob(blobData);
+
+    return identifier;
+  }
+
+  private generateCreateNftMessage(url: string, metadataUrl: string) {
     let collectionHex = this.ascii_to_hex(this.collection!); // Collection in hex
     let nameHex = this.ascii_to_hex(this.name!);
-    let royaltiesHex = this.royalties.toString(16);
+    let royaltiesHex = this.ascii_to_hex_number(this.royalties);
     let hash = this.ascii_to_hex("Hash");
-    // let nonceHex = nonce.toString(16); // Nonce in hex number
-    // if (nonceHex.length == 1) {
-    //   nonceHex = "0" + nonceHex;
-    // }
-    let attributes=`tags: ${this.tags.join()};metadata:metadataHashNothingHereYet`
+
+    let attributes = `tags:${this.tags.join()};externalLink:${this.externalLink};metadata:${metadataUrl}`;
     let attributesHex = this.ascii_to_hex(attributes);
     console.log(this.externalLink);
-    let linkHex = this.ascii_to_hex(this.externalLink!);
+    let urlHex = this.ascii_to_hex(url);
 
-    //TODO: Use IPFS to upload picture, take url and use it instead of linkHex :). Add waht is currently in linkHex to attributes.
-    // let bidMessage = `bid@${collectionHex}@${nonceHex}`;
-    let createMessage = `ESDTNFTCreate@${collectionHex}@01@${nameHex}@${royaltiesHex}@${hash}@${attributesHex}@${linkHex}`;
-
+    let createMessage = `ESDTNFTCreate@${collectionHex}@01@${nameHex}@${royaltiesHex}@${hash}@${attributesHex}@${urlHex}`;
     return createMessage;
   }
 
@@ -217,5 +254,15 @@ export class CreateNFTComponent implements OnInit {
       arr1.push(hex);
     }
     return arr1.join('');
+  }
+
+  private ascii_to_hex_number(price: number): string { // bag pl in masa.
+
+    let value = price.toString(16);
+    if (value.length % 2 == 1) {
+      value = "0" + value;
+    }
+
+    return value;
   }
 }
