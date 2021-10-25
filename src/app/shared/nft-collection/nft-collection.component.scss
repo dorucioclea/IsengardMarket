@@ -4,6 +4,9 @@
   border-radius: 20px;
   position: relative;
   cursor: pointer;
+  width: 300px;
+  height: 450px;
+
   .collection-drop {
     top: 25px;
     background-color: white;
@@ -14,6 +17,7 @@
     height: 18px;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     span {
       font-size: 12px;
       font-weight: 500;
