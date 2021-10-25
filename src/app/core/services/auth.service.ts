@@ -3,13 +3,15 @@ import { BehaviorSubject } from 'rxjs';
 import { Profile } from '../models/profile';
 import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
+import { environment } from '@isengard/env/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private currentProfileSubject: BehaviorSubject<Profile | undefined> | undefined;
-
+  private maintenanceMode = environment.maintenance;
+  
   constructor(private profileService: ProfileService, private router: Router) {
     var storageData = localStorage.getItem('profile');
     if (storageData != null) {
@@ -17,6 +19,10 @@ export class AuthService {
     } else {
       this.currentProfileSubject = undefined;
     }
+  }
+
+  inMaintenance() {
+    return this.maintenanceMode;
   }
 
   public async login(walletId: string, signatureHex: string) {
@@ -54,7 +60,7 @@ export class AuthService {
       return undefined;
   }
 
-  public updateProfile(profile: Profile){
+  public updateProfile(profile: Profile) {
     if (this.currentProfileSubject != undefined) {
       this.currentProfileSubject.next(profile);
       localStorage.setItem('profile', JSON.stringify(profile));

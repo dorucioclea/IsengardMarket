@@ -13,7 +13,7 @@
     <p>Name*</p>
     <p class="description-text">See if this can be done with spaces. Elrond wallet only allows TextLikeThis not Text
       Like This)</p>
-    <input type="text" [(ngModel)]="name" name="name" placeholder="Name of your NFT">
+    <input type="text" [(ngModel)]="name" name="name" maxlength="62" placeholder="Name of your NFT">
 
     <p>External Link</p>
     <p class="description-text">We wil include a link to this url on the NFT page so the users can navigate and find out
@@ -94,3 +94,5 @@
         ]
       </textarea> -->
 </div>
+
+<app-info-footer></app-info-footer>

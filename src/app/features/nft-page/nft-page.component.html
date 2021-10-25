@@ -3,14 +3,30 @@
 
 <div class="cover">
   <div class="nft-container">
-    <img src="{{nft?.url}}">
+    <img *ngIf="nft?.metadata?.fileType == 'image/jpeg' " src="{{nft?.url}}">
+
+    <audio controls
+      *ngIf="nft?.metadata?.fileType == 'audio/mpeg' || nft?.metadata?.fileType == 'audio/ogg' || nft?.metadata?.fileType == 'audio/mp3'">
+      <source src="{{nft?.url}}" type="audio/ogg">
+      <source src="{{nft?.url}}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <video controls
+      *ngIf="nft?.metadata?.fileType == 'video/mp4' || nft?.metadata?.fileType == 'video/ogg' || nft?.metadata?.fileType == 'video/wmw'"
+      autoplay>
+      <source src="{{nft?.url}}" type="video/mp4">
+      <source src="{{nft?.url}}" type="video/ogg">
+      <source src="{{nft?.url}}" type="video/wmw">
+      Your browser does not support the video tag.
+    </video>
   </div>
   <div class="container middle-line">
 
     <div class="username-container">
       <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-      <h3 [routerLink]="['/artist', ownerUsername!]" routerLinkActive="router-link-active" style="word-wrap: break-word;"
-        matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
+      <h3 [routerLink]="['/artist', ownerUsername!]" routerLinkActive="router-link-active"
+        style="word-wrap: break-word;" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Owner">
         @{{ownerUsername}}
       </h3>
     </div>
@@ -66,16 +82,17 @@
     <h2>Description:</h2>
     <p class="description">{{nft?.metadata?.description}}</p>
     <h2>Collection:</h2>
-    <div class="collection-container">
-      <div class="collection-image-container">
-        <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+    <a [routerLink]="['/collection', collection?.ticker ]" routerLinkActive="router-link-active">
+      <div class="collection-container">
+        <div class="collection-image-container">
+          <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
+        </div>
+        <div class="collection-data-container">
+          <p class="collection-name">{{collection?.name}}</p>
+          <p class="collection-ticker">{{collection?.ticker}}</p>
+        </div>
       </div>
-      <div class="collection-data-container">
-        <p class="collection-name">{{collection?.name}}</p>
-        <p class="collection-ticker">{{collection?.ticker}}</p>
-      </div>
-
-    </div>
+    </a>
 
     <h2>Tags:</h2>
 
@@ -195,9 +212,8 @@
           </svg>
         </a>
       </div>
-
-
     </div>
   </div>
-
 </div>
+
+<app-info-footer></app-info-footer>

@@ -1,19 +1,22 @@
 <app-search-navbar></app-search-navbar>
 
 <h4>{{activeSales}} items on sale or for auction</h4>
-Please be aware that Sales and Auctions have different types of Nft Cards :) because they contain different data and actions
+Please be aware that Sales and Auctions have different types of Nft Cards :) because they contain different data and
+actions
 
 
 <h2>Auctions</h2>
 <div class="responsive-list">
-    <div *ngFor="let nft of auctions">
-      <app-nftcard [nft]="nft"></app-nftcard>
-    </div>
+  <div *ngFor="let nft of auctions">
+    <app-nftcard [nft]="nft"></app-nftcard>
   </div>
+</div>
 
 <h2>Sales</h2>
 <div class="responsive-list">
-    <div *ngFor="let nft of sales">
-      <app-nftcard [nft]="nft"></app-nftcard>
-    </div>
+  <div *ngFor="let nft of sales">
+    <app-nftcard [nft]="nft"></app-nftcard>
   </div>
+</div>
+
+<app-info-footer></app-info-footer>

@@ -11,20 +11,23 @@ import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
 import { CollectionPageComponent } from './features/collection-page/collection-page.component';
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
+import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
+import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', component: HomeComponent },
-  { path: 'activity', component: ActivityPageComponent },
-  { path: 'nft/create', component: CreateNFTComponent },
-  { path: 'nft/:nftAddress', component: NFTPageComponent },
-  { path: 'artist/:artistAddress', component: ArtistPageComponent },
-  { path: 'about', component: AboutPageComponent },
-  { path: 'marketplace', component: MarketComponent },
-  { path: 'profile', component: ProfileEditComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: 'collection/:collectionAddress', component: CollectionPageComponent }
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'activity', component: ActivityPageComponent, canActivate: [AuthGuardMaintenance]},
+  { path: 'nft/create', component: CreateNFTComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'nft/:nftAddress', component: NFTPageComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'artist/:artistAddress', component: ArtistPageComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'about', component: AboutPageComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'marketplace', component: MarketComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'profile', component: ProfileEditComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'collection/:collectionAddress', component: CollectionPageComponent, canActivate: [AuthGuardMaintenance] },
+  { path: 'landing', component: MaintenanceComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

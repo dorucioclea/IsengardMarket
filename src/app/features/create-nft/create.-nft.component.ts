@@ -8,9 +8,7 @@ import { environment } from 'src/environments/environment';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Collection } from 'src/app/core/models/collection.model';
-
-import { packToBlob } from 'ipfs-car/pack/blob'
-import { NFTStorage, File } from 'nft.storage'
+import * as IPFS from 'ipfs-core'
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-nft',
@@ -24,7 +22,6 @@ export class CreateNFTComponent implements OnInit {
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
   private walletAddress: string | undefined;
-  private readonly nftStorageApiKey = environment.nftStorageApiKey;
 
   private readonly GAS_LIMIT = 20000000;
 
@@ -47,7 +44,7 @@ export class CreateNFTComponent implements OnInit {
 
   public userCollections: Collection[] = [];
 
-  private ipfsClient: NFTStorage;
+  private ipfs : any;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -55,15 +52,14 @@ export class CreateNFTComponent implements OnInit {
     private nftService: NftService,
     private router: Router
   ) {
+
     this.extProvider = ExtensionProvider.getInstance();
     this.provider = new ProxyProvider(this.gatewayUrl);
-
-    this.ipfsClient = new NFTStorage({ token: this.nftStorageApiKey });
   }
 
   async ngOnInit(): Promise<void> {
     this.loadExtensionProvider();
-
+    
     // Example of getting the transactions of 'bid' in an auction
     var browsingUser = this.authService.currentProfileValue;
     if (browsingUser?.accountId != undefined) {
@@ -72,6 +68,9 @@ export class CreateNFTComponent implements OnInit {
       // like pictures, links, etc
       this.userCollections = await this.nftService.getUserCollectionsAsync(browsingUser?.accountId);
     }
+
+    //Load IPFS
+    this.ipfs = await IPFS.create({repo: 'ok' + Math.random()});
 
 
     if (this.authService.isLoggedIn()) {
@@ -166,6 +165,25 @@ export class CreateNFTComponent implements OnInit {
   private async createNftAndBroadcast() {
     try {
       if (this.mediaFile != undefined && this.description != undefined) {
+
+        // console.log("IPFS1");
+
+        // let id = await this.IPFSService.getId();
+        // console.log(id);
+    
+        // let version = await this.IPFSService.getVersion();
+        // console.log(version);
+    
+        // let status = await this.IPFSService.getStatus();
+        // let computed = status ? 'Online' : 'Offline'
+        // console.log(computed);
+        
+        // let fileCid = await this.IPFSService.addFile(this.mediaFile);
+        // console.log(fileCid.toJSON());
+        // console.log(fileCid.toString());
+        // console.log(fileCid.toV1());
+        // console.log(fileCid.toV1().toString());
+
         console.log("Saving media to IPFS...");
         var ipfsMediaStorageUrl = await this.saveMediaToIPFS(this.mediaFile);
         console.log("Media Saved");
@@ -173,6 +191,7 @@ export class CreateNFTComponent implements OnInit {
         var ipfsMetadataStorageIdentifier = await this.saveJsonToIPFS(this.description, this.mediaFile, ipfsMediaStorageUrl);
         console.log("Data saved")
         let user = await this.syncUser();
+
         let nftCreateMessage = this.generateCreateNftMessage(ipfsMediaStorageUrl, ipfsMetadataStorageIdentifier);
         let tx = this.generateNewTransaction(nftCreateMessage, this.GAS_LIMIT, 0, this.walletAddress!);
         tx.setNonce(user.nonce);
@@ -196,9 +215,10 @@ export class CreateNFTComponent implements OnInit {
   }
 
   private async saveMediaToIPFS(mediaFile: File): Promise<string> {
-    const url = await this.ipfsClient.storeBlob(mediaFile);
+    var mediaBlob = new Blob([mediaFile])
+    const { cid } = await this.ipfs.add(mediaBlob);
 
-    return 'https://ipfs.io/ipfs/' + url;
+    return 'https://ipfs.io/ipfs/' + cid;
   }
 
   private async saveJsonToIPFS(description: string, file: File, fileUri: string): Promise<string> {
@@ -210,9 +230,8 @@ export class CreateNFTComponent implements OnInit {
     };
 
     let blobData = new Blob([JSON.stringify(data)])
-    const identifier = await this.ipfsClient.storeBlob(blobData);
-
-    return identifier;
+    const { cid } = await this.ipfs.add(blobData);
+    return cid.toString();
   }
 
   private generateCreateNftMessage(url: string, metadataUrl: string) {

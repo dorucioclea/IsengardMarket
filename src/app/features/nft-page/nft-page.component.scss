@@ -20,6 +20,20 @@
       max-height: 80%;
       max-width : 100%;
     }
+
+    video{
+      justify-content : center;
+      align-items     : center;
+      max-height: 80%;
+      max-width : 100%;
+    }
+
+    audio{
+      justify-content : center;
+      align-items     : center;
+      max-height: 80%;
+      max-width : 100%;
+    }
   }
 }
 
@@ -170,6 +184,11 @@ h2 {
 
   .user-profile-container {
     width: 100%;
+
+    a{
+      text-decoration: none;
+      color:#1f1f1f;
+    }
 
     .tags-list {
       list-style-type: none;
