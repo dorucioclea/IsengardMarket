@@ -4,12 +4,14 @@
 
 export const environment = {
   production: false,
+  maintenance: false,
   marketUrl: 'http://localhost:4200',
   backendUri: 'https://isengardappapidev.azurewebsites.net',
   elrondApiUri:'https://devnet-api.elrond.com',
   contractAddress: 'erd1qqqqqqqqqqqqqpgqrzp86rsuugkhcr7ftdeeksupe9frjhlelwfqmunyzf',
-  gatewayUri:'https://devnet-gateway.elrond.com'
+  gatewayUri:'https://devnet-gateway.elrond.com',
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

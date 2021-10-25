@@ -23,6 +23,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
 import { CollectionPageModule } from './features/collection-page/collection-page.module';
+import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
+import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { CollectionPageModule } from './features/collection-page/collection-page
     CreateNFTComponent,
     MarketComponent,
     ProfileEditComponent,
+    MaintenanceComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,7 @@ import { CollectionPageModule } from './features/collection-page/collection-page
     MatIconModule,
     CollectionPageModule
   ],
-  providers: [],
+  providers: [AuthGuardMaintenance],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

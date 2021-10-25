@@ -26,6 +26,8 @@
     "crypto-browserify": "^3.12.0",
     "fs-web": "^1.0.1",
     "https-browserify": "^1.0.0",
+    "ipfs-car": "^0.5.9",
+    "ipfs-core": "^0.11.1",
     "moment": "^2.29.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",

@@ -7,19 +7,7 @@
     object-fit: cover;
     background-position: 50% 50%;
     margin-bottom: 60px;
-  }
-
-  .profile-photo {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 8px solid white;
-    margin: 20px 20px;
-    background-image: url("../../../../assets/nft_cover.jpg");
+    max-height:500px;
     background-size: cover;
-    background-position: 50% 50%;
-    z-index: 100;
-    position: absolute;
-    bottom: -50px;
   }
 }
