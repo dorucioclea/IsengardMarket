@@ -39,11 +39,11 @@ import { CollectionPageModule } from './features/collection-page/collection-page
     ProfileEditComponent,
   ],
   imports: [
-    MatSnackBarModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     SharedClassicModule,
     HttpClientModule,
     ArtistPageModule,

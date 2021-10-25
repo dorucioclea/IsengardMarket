@@ -1,5 +1,8 @@
-<div class="main-container" [ngClass]="{'navbar-black': initalStyle == 'black', 'navbar-white': initalStyle == 'white'}"
-  (scroll)="onWindowScroll();">
+<div class="main-container" [ngClass]="{
+    'navbar-black': initalStyle == 'black',
+    'navbar-white': initalStyle == 'white',
+    'box-shadow-main-container': navbarOpened
+  }" (scroll)="onWindowScroll();">
   <div class="logo">
     <span [routerLink]="['/home']">ISENGARD</span>
   </div>
@@ -50,13 +53,16 @@
     </div>
   </div>
 
-  <div class="my-button">
-    <button mat-raised-button (click)="snav.toggle()">Toggle drawer</button>
+  <div class="menu-button">
+    <button mat-icon-button (click)="toggleNavbar()">
+      <mat-icon>menu_open</mat-icon>
+    </button>
   </div>
+
 </div>
 
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #snav [mode]="'over'" [fixedInViewport]="true">
+  <mat-sidenav #snav [mode]="'over'" [fixedInViewport]="true" [opened]="navbarOpened">
     <div class="menu-list-sidenav">
       <div class="list-item">
         <div [routerLink]="['/marketplace']">
@@ -97,21 +103,3 @@
   </mat-sidenav>
 
 </mat-sidenav-container>
-
-
-<!-- <mat-form-field appearance="fill">
-  <mat-label>Sidenav mode</mat-label>
-  <mat-select #mode value="side">
-    <mat-option value="side">Side</mat-option>
-    <mat-option value="over">Over</mat-option>
-    <mat-option value="push">Push</mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Has backdrop</mat-label>
-  <mat-select #hasBackdrop>
-    <mat-option>Unset</mat-option>
-    <mat-option [value]="true">True</mat-option>
-    <mat-option [value]="false">False</mat-option>
-  </mat-select>
-</mat-form-field> -->

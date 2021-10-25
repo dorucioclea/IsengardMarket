@@ -5,27 +5,30 @@
 
 // Copy the palettes from your selected theme (usually theme.scss).
 $app-primary: mat-palette($mat-grey);
-$app-accent : mat-palette($mat-light-blue);
-$app-warn   : mat-palette($mat-pink);
+$app-accent: mat-palette($mat-light-blue);
+$app-warn: mat-palette($mat-pink);
 
 // Create your Sass color vars (will be available in all the project)
 $primary: mat-color($app-primary);
-$accent : mat-color($app-accent);
-$warn   : mat-color($app-warn);
+$accent: mat-color($app-accent);
+$warn: mat-color($app-warn);
 
 html,
 body {
-  height          : 100%;
+  position: relative;
+  height: 100%;
   background-color: #fdfdfd;
 }
 
 body {
   margin: 0;
+  position: relative;
   font-family: "Poppins", sans-serif;
 }
 
 html,
 body {
+  position: relative;
   height: max-content;
 }
 
@@ -40,19 +43,19 @@ body {
 
 .tooltip {
   background-color: #2e2e2e;
-  font-size       : 12px;
-  font-family     : Poppins;
-  font-weight     : 300;
-  border-radius   : 20px;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: 300;
+  border-radius: 20px;
 }
 
 .grey-heart {
-  color : rgb(170, 170, 170);
-  cursor: pointer
+  color: rgb(170, 170, 170);
+  cursor: pointer;
 }
 
 .blue-snackbar {
-  background: #2196F3;
+  background: #2196f3;
 }
 
 .red-snackbar {
@@ -61,12 +64,12 @@ body {
 
 /* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
 .grey-heart svg {
-  fill  : rgb(170, 170, 170);
-  cursor: pointer
+  fill: rgb(170, 170, 170);
+  cursor: pointer;
 }
 
 mat-icon.grey-heart:hover {
-  color     : rgb(170, 170, 170);
+  color: rgb(170, 170, 170);
   transition: 0.3s;
 }
 
@@ -81,6 +84,6 @@ mat-icon.grey-share:hover {
 }
 
 mat-icon.grey-heart:hover {
-  color     : red;
+  color: red;
   transition: 0.3s;
 }

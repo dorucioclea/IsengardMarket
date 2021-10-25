@@ -22,6 +22,7 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
       element.classList.remove('navbar-scrolled');
     }
   }
+  navbarOpened: boolean = false;
   public currentProfile: Profile | undefined;
   public isLoggedIn: boolean;
   destroyed = new Subject<void>();
@@ -50,6 +51,9 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
         if (result.breakpoints[query]) {
           this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
           console.log(this.currentScreenSize);
+          if (this.currentScreenSize === 'Medium') {
+            this.navbarOpened = false;
+          }
         }
       }
     });
@@ -57,6 +61,11 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   }
+
+  toggleNavbar(): void {
+    this.navbarOpened = !this.navbarOpened;
+  }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();
