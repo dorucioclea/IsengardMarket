@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "isengard-20253"
-  }
+    "default": "isengard-20253",
+    "dev": "isengard-dev-7a4c2",
+    "prod": "isengard-20253"
+  },
+  "targets": {}
 }
