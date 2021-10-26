@@ -36,21 +36,22 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="New tag..." [matChipInputFor]="chipList"
-          (matChipInputTokenEnd)="addTagFromInput($event)">
+        <input placeholder="New tag..." [matChipInputFor]="chipList" (matChipInputTokenEnd)="addTagFromInput($event)">
       </mat-chip-list>
     </mat-form-field>
 
     <p>Royalties</p>
-    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.</p>
-    <input type="number" disabled min="1" max="10000" name="royalties" [(ngModel)]="royalties">
+    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.
+    </p>
+    <input type="number" min="1" max="10000" name="royalties" [(ngModel)]="royalties">
     <mat-slider class="royalties-slider" [max]="10000" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="25"
       [(ngModel)]="royalties">
     </mat-slider>
     <p>Select a Collection</p>
     <p class="description-text">The collection which this NFT will be part of.</p>
     <select type="select" [(ngModel)]="collection" name="collection">
-      <option *ngFor="let col of userCollections"  name="collection" value="{{col.collection}}" > {{col.name}}</option>
+      <option *ngFor="let col of userCollections" name="collection" value="{{col.collection}}"> {{col.name}}
+        ({{col.collection}})</option>
       <option name="new" value="new">Create new</option>
     </select>
 
@@ -61,50 +62,27 @@
 
       <p>Collection Ticker*</p>
       <p class="description-text">An identifier for your collection between 3 and 10 alphanumeric characters.</p>
-      <input type="text" [(ngModel)]="collectionTicker" name="name" minlength="3" maxlength="10" placeholder="Ticker of your Collection">
-  
+      <input type="text" [(ngModel)]="collectionTicker" name="name" minlength="3" maxlength="10"
+        placeholder="Ticker of your Collection">
+
     </div>
 
-    <input type="checkbox" name="onBlockchain" [(ngModel)]="onBlockchain"> Mint the nft now <span *ngIf="collection == 'new'">( this will also create a collection and give you the Creator Role )</span>. This involves
+    <input type="checkbox" name="onBlockchain" [(ngModel)]="onBlockchain"> Mint the nft now <span
+      *ngIf="collection == 'new'">( this will also create a collection and give you the Creator Role )</span>. This
+    involves
     transaction fees. Isengard does not take any fee for this.)
-    <!-- <p>
-      // Create and send transaction ?!?! or just create one locally.
+    <!-- 
+      // TODO: Create and send transaction ?!?! or just create one locally.
       Tests to do:
       Create an NFT with a wallet and buy it with another wallet.
       Make sure this is created on the network and that the appropriate fees are taken by the market.
-    </p> -->
-
+     -->
 
     <div class="isengard-button submit-button">
       <button (click)="addNFT()">SUBMIT</button>
     </div>
-    
+
   </div>
-
-
-
-  <!-- <textarea rows="30" cols="150">
-        "identifier": "ASDASDAS-12bd8a-01",
-        "collection": "ASDASDAS-12bd8a",
-        "timestamp": 1633725510,
-        "attributes": "dGFnczp0YWcxLHRhZzIsdGFnMyx0YWc0O21ldGFkYXRhOlFtZjFrV2NkMkFtSnNnUk56OW1yZ1Zxa2JjckZ2eDR3QndOUlcybk1RYXdkRmQ=",
-        "nonce": 1,
-        "type": "NonFungibleESDT",
-        "name": "TestNFTWhyNoSpace",
-        "creator": "erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28",
-        "royalties": 5,
-        "uris": [
-          "aHR0cHM6Ly9pcGZzLmlvL2lwZnMvUW1jeHJWcnNtOE00blFqUGFKNUdUTkZvcGpRRUdmc0tIUWJxb3VQcW1EVm1Zbg=="
-        ],
-        "url": "https://devnet-media.elrond.com/nfts/asset/QmcxrVrsm8M4nQjPaJ5GTNFopjQEGfsKHQbqouPqmDVmYn",
-        "thumbnailUrl": "https://devnet-media.elrond.com/nfts/thumbnail/ASDASDAS-12bd8a-01",
-        "tags": [
-          "tag1",
-          "tag2",
-          "tag3",
-          "tag4"
-        ]
-      </textarea> -->
 </div>
 
 <app-info-footer></app-info-footer>
