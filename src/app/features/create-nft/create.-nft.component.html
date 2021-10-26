@@ -11,8 +11,7 @@
 
   <div class="inputs-container">
     <p>Name*</p>
-    <p class="description-text">See if this can be done with spaces. Elrond wallet only allows TextLikeThis not Text
-      Like This)</p>
+    <p class="description-text">The name of your NFT.</p>
     <input type="text" [(ngModel)]="name" name="name" maxlength="62" placeholder="Name of your NFT">
 
     <p>External Link</p>
@@ -24,7 +23,7 @@
     <p class="description-text">The description will be seen in the item page.</p>
     <input type="text" [(ngModel)]="description" name="description" placeholder="description">
 
-    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> NSFW Media
+    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="nsfw"> NSFW Media
 
     <p>Tags</p>
     <p class="description-text">A list of tags</p>
@@ -43,20 +42,30 @@
     </mat-form-field>
 
     <p>Royalties</p>
-    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.
-    </p>
+    <p class="description-text">Percentage you get everytime this token is going to be traded. At least 1 is mandatory.</p>
     <input type="number" disabled min="1" max="10000" name="royalties" [(ngModel)]="royalties">
     <mat-slider class="royalties-slider" [max]="10000" [min]="1" [step]="1" [thumbLabel]="true" [tickInterval]="25"
       [(ngModel)]="royalties">
     </mat-slider>
-    <p>Collection</p>
+    <p>Select a Collection</p>
+    <p class="description-text">The collection which this NFT will be part of.</p>
     <select type="select" [(ngModel)]="collection" name="collection">
       <option *ngFor="let col of userCollections"  name="collection" value="{{col.collection}}" > {{col.name}}</option>
       <option name="new" value="new">Create new</option>
     </select>
 
+    <div *ngIf="collection == 'new'">
+      <p>Collection Name*</p>
+      <p class="description-text">The name of the collection in which this NFT will be.</p>
+      <input type="text" [(ngModel)]="collectionName" name="name" maxlength="62" placeholder="Name of your Collection">
 
-    <input type="checkbox" name="onBlockchain" value="true" [(ngModel)]="onBlockchain"> Mint the nft now (this involves
+      <p>Collection Ticker*</p>
+      <p class="description-text">An identifier for your collection between 3 and 10 alphanumeric characters.</p>
+      <input type="text" [(ngModel)]="collectionTicker" name="name" minlength="3" maxlength="10" placeholder="Ticker of your Collection">
+  
+    </div>
+
+    <input type="checkbox" name="onBlockchain" [(ngModel)]="onBlockchain"> Mint the nft now <span *ngIf="collection == 'new'">( this will also create a collection and give you the Creator Role )</span>. This involves
     transaction fees. Isengard does not take any fee for this.)
     <!-- <p>
       // Create and send transaction ?!?! or just create one locally.
@@ -64,9 +73,12 @@
       Create an NFT with a wallet and buy it with another wallet.
       Make sure this is created on the network and that the appropriate fees are taken by the market.
     </p> -->
+
+
     <div class="isengard-button submit-button">
       <button (click)="addNFT()">SUBMIT</button>
     </div>
+    
   </div>
 
 

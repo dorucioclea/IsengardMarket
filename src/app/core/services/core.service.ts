@@ -17,14 +17,19 @@ export class CoreService {
   constructor(private http: HttpClient) { }
 
   public getAllCollections(): Observable<NFTCollection[]> {
-    return this.http.get<NFTCollection[]>(this.elrondUrl+'/collections');
+    return this.http.get<NFTCollection[]>(this.elrondUrl + '/collections');
   }
 
   public getAllNFTS(): Observable<NFT[]> {
-    return this.http.get<NFT[]>(this.elrondUrl+'/nfts?type=NonFungibleESDT')
+    return this.http.get<NFT[]>(this.elrondUrl + '/nfts?type=NonFungibleESDT')
   }
-  
+
   async getEconomics(): Promise<Economics> {
     return this.http.get<Economics>(this.elrondUrl + '/economics').toPromise();
+  }
+
+  async addSubscriberEmailAsync(subscriber: string): Promise<void> {
+    console.log(subscriber);
+    return this.http.post<void>(this.elrondUrl + '/subscribe', {subscriber}).toPromise();
   }
 }
