@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  maintenance: true,
+  maintenance: false,
   marketUrl: 'http://localhost:4200',
   backendUri: 'https://isengardappapidev.azurewebsites.net',
   elrondApiUri:'https://devnet-api.elrond.com',
