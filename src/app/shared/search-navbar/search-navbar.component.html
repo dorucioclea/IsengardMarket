@@ -61,7 +61,7 @@
 
 </div>
 
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" [ngClass]="{'full-width': navbarOpened}">
   <mat-sidenav #snav [mode]="'over'" [fixedInViewport]="true" [opened]="navbarOpened">
     <div class="menu-list-sidenav">
       <div class="list-item">
