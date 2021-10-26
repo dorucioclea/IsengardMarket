@@ -21,7 +21,7 @@ export class AuthService {
     }
   }
 
-  inMaintenance() {
+  public inMaintenance() {
     return this.maintenanceMode;
   }
 

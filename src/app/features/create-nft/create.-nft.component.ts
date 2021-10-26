@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Account, Address, Balance, ExtensionProvider, GasLimit, NetworkConfig, ProxyProvider, Transaction, TransactionPayload } from '@elrondnetwork/erdjs/out';
+import { Account, Address, Balance, ExtensionProvider, GasLimit, NetworkConfig, ProxyProvider, Transaction, TransactionHash, TransactionPayload } from '@elrondnetwork/erdjs/out';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { environment } from 'src/environments/environment';
@@ -10,6 +10,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Collection } from 'src/app/core/models/collection.model';
 import * as IPFS from 'ipfs-core'
 import { Router } from '@angular/router';
+
+import { TransactionWatcher } from "../../../../node_modules/@elrondnetwork/erdjs/out/transactionWatcher";
 @Component({
   selector: 'app-create-nft',
   templateUrl: './create.-nft.component.html',
@@ -20,9 +22,11 @@ export class CreateNFTComponent implements OnInit {
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
   private walletAddress: string | undefined;
-
+  private readonly elrondContractAddress = environment.elrondContractAddress;
   private readonly GAS_LIMIT = 20000000;
+  private ipfs: any;
 
+  // Nft Data
   public file: string = "assets/images/add-media.png";
   public royalties: number = 1;
   public name!: string;
@@ -32,17 +36,21 @@ export class CreateNFTComponent implements OnInit {
   public description!: string;
   public collection!: string;
   public url: string = '';
-  public onBlockchain = false;
+  public onBlockchain = true;
+  public nsfw = false;
+
+  // Collection Data
+  public collectionName!: string;
+  public collectionTicker!: string;
+
+  // public required data
   public formData = new FormData();
   public message!: string;
   public selectable = true;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public tagControll = new FormControl();
   public tags: string[] = [];
-
   public userCollections: Collection[] = [];
-
-  private ipfs: any;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -86,7 +94,7 @@ export class CreateNFTComponent implements OnInit {
     await this.extProvider.init();
   }
 
-  addNFT() {
+  public async addNFT() {
     this.formData = new FormData();
     let err = [];
     if (this.mediaFile == undefined)
@@ -124,10 +132,15 @@ export class CreateNFTComponent implements OnInit {
     this.formData.append('onBlockchain', JSON.stringify(this.onBlockchain));
 
     if (this.onBlockchain) {
-      console.log("semnam, facem toate alea, stiti voi, alea ale mele");
-      this.createNftAndBroadcast();
+      // Check if NFT has new collection
+      if (this.collection == 'new') {
+        console.log("Colectie noua! Statz asa!");
+        await this.createNftcollectionAndBoardcast();
+      } else {
+        await this.createNftAndBroadcast();
+      }
     } else {
-      this.nftService.addNftAsync(this.formData);
+      await this.nftService.addNftAsync(this.formData);
     }
   }
 
@@ -153,6 +166,82 @@ export class CreateNFTComponent implements OnInit {
     await user.sync(this.provider);
 
     return user;
+  }
+  private async createNftcollectionAndBoardcast() {
+    try {
+      if (this.collectionName != undefined && this.collectionTicker != undefined) {
+        let user = await this.syncUser();
+
+        // Create NFT Collection
+        let collectionCreateMessage = this.generateCreateCollectionMessage();
+        let tx = this.generateNewTransaction(collectionCreateMessage, this.GAS_LIMIT*3, 0.05, this.elrondContractAddress!);
+        tx.setNonce(user.nonce);
+
+        let signedTransaction = await this.extProvider.signTransaction(tx);
+        await signedTransaction.send(this.provider);
+        await signedTransaction.awaitNotarized(this.provider).then(async () => {
+          var newTx = await signedTransaction.getAsOnNetwork(this.provider);
+          console.log(newTx.data);
+          console.log()
+          console.log("String data1");
+          console.log(newTx.data.toString());
+          console.log(newTx.getReceipt().message);
+          console.log(newTx.getSmartContractResults().getAllResults());
+          console.log(newTx.getSmartContractResults().getImmediate().data.valueOf());
+
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage());
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().valueOf());
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().toString());
+          console.log(newTx.data.valueOf());
+        });
+        await signedTransaction.awaitExecuted(this.provider).then(async () => {
+          var newTx = await signedTransaction.getAsOnNetwork(this.provider);
+          console.log(newTx.data);
+          console.log()
+          await signedTransaction.awaitExecuted(this.provider)
+
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage());
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().valueOf());
+          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().toString());
+        });
+        var txHash = new TransactionHash("290498e8730975ea6d2703f4c5e0dc2c657b9480b9afc2a62c4c8818636cf062");
+        var toTest = await this.provider.getTransaction(txHash, new Address('erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28'), true);
+        console.log(toTest.type);
+        console.log(toTest.sender);
+        console.log(toTest.value);
+        var x = await toTest.getSmartContractResults();
+        var y  = await toTest.getReceipt();
+        console.log(x);
+        let z = x.getAllResults();
+
+        console.log(x.getImmediate());
+        console.log(x.getResultingCalls());
+        console.log(x.getAllResults());
+
+
+        console.log(z);
+        console.log(y);
+
+        /// LEFT TO DO: FIND A WAY TO GET Transaction details to find out what the collection Identifier is.
+        /// UNCOMMENT BELOW AND FEED THE Identifier. GGWP.
+
+
+        // // Assign NFT Collection Creator Role
+        // let assignCreatorRoleMessage = this.generateSetCreatorRoleMessage();
+        // let tx2 = this.generateNewTransaction(assignCreatorRoleMessage, this.GAS_LIMIT, 0.00, this.elrondContractAddress!);
+        // tx2.setNonce(user.nonce);
+
+        // let signedTransaction2 = await this.extProvider.signTransaction(tx2);
+        // await signedTransaction2.send(this.provider);
+        // await signedTransaction2.awaitExecuted(this.provider);
+
+        // let watcher = new TransactionWatcher(tx3.hash, provider);
+        // await watcher.awaitStatus(status => status.isExecuted());
+      }
+    } catch (ex) {
+      alert("Something went wrong, please try again.")
+      console.error(ex);
+    }
   }
 
   private async createNftAndBroadcast() {
@@ -201,6 +290,24 @@ export class CreateNFTComponent implements OnInit {
     let blobData = new Blob([JSON.stringify(data)])
     const { cid } = await this.ipfs.add(blobData);
     return cid.toString();
+  }
+
+  private generateSetCreatorRoleMessage(collectionIdentifier: string): string {
+    let collectionHex = this.ascii_to_hex(collectionIdentifier);
+    let roleHex = this.ascii_to_hex('ESDTRoleNFTCreate');
+    let addressHex = new Address(this.walletAddress).hex();
+
+    let createMessage = `setSpecialRole@${collectionHex}@${addressHex}@${roleHex}`;
+    console.log(createMessage);
+    return createMessage;
+  }
+
+  private generateCreateCollectionMessage(): string {
+    let collectionHex = this.ascii_to_hex(this.collectionName!); // Collection in hex
+    let tickerHex = this.ascii_to_hex(this.collectionTicker!);
+
+    let createMessage = `issueNonFungible@${collectionHex}@${tickerHex}`;
+    return createMessage;
   }
 
   private generateCreateNftMessage(url: string, metadataUrl: string) {
