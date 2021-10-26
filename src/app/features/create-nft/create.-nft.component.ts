@@ -195,7 +195,7 @@ export class CreateNFTComponent implements OnInit {
 
             let signedTransaction2 = await this.extProvider.signTransaction(tx2);
             await signedTransaction2.send(this.provider);
-            await signedTransaction2.awaitExecuted(this.provider);
+            await signedTransaction2.awaitNotarized(this.provider);
           }
         });
         // let watcher = new TransactionWatcher(tx.hash, provider);
@@ -283,7 +283,6 @@ export class CreateNFTComponent implements OnInit {
 
     let attributes = `tags:${this.tags.join()};externalLink:${this.externalLink};metadata:${metadataUrl}`;
     let attributesHex = this.ascii_to_hex(attributes);
-    console.log(this.externalLink);
     let urlHex = this.ascii_to_hex(url);
 
     let createMessage = `ESDTNFTCreate@${collectionHex}@01@${nameHex}@${royaltiesHex}@${hash}@${attributesHex}@${urlHex}`;
