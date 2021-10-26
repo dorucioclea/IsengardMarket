@@ -183,6 +183,7 @@ export class CreateNFTComponent implements OnInit {
         await signedTransaction.awaitNotarized(this.provider).then(async () => {
           var newTx = await signedTransaction.getAsOnNetwork(this.provider);
           var responseParameters = this.parseSmartContractResponse(newTx.getSmartContractResults().getImmediate().data.valueOf());
+          console.log(responseParameters);
           if (responseParameters[0] == 'ok' && responseParameters[1] != undefined) {
             this.collection = responseParameters[1];
 
