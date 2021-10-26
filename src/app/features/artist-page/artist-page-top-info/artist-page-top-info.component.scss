@@ -12,11 +12,10 @@
     .artist-photo {
       width: 200px;
       height: 200px;
-
       z-index: 100;
       position: absolute;
       bottom: 12px;
-      right: 25px;
+      left: -17vw;
       box-shadow: $shadows-1;
 
       img {
@@ -80,10 +79,40 @@
       border-radius: 50%;
 
       mat-icon {
-      padding: 5px 14px 5px 5px;
+        padding: 5px 14px 5px 5px;
         font-weight: 600;
         font-size: 30px;
       }
     }
+  }
+}
+
+// X-Large devices (large desktops, less than 1550px)
+@media (max-width: 959.98px) {
+  .artist-photo {
+    left: -9vw !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .wallet-address-container {
+    width: 90px !important;
+  }
+
+  .artist-photo {
+    width: 150px !important;
+    height: 150px !important;
+    left: -9vw !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .right-info {
+    margin-left: 200px;
+  }
+  .artist-photo {
+    width: 125px !important;
+    height: 125px !important;
+    left: 9vw !important;
   }
 }
