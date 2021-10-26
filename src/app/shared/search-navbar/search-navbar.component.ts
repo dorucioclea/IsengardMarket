@@ -60,6 +60,13 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // add scrolled navbar if scrolled more than 15 px
+    if (window.scrollY > 15) {
+      setTimeout(() => {
+        let element = document.querySelector('.main-container') as HTMLElement;
+        element.classList.add('navbar-scrolled');
+      }, 0)
+    }
   }
 
   toggleNavbar(): void {

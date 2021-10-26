@@ -1,7 +1,14 @@
 <app-search-navbar></app-search-navbar>
 <h2>RECENT NFTS</h2>
 
-<div class="responsive-list">
+<!-- <div class="responsive-list">
+  <div *ngFor="let nft of nfts">
+    <div [routerLink]="['/collection', nft.collection]">
+      <app-nftcard [nft]="nft"></app-nftcard>
+    </div>
+  </div>
+</div> -->
+<div class="responsive-list-wrapper">
   <div *ngFor="let nft of nfts">
     <div [routerLink]="['/collection', nft.collection]">
       <app-nftcard [nft]="nft"></app-nftcard>
