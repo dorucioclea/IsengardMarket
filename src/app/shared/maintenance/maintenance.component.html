@@ -15,14 +15,16 @@
             If you want to be the first to trade NFTs on the Elrond Network subscribe to our mailing list</h2>
 
 
-        <div class="input-wrapper">
-            <input type="email" [(ngModel)]="email"  placeholder="your@email.com">
-        </div>
+        <form>
+            <div class="input-wrapper">
+                <input type="email" [(ngModel)]="email" name="email" placeholder="your@email.com">
+            </div>
 
+            <button (click)="subscribe()" class="subscribe-btn">
+                Subscribe
+            </button>
+        </form>
 
-        <div (click)="subscribe()" class="subscribe-btn">
-            <p>Subscribe</p>
-        </div>
 
         <div class="social-wrapper">
             <ul class="social-list">
@@ -43,8 +45,8 @@
                 </a>
             </ul>
         </div>
-       
+
     </div>
-    <p class="footer">Made with  <span class="heart">&#10084;</span>  by the Isengard Team on the Elrond Blockchain</p>
+    <p class="footer">Made with <span class="heart">&#10084;</span> by the Isengard Team on the Elrond Blockchain</p>
 
 </div>

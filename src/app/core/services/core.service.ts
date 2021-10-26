@@ -28,8 +28,11 @@ export class CoreService {
     return this.http.get<Economics>(this.elrondUrl + '/economics').toPromise();
   }
 
-  async addSubscriberEmailAsync(subscriber: string): Promise<void> {
-    console.log(subscriber);
-    return this.http.post<void>(this.elrondUrl + '/subscribe', {subscriber}).toPromise();
+  async addSubscriberEmailAsync(email: string): Promise<void> {
+    return this.http.post<void>(this.apiUrl + '/subscribe?email=' + email, '').toPromise();
+  }
+
+  addSubscriberEmail(email: string):Observable<any>{
+    return this.http.post<any>(this.apiUrl + '/subscribe?email=' + email, '')
   }
 }
