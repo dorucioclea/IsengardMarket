@@ -4,7 +4,9 @@
 <div class="cover">
   <div class="nft-container">
     <img *ngIf="nft?.metadata?.fileType == 'image/jpeg' " src="{{nft?.url}}">
+    <img *ngIf="nft?.metadata?.fileType == 'image/jpg' " src="{{nft?.url}}">
     <img *ngIf="nft?.metadata?.fileType == 'image/gif' " src="{{nft?.url}}">
+    <img *ngIf="nft?.metadata?.fileType == 'image/png' " src="{{nft?.url}}">
     <audio controls
       *ngIf="nft?.metadata?.fileType == 'audio/mpeg' || nft?.metadata?.fileType == 'audio/ogg' || nft?.metadata?.fileType == 'audio/mp3'">
       <source src="{{nft?.url}}" type="audio/ogg">
