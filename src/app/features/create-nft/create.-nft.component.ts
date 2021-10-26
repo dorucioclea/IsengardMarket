@@ -221,7 +221,7 @@ export class CreateNFTComponent implements OnInit {
 
         let signedTransaction = await this.extProvider.signTransaction(tx);
         await signedTransaction.send(this.provider);
-        await signedTransaction.awaitExecuted(this.provider);
+        await signedTransaction.awaitExecuted(this.provider); // Maybe await notarized.
 
         // let watcher = new TransactionWatcher(tx3.hash, provider);
         // await watcher.awaitStatus(status => status.isExecuted());
@@ -229,6 +229,7 @@ export class CreateNFTComponent implements OnInit {
         var newTx = await signedTransaction.getAsOnNetwork(this.provider);
         var nonce = this.getNonceFromSmartContractResponse(newTx.getSmartContractResults().getImmediate().data.valueOf());
 
+        
         this.router.navigate(['/nft', this.collection + '-' + nonce])
       }
     } catch (ex) {
