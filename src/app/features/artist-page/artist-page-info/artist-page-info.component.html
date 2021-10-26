@@ -1,60 +1,62 @@
 <div class="container">
 
-    <div class="artist-name">
-        <span>{{profile?.firstName}} {{profile?.lastName}}</span>
+  <div class="artist-name">
+    <div>{{profile?.firstName}}</div>
+    <div>{{profile?.lastName}}</div>
+  </div>
+  <div class="artist-username">
+    <div class="username-wrapper">
+      <span>@{{profile?.username | slice:0:22}}...</span>
     </div>
-    <div class="artist-username">
-        <div class="username-wrapper">
-            <span>@{{profile?.username | slice:0:42}}...</span>
-        </div>
 
+  </div>
+  <!-- TODO THIS IN V2 -->
+  <!-- <div class="followers-info">
+    <div class="followers">
+      <div class="number">
+        <span>420</span>
+      </div>
+      <div class="title">
+        <span>Following</span>
+      </div>
     </div>
-    <div class="followers-info">
-        <div class="followers">
-            <div class="number">
-                <span>420</span>
-            </div>
-            <div class="title">
-                <span>Following</span>
-            </div>
-        </div>
-        <div class="followers">
-            <div class="number">
-                <span>521</span>
-            </div>
-            <div class="title">
-                <span>Followers</span>
-            </div>
-        </div>
+    <div class="followers">
+      <div class="number">
+        <span>521</span>
+      </div>
+      <div class="title">
+        <span>Followers</span>
+      </div>
     </div>
-    <div class="artist-bio">
-        <div class="artist-bio-title">
-            Bio
-        </div>
-        <span>
-           {{profile?.bio}}
-        </span>
+  </div> -->
+  <div class="artist-bio">
+    <div class="artist-bio-title">
+      Bio
     </div>
-    <div class="invited-by">
-        <span>Invited by @mrazvanalex</span>
-        <div class="inviter-photo">
-            <img src="assets/images/people/merdi.jpg" alt="">
-        </div>
+    <span>
+      {{profile?.bio}}
+    </span>
+  </div>
+  <div class="invited-by">
+    <span>Invited by @mrazvanalex</span>
+    <div class="inviter-photo">
+      <img src="assets/images/people/merdi.jpg" alt="">
+    </div>
 
+  </div>
+  <div class="links-info">
+    <div class="title">
+      <span>Links</span>
     </div>
-    <div class="links-info">
-        <div class="title">
-            <span>Links</span>
-        </div>
-        <div class="links">
-            <div class="icon">
-                <img src="assets/icons/instagram.png" alt="">
-            </div>
-            <span>suicanul</span>
-        </div>
+    <div class="links">
+      <div class="icon">
+        <img src="assets/icons/instagram.png" alt="">
+      </div>
+      <span>suicanul</span>
+    </div>
 
-    </div>
-    <div class="joined">
-        Joined in {{joinedDate}}
-    </div>
+  </div>
+  <div class="joined">
+    Joined in {{joinedDate}}
+  </div>
 </div>

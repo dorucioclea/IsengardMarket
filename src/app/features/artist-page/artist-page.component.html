@@ -1,40 +1,44 @@
 <artist-page-header [profile]="profile"></artist-page-header>
-<artist-page-top-info [profile]="profile!"></artist-page-top-info>
+<div style="position: relative;">
+  <artist-page-top-info [profile]="profile!"></artist-page-top-info>
+  <div class="edit-icon-profile">
+    <button mat-mini-fab color="primary" [routerLink]="['/profile']" *ngIf="userBrowsing">
+      <mat-icon>mode</mat-icon>
+    </button>
+  </div>
+</div>
+
 <div class="wrapper">
   <div class="left-grid">
-    <app-artist-page-info  [profile]="profile!" [joinedDate]="joinedDate"></app-artist-page-info>
+    <app-artist-page-info [profile]="profile!" [joinedDate]="joinedDate"></app-artist-page-info>
   </div>
   <div class="right-grid">
-    <div class="menu-bar">
-      <div>
-        <button (click)="select('owned')" [ngClass]="{'selected': selected=='owned'}">Owned</button>
-      </div>
-      <div>
-        <button (click)="select('created')" [ngClass]="{'selected': selected=='created'}">Created</button>
-      </div>
-      <div>
-        <button (click)="select('favorites')"  [ngClass]="{'selected': selected=='favorites'}" >Favorites</button>
-      </div>
-      <div>
-        <button [routerLink]="['/profile']" *ngIf="userBrowsing" routerLinkActive="router-link-active" > Edit Profile </button>
-      </div>
-    </div>
-    <div class="list">
-      <!-- <div *ngFor="let nft of nfts">
-        <app-nftcard [nft]="nft">a</app-nftcard>
-      </div> -->
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Owned">
+        <div class="list">
+          <ng-container *ngFor="let nft of ownedNFTs">
+            <app-nftcard [nft]="nft"></app-nftcard>
+          </ng-container>
+        </div>
 
-      <ul *ngIf="selected==='created'">
-        <li *ngFor="let nft of createdNFTs">
-          <app-nftcard [nft]="nft">a</app-nftcard>
-        </li>
-      </ul>
-      <ul *ngIf="selected==='owned'">
-        <li *ngFor="let nft of ownedNFTs">
-          <app-nftcard [nft]="nft">a</app-nftcard>
-        </li>
-      </ul>
-    </div>
+      </mat-tab>
+      <mat-tab label="Created">
+        <div class="list">
+          <ng-container *ngFor="let nft of createdNFTs">
+            <app-nftcard [nft]="nft"></app-nftcard>
+          </ng-container>
+        </div>
+      </mat-tab>
+      <mat-tab label="Favorites">
+        <h2>Favorites NFTS BRO MOCKED</h2>
+
+        <div class="responsive-list-wrapper">
+          <ng-container *ngFor="let nft of mockedNFTS">
+            <app-nftcard [nft]="nft"></app-nftcard>
+          </ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
 

@@ -5,10 +5,61 @@
     margin: 0px 20px;
     flex-wrap: wrap;
   }
-  
+
   .responsive-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin: 0px 10%;
     grid-column-gap: 5%;
+  }
+
+
+
+  .responsive-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 10px 5%;
+    grid-column-gap: 3%;
+    grid-row-gap: 30px;
+    align-items: center;
+    justify-items: center;
+  }
+
+  // X-Large devices (large desktops, less than 1550px)
+  @media (max-width: 1550px) {
+    .responsive-list-wrapper {
+      grid-template-columns: 1fr 1fr 1fr !important;
+    }
+  }
+
+  // Large devices (desktops, less than 1200px)
+  @media (max-width: 1199.98px) {
+    .responsive-list-wrapper {
+      grid-template-columns: 1fr 1fr !important;
+      margin: 10px 2% !important;
+      grid-column-gap: 2% !important;
+    }
+  }
+
+  // Medium devices (tablets, less than 992px)
+  @media (max-width: 991.98px) {
+    .responsive-list-wrapper {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+
+  // Small devices (landscape phones, less than 768px)
+  @media (max-width: 867.98px) {
+    .responsive-list-wrapper {
+      grid-template-columns: 1fr !important;
+      margin: 10px !important;
+      grid-column-gap: 10px !important;
+    }
+  }
+  //TODO SCALE IT TO 2 or 1 item per row
+  // X-Small devices (portrait phones, less than 685px)
+  @media (max-width: 685px) {
+    .responsive-list-wrapper {
+      grid-template-columns: 1fr !important;
+    }
   }

@@ -1,119 +1,120 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  // margin-left: 50px;
+  font-family: Poppins;
+
+  .artist-name {
+    font-size: 38px;
+    font-weight: 500;
     display: flex;
-    flex-direction: column;
-    margin-left: 190px;
-    font-family: Poppins;
+  }
 
-    .artist-name {
-        font-size: 38px;
-        font-weight: 500;
+  .artist-username {
+    font-size: 18px;
+    margin: 45px 0;
+
+    span {
+      background-image: linear-gradient(90deg, #659aea 0%, #cd319f 100%);
+      color: white;
+      padding: 10px;
+      border-radius: 25px;
+    }
+  }
+
+  .followers-info {
+    display: flex;
+    font-weight: 500;
+
+    .followers {
+      text-align: center;
+      color: #313131;
+
+      .number {
+        font-size: 25px;
+      }
+
+      .title {
+        font-size: 15px;
+      }
     }
 
-    .artist-username {
-        font-size: 18px;
-        margin: 45px 0;
+    .followers:nth-child(2) {
+      margin-left: 20px;
+    }
+  }
 
-        span {
-            background-image: linear-gradient(90deg, #659aea 0%, #cd319f 100%);
-            color: white;
-            padding: 18px;
-            border-radius: 25px;
-        }
+  .artist-bio {
+    margin-top: 35px;
+
+    .artist-bio-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 15px 0;
+      color: #1f1f1f;
     }
 
-    .followers-info {
-        display: flex;
-        font-weight: 500;
+    span {
+      font-size: 15px;
+      color: #424242;
+    }
+  }
 
-        .followers {
-            text-align: center;
-            color: #313131;
+  .invited-by {
+    display: flex;
+    margin: 23px 0;
+    box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+    border-radius: 26px;
+    padding: 6px 15px;
+    width: fit-content;
 
-            .number {
-                font-size: 25px;
-            }
+    .inviter-photo {
+      width: 35px;
+      height: 35px;
+      margin-left: 10px;
 
-            .title {
-                font-size: 15px;
-            }
-        }
-
-        .followers:nth-child(2) {
-            margin-left: 20px;
-        }
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
     }
 
-    .artist-bio {
-        margin-top: 35px;
+    span {
+      line-height: 2.5;
+    }
+  }
 
-        .artist-bio-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 15px 0;
-            color: #1f1f1f;
-        }
-
-        span {
-            font-size: 15px;
-            color: #424242;
-        }
+  .links-info {
+    .title {
+      font-size: 20px;
+      font-weight: 600;
     }
 
-    .invited-by {
-        display: flex;
-        margin: 23px 0;
-        box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-        border-radius: 26px;
-        padding: 6px 15px;
-        width: fit-content;
+    .links {
+      margin: 18px 0;
+      box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+      border-radius: 26px;
+      padding: 6px 15px;
+      width: fit-content;
+      display: flex;
 
-        .inviter-photo {
-            width: 35px;
-            height: 35px;
-            margin-left: 10px;
+      .icon {
+        width: 20px;
+        height: 20px;
+        line-height: 35px;
+        margin-right: 6px;
 
-            img {
-                height: 100%;
-                width: 100%;
-                border-radius: 50%;
-            }
+        img {
+          width: 100%;
+          height: 100%;
         }
-
-        span {
-            line-height: 2.5;
-        }
+      }
     }
+  }
 
-    .links-info {
-        .title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .links {
-            margin: 18px 0;
-            box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-            border-radius: 26px;
-            padding: 6px 15px;
-            width: fit-content;
-            display: flex;
-
-            .icon {
-                width: 20px;
-                height: 20px;
-                line-height: 35px;
-                margin-right: 6px;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-
-    .joined {
-        font-weight: 500;
-        margin-bottom: 30px;
-    }
+  .joined {
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
 }
