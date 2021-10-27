@@ -97,7 +97,8 @@ export class NFTPageComponent implements OnInit {
   }
 
   async openSellNft(): Promise<void> {
-    const dialogRef = this.dialog.open(NftSellDialog, {
+    const dialogRef = this.dialog.open(
+      NftSellDialog, {
       width: '500px',
       data: {
         nft: this.nft,
@@ -308,7 +309,7 @@ export class NFTPageComponent implements OnInit {
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         if (this.state == NftState.MintedForAuction) {
-          // TODO: Generate minted for auction data? 
+          // TODO: Generate minted for auction data?
           this.price = this.nominatePrice(parsedResponse.values[0].valueOf().auction.starting_price.toNumber());
           this.ownerUsername = new Address(parsedResponse.values[0].valueOf().auction.nft_owner).bech32();
         }

@@ -36,7 +36,6 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
     [Breakpoints.XLarge, 'XLarge'],
   ]);
 
-
   constructor(private authService: AuthService, private breakpointObserver: BreakpointObserver) {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.currentProfile = this.authService.currentProfileValue;
