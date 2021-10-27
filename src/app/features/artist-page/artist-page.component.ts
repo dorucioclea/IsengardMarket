@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { NftService } from 'src/app/core/services/nft.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { favoritesMockNFTS } from './mocked-favoritesNFTS';
 
 @Component({
   selector: 'app-artist-page',
@@ -23,6 +24,7 @@ export class ArtistPageComponent implements OnInit {
   public profile: Profile | undefined;
   public joinedDate: string | undefined;
   public userBrowsing = false;
+  mockedNFTS: NFT[] = favoritesMockNFTS;
 
 
   // On change of activatedRoute please rerun onInit. Move some of the code there ( like userBrowsing ) and rerun;

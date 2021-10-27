@@ -23,7 +23,7 @@ export class CreateNFTComponent implements OnInit {
   private provider: ProxyProvider;
   private walletAddress: string | undefined;
   private readonly elrondContractAddress = environment.elrondContractAddress;
-  private readonly GAS_LIMIT = 20000000;
+  private readonly GAS_LIMIT = 30000000;
   private ipfs: any;
 
   // Nft Data
@@ -134,8 +134,9 @@ export class CreateNFTComponent implements OnInit {
     if (this.onBlockchain) {
       // Check if NFT has new collection
       if (this.collection == 'new') {
-        console.log("Colectie noua! Statz asa!");
-        await this.createNftcollectionAndBoardcast();
+        await this.createNftcollectionAndBoardcast().then(async () => {
+          await this.createNftAndBroadcast();
+        });
       } else {
         await this.createNftAndBroadcast();
       }
@@ -167,80 +168,43 @@ export class CreateNFTComponent implements OnInit {
 
     return user;
   }
-  private async createNftcollectionAndBoardcast() {
+  private async createNftcollectionAndBoardcast(): Promise<void> {
     try {
       if (this.collectionName != undefined && this.collectionTicker != undefined) {
         let user = await this.syncUser();
 
         // Create NFT Collection
         let collectionCreateMessage = this.generateCreateCollectionMessage();
-        let tx = this.generateNewTransaction(collectionCreateMessage, this.GAS_LIMIT*3, 0.05, this.elrondContractAddress!);
+        let tx = this.generateNewTransaction(collectionCreateMessage, this.GAS_LIMIT * 3, 0.05, this.elrondContractAddress!);
         tx.setNonce(user.nonce);
 
         let signedTransaction = await this.extProvider.signTransaction(tx);
         await signedTransaction.send(this.provider);
         await signedTransaction.awaitNotarized(this.provider).then(async () => {
           var newTx = await signedTransaction.getAsOnNetwork(this.provider);
-          console.log(newTx.data);
-          console.log()
-          console.log("String data1");
-          console.log(newTx.data.toString());
-          console.log(newTx.getReceipt().message);
-          console.log(newTx.getSmartContractResults().getAllResults());
-          console.log(newTx.getSmartContractResults().getImmediate().data.valueOf());
+          var responseParameters = this.parseSmartContractResponse(newTx.getSmartContractResults().getImmediate().data.valueOf());
+          console.log(responseParameters);
+          if (responseParameters[0] == 'ok' && responseParameters[1] != undefined) {
+            this.collection = responseParameters[1];
 
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage());
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().valueOf());
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().toString());
-          console.log(newTx.data.valueOf());
+            // Assign NFT Collection Creator Role
+            let user = await this.syncUser();
+            let assignCreatorRoleMessage = this.generateSetCreatorRoleMessage(this.collection);
+            let tx2 = this.generateNewTransaction(assignCreatorRoleMessage, this.GAS_LIMIT * 3, 0.00, this.elrondContractAddress!);
+            tx2.setNonce(user.nonce);
+
+            let signedTransaction2 = await this.extProvider.signTransaction(tx2);
+            await signedTransaction2.send(this.provider);
+            await signedTransaction2.awaitNotarized(this.provider);
+          }
         });
-        await signedTransaction.awaitExecuted(this.provider).then(async () => {
-          var newTx = await signedTransaction.getAsOnNetwork(this.provider);
-          console.log(newTx.data);
-          console.log()
-          await signedTransaction.awaitExecuted(this.provider)
-
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage());
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().valueOf());
-          // console.log(newTx.getSmartContractResults().getAllResults()[0].getReturnMessage().toString());
-        });
-        var txHash = new TransactionHash("290498e8730975ea6d2703f4c5e0dc2c657b9480b9afc2a62c4c8818636cf062");
-        var toTest = await this.provider.getTransaction(txHash, new Address('erd17e4uuvhhnncye6mxxzffmgfhtyz8tpf4ug25he23z99j6yg8lwfqus4n28'), true);
-        console.log(toTest.type);
-        console.log(toTest.sender);
-        console.log(toTest.value);
-        var x = await toTest.getSmartContractResults();
-        var y  = await toTest.getReceipt();
-        console.log(x);
-        let z = x.getAllResults();
-
-        console.log(x.getImmediate());
-        console.log(x.getResultingCalls());
-        console.log(x.getAllResults());
-
-
-        console.log(z);
-        console.log(y);
-
-        /// LEFT TO DO: FIND A WAY TO GET Transaction details to find out what the collection Identifier is.
-        /// UNCOMMENT BELOW AND FEED THE Identifier. GGWP.
-
-
-        // // Assign NFT Collection Creator Role
-        // let assignCreatorRoleMessage = this.generateSetCreatorRoleMessage();
-        // let tx2 = this.generateNewTransaction(assignCreatorRoleMessage, this.GAS_LIMIT, 0.00, this.elrondContractAddress!);
-        // tx2.setNonce(user.nonce);
-
-        // let signedTransaction2 = await this.extProvider.signTransaction(tx2);
-        // await signedTransaction2.send(this.provider);
-        // await signedTransaction2.awaitExecuted(this.provider);
-
-        // let watcher = new TransactionWatcher(tx3.hash, provider);
+        // let watcher = new TransactionWatcher(tx.hash, provider);
         // await watcher.awaitStatus(status => status.isExecuted());
       }
     } catch (ex) {
       alert("Something went wrong, please try again.")
       console.error(ex);
+      throw ex;
     }
   }
 
@@ -257,14 +221,16 @@ export class CreateNFTComponent implements OnInit {
 
         let signedTransaction = await this.extProvider.signTransaction(tx);
         await signedTransaction.send(this.provider);
-        await signedTransaction.awaitExecuted(this.provider);
-
-        alert('Transaction executed :)');
+        await signedTransaction.awaitExecuted(this.provider); // Maybe await notarized.
 
         // let watcher = new TransactionWatcher(tx3.hash, provider);
         // await watcher.awaitStatus(status => status.isExecuted());
 
-        this.router.navigate(['/nft', this.collection])
+        var newTx = await signedTransaction.getAsOnNetwork(this.provider);
+        var nonce = this.getNonceFromSmartContractResponse(newTx.getSmartContractResults().getImmediate().data.valueOf());
+
+        
+        this.router.navigate(['/nft', this.collection + '-' + nonce])
       }
     } catch (ex) {
       alert("Something went wrong, please try again.")
@@ -311,14 +277,13 @@ export class CreateNFTComponent implements OnInit {
   }
 
   private generateCreateNftMessage(url: string, metadataUrl: string) {
-    let collectionHex = this.ascii_to_hex(this.collection!); // Collection in hex
+    let collectionHex = this.ascii_to_hex(this.collection); // Collection in hex
     let nameHex = this.ascii_to_hex(this.name!);
     let royaltiesHex = this.ascii_to_hex_number(this.royalties);
     let hash = this.ascii_to_hex("Hash");
 
     let attributes = `tags:${this.tags.join()};externalLink:${this.externalLink};metadata:${metadataUrl}`;
     let attributesHex = this.ascii_to_hex(attributes);
-    console.log(this.externalLink);
     let urlHex = this.ascii_to_hex(url);
 
     let createMessage = `ESDTNFTCreate@${collectionHex}@01@${nameHex}@${royaltiesHex}@${hash}@${attributesHex}@${urlHex}`;
@@ -358,6 +323,43 @@ export class CreateNFTComponent implements OnInit {
       value = "0" + value;
     }
 
+    return value;
+  }
+
+  private getNonceFromSmartContractResponse(string: string): string {
+    var hexStrings = string.split("@");
+    hexStrings.shift();
+    console.log(hexStrings);
+    if (this.hex_to_ascii(hexStrings[0]) != 'ok') {
+      alert("Something went wrong");
+      throw new Error('Something went wrong creating the NFT. Check transaction details');
+    }
+
+    return hexStrings[1];
+  }
+
+  private parseSmartContractResponse(string: string): string[] {
+    var hexStrings = string.split("@");
+    var newStrings = hexStrings.map(x => this.hex_to_ascii(x));
+
+    newStrings.shift();
+    return newStrings;
+  }
+
+  private hex_to_ascii(str1: string) {
+    var hex = str1.toString();
+    var str = '';
+    for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
+  }
+
+  private hex_to_ascii_number(hexNumber: string): string {
+    let value = parseInt(hexNumber, 16).toString();
+    if (value.length % 2 == 1) {
+      value = "0" + value;
+    }
     return value;
   }
 }

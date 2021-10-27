@@ -19,7 +19,7 @@ export enum SaleType{
 export class MarketComponent implements OnInit {
   private readonly contractAddress = environment.contractAddress;
   private readonly gatewayUrl = environment.gatewayUri;
-  private readonly GAS_LIMIT = 200000;
+  private readonly GAS_LIMIT = 60000000;
   private provider: ProxyProvider;
   public activeSales: number = 0;
 

@@ -42,7 +42,7 @@ export class NFTPageComponent implements OnInit {
   private provider: ProxyProvider;
   private nftIdentifier: string | undefined;
 
-  private readonly GAS_LIMIT = 20000000;
+  private readonly GAS_LIMIT = 60000000;
 
   public owner: Profile | undefined;
   public ownerUsername: string | undefined;

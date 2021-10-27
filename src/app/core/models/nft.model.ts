@@ -4,14 +4,18 @@ export interface NFT {
   timestamp: Date;
   attributes: string;
   nonce: number;
-  type: NFTType;
+  type: NFTType | string;
   name: string;
+  thumbnailUrl?: string,
   creator: string;
   royalties: number;
   uris: string[];
   url: string;
-  tags: [string];
+  tags: string[];
   metadata: Metadata;
+  fileType?: string;
+  fileUri?: string;
+  fileName?: string;
   owner: string;
 }
 

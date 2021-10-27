@@ -91,3 +91,15 @@
     transform: translateX(8px) translateY(-8px);
   }
 }
+
+@media (max-width: 575.98px) {
+  .bottom-container {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 450px) {
+  .bottom-container {
+    font-size: 8px !important;
+  }
+}

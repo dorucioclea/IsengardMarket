@@ -18,6 +18,11 @@ jobs:
         with:
           files: '/home/runner/work/IsengardMarket/IsengardMarket/node_modules/@elrondnetwork/erdjs/out/smartcontracts/wrapper/systemWrapper.js'
           replacements: '__dirname="."'
+      - name: Replace Action2
+        uses: datamonsters/replace-action@v2
+        with:
+          files: '/home/runner/work/IsengardMarket/IsengardMarket/node_modules/@elrondnetwork/erdjs/out/transactionOnNetwork.js'
+          replacements: 'response.results=response.smartContractResults'
       - run: |
           npm i @angular/cli
           npm run-script buildDev
