@@ -245,10 +245,12 @@ export class NFTPageComponent implements OnInit {
           })
           .filter(x => !x.data.includes("RVNEVE5GVFRyYW5zZmVyQ")).filter(x => !x.data.includes("Y2FuY2VsX3NhbGV"))
 
-    this.nftTransactions.map(async x => {
-      let profile = await this.profileService.getProfileAsync(x.sender);
-      x.sender = profile.username!;
-      return x;
+    this.nftTransactions.map(async tx => {
+      let profile = await this.profileService.getProfileAsync(tx.sender);
+      if (profile != undefined) {
+        tx.sender = profile.username!;
+      }
+      return tx;
     })
   }
 
