@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Profile } from '../models/profile';
 import { environment } from 'src/environments/environment';
+import { AuthResponse } from '../models/auth-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class ProfileService {
     return this.http.get<Profile>(this.apiUrl + '/profiles/' + wallet).toPromise();
   }
 
-  async loginAsync(wallet: string, signature: string): Promise<string> {
-    return this.http.post<string>(this.apiUrl + '/auth/login?address=' + wallet +'&signature=' + signature, '').toPromise();
+  async loginAsync(wallet: string, signature: string): Promise<AuthResponse> {
+    return this.http.post<AuthResponse>(this.apiUrl + '/auth/login?address=' + wallet +'&signature=' + signature, '').toPromise();
   }
 
   async getUserSecretNonceAsync(address: string){
@@ -37,10 +38,8 @@ export class ProfileService {
     return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/profilePhoto', formData).toPromise();
   }
 
-  async updateProfileAsync(profile:Profile,address:string):Promise<any>{
-    console.log(profile);
-    console.log(address);
-    return this.http.put<any>(this.apiUrl + '/profiles/' + address + '', profile).toPromise();
+  async updateProfileAsync(profile:Profile,username:string):Promise<any>{
+    return this.http.put<any>(this.apiUrl + '/profiles/' + username + '', profile).toPromise();
   }
 
   async updateCoverImageAsync(formData: FormData, address: string) : Promise<any>{

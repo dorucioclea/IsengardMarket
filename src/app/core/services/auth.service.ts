@@ -4,7 +4,6 @@ import { Profile } from '../models/profile';
 import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
 import { environment } from '@isengard/env/environment';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -26,16 +25,16 @@ export class AuthService {
   }
 
   public async login(walletId: string, signatureHex: string) {
-    let token = await this.profileService.loginAsync(walletId, signatureHex); // To be used for authenticated calls.
-    if (token == null)
+    let authResponse = await this.profileService.loginAsync(walletId, signatureHex); // To be used for authenticated calls.
+    if (authResponse == null)
       return;
 
-    let profile = await this.profileService.getProfileAsync(walletId);
+    let profile = await this.profileService.getProfileAsync(authResponse.username);
     this.currentProfileSubject = new BehaviorSubject<Profile | undefined>(profile);
 
     // Store user data
     localStorage.setItem('profile', JSON.stringify(profile));
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', JSON.stringify(authResponse.token));
 
     // Navigate after login
     this.router.navigate(['/artist', profile.username]);

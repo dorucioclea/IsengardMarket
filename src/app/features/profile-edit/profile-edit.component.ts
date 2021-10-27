@@ -17,11 +17,18 @@ export class ProfileEditComponent implements OnInit {
   public profileImage: string | SafeUrl = "assets/images/add-media.png";
   public profile: Profile | undefined;
 
-  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private profileService: ProfileService) { }
+  private username: string = '';
+
+  constructor(
+    private sanitizer: DomSanitizer, 
+    private authService: AuthService, 
+    private profileService: ProfileService) {
+     }
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.profile = this.authService.currentProfileValue;
+      this.username = this.authService.currentProfileValue?.username!
       if (this.profile?.profilePicture != undefined) {
         this.profileImage = this.profile.profilePicture;
       }
@@ -48,25 +55,22 @@ export class ProfileEditComponent implements OnInit {
   }
 
   async updateProfile() {
-    
+
     var form = new FormData();
     form.append('profilePhoto', this.mediaFileProfile);
     form.append('coverPhoto', this.mediaFileCover);
-    if (this.profile?.accountId != null) {
-      var x = await this.profileService.updateProfileAsync(this.profile, this.profile.accountId);
-      console.log(x);
+    if (this.authService.currentProfileValue?.username != undefined && this.profile != undefined) {
+      await this.profileService.updateProfileAsync(this.profile, this.username);
       if (this.mediaFileProfile != undefined) {
-        await this.profileService.updateProfileImageAsync(form, this.profile.accountId);
+        await this.profileService.updateProfileImageAsync(form, this.username);
       }
 
       if (this.mediaFileCover != undefined) {
-        await this.profileService.updateCoverImageAsync(form, this.profile.accountId);
+        await this.profileService.updateCoverImageAsync(form, this.username);
       }
 
-      const profile = await this.profileService.getProfileAsync(this.profile?.accountId);
-      this.authService.updateProfile(profile);
+      this.authService.updateProfile(this.profile);
     }
-
 
     alert('Profile updated successfully');
 
