@@ -20,7 +20,7 @@ export class ArtistPageComponent implements OnInit {
   public createdNFTs: NFT[] = [];
   public ownedNFTs: NFT[] = [];
   public favouritedNFTs: NFT[] = [];
-  public walletAddress: string | undefined;
+  public profileName: string | undefined;
   public profile: Profile | undefined;
   public joinedDate: string | undefined;
   public userBrowsing = false;
@@ -35,7 +35,7 @@ export class ArtistPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private nftService: NftService) {
     this.activatedRoute.params.subscribe(params => {
-      this.walletAddress = params['artistAddress'];
+      this.profileName = params['artistAddress'];
     });
   }
 
@@ -46,19 +46,23 @@ export class ArtistPageComponent implements OnInit {
       }
     );
 
-    if(this.walletAddress != undefined){
-      this.profile = await this.profileService.getProfileAsync(this.walletAddress);
-      this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.walletAddress);
-      this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.walletAddress);
+
+    if (this.profileName != undefined) {
+
+      if (this.authService.currentProfileValue?.username == this.profileName) {
+        this.userBrowsing = true;
+      }
+
+      this.profile = await this.profileService.getProfileAsync(this.profileName);
+      this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.profile.accountId!);
+      this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.profile.accountId!);
       this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
     }
 
-    if(this.authService.currentProfileValue?.accountId == this.walletAddress){
-      this.userBrowsing = true;
-    }
+
   }
 
-  public select(page:string){
+  public select(page: string) {
     this.selected = page;
   }
 }
