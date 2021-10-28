@@ -341,11 +341,11 @@ export class NFTPageComponent implements OnInit {
     }
   }
 
-  private async auctionNft(starting_price: number, last_price: number, deadline: number): Promise<void> {
+  private async auctionNft(starting_price: number, last_price: number, deadline: number, startTime: number): Promise<void> {
     let user = await this.syncUser();
 
     if (this.nft != undefined) {
-      let nftSaleMessage = this.generateAuctionNftMessageData(this.nft?.collection, this.nft?.nonce, starting_price, last_price, deadline)
+      let nftSaleMessage = this.generateAuctionNftMessageData(this.nft?.collection, this.nft?.nonce, starting_price, last_price, deadline, startTime)
       let tx = this.generateNewTransaction(nftSaleMessage, this.GAS_LIMIT * 2, 0, user.address.bech32())
       tx.setNonce(user.nonce);
 
@@ -429,7 +429,7 @@ export class NFTPageComponent implements OnInit {
     return nftSaleMessage;
   }
 
-  private generateAuctionNftMessageData(collection: string, nonce: number, starting_price: number, final_price: number, deadline: number): string {
+  private generateAuctionNftMessageData(collection: string, nonce: number, starting_price: number, final_price: number, deadline: number, startTime: number): string {
     let nonceHex = nonce.toString(16)
     if (nonceHex.length % 2 == 1) {
       nonceHex = "0" + nonceHex;
@@ -442,7 +442,7 @@ export class NFTPageComponent implements OnInit {
     let fnameHex = this.ascii_to_hex("add_nft_for_auction").toUpperCase();
     let countHex = "01"; // 1 in hex
 
-    let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${startPriceHex}@${lastPriceHex}@${deadline}`;
+    let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${startPriceHex}@${lastPriceHex}@${startTime}@${deadline}`;
 
     return nftSaleMessage;
   }

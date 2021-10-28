@@ -6,7 +6,8 @@ export interface DialogData {
   nft: NFT;
   starting_price: number;
   final_price: number;
-  deadline: number
+  deadline: number;
+  startTime: number;
 }
 
 @Component({
@@ -23,8 +24,12 @@ export class NftAuctionDialog {
     this.dialogRef.close();
   }
   onYesClick(): void {
-    var date = new Date(this.data.deadline).getTime() / 1000;
-    this.data.deadline = date;
+    let deadline = new Date(this.data.deadline).getTime() / 1000;
+    this.data.deadline = deadline;
+
+    let startTime = new Date(this.data.startTime).getTime() / 1000;
+    this.data.startTime = startTime;
+
     this.dialogRef.close(this.data);
   }
 }
