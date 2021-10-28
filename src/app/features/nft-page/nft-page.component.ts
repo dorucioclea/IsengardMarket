@@ -125,7 +125,7 @@ export class NFTPageComponent implements OnInit {
 
     await dialogRef.afterClosed().subscribe(async result => {
       if (result != null) {
-        await this.auctionNft(result.starting_price, result.final_price, result.deadline);
+        await this.auctionNft(result.starting_price, result.final_price, result.deadline, result.startTime);
       }
     });
   }
