@@ -5,12 +5,9 @@ import { ArtistPageInfoComponent } from './artist-page-info/artist-page-info.com
 import { ArtistPageComponent } from './artist-page.component';
 import { SharedClassicModule } from 'src/app/shared/shared-classic.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatIconModule } from '@angular/material/icon';
 import { ArtistPageTopInfoComponent } from './artist-page-top-info/artist-page-top-info.component';
 import { RouterModule } from '@angular/router';
-import { MatRippleModule } from '@angular/material/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from '@isengard/shared/material-module/material-shared.module';
 
 @NgModule({
   imports: [
@@ -18,10 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
     SharedClassicModule,
     ClipboardModule,
     RouterModule,
-    MatRippleModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTabsModule
+    MaterialModule
   ],
   declarations: [ArtistPageComponent, ArtistPageHeaderComponent, ArtistPageInfoComponent, ArtistPageTopInfoComponent],
   exports: [

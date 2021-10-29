@@ -15,8 +15,8 @@ export class SearchNavbarComponent implements OnInit, OnDestroy {
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     let element = document.querySelector('.main-container') as HTMLElement;
-    //it means that if the scroll is higher than the heght of our component(70px) + 30px apply the style of scrolled navbar
-    if (window.scrollY > element.clientHeight + 15) {
+    //it means that if the scroll is higher than the heght of our component(70px)  - 35px apply the style of scrolled navbar
+    if (window.scrollY > element.clientHeight - 35) {
       element.classList.add('navbar-scrolled');
     } else {
       element.classList.remove('navbar-scrolled');
