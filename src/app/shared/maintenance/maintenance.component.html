@@ -10,9 +10,10 @@
     </div>
 
     <div class="info">
-        <h1>Isengard</h1>
-        <h2>The isengard nft marketplace is almost here. Our launch date is due in November 2021.</h2>
-            <h2>If you want to be the first to trade NFTs on the Elrond Network subscribe to our mailing list</h2>
+        <h1>COMING SOON</h1>
+        <h3>The <span class="market-name">Isengard NFT marketplace</span> is almost here. Our launch date is due in
+            November 2021.</h3>
+        <h3>If you want to be the first to trade NFTs on the Elrond Network subscribe to our mailing list</h3>
 
 
         <form>
@@ -25,8 +26,8 @@
             </button>
         </form>
 
-
         <div class="social-wrapper">
+            <p class="social-message">Join the community and get the latest updates!</p>
             <ul class="social-list">
                 <a id="telegram" href="https://t.me/isengardannouncements">
                     <li>
@@ -43,10 +44,205 @@
                         <img src="assets/images/logos/twitter.png">
                     </li>
                 </a>
+                <a id="reddit" href="https://www.reddit.com/r/IsengardMarket/">
+                    <li>
+                        <img src="assets/images/logos/reddit.png">
+                    </li>
+                </a>
+                <a id="discord" href="https://discord.gg/3nVeWbmtsx">
+                    <li>
+                        <img src="assets/images/logos/discord.png">
+                    </li>
+                </a>
             </ul>
         </div>
-
     </div>
-    <p class="footer">Made with <span class="heart">&#10084;</span> by the Isengard Team on the Elrond Blockchain</p>
+
 
 </div>
+
+<div class="token-section">
+    <div class="wrapper">
+        <h1 class="title">
+            The Isengard Token Presale is starting in November 2021 (ISGT, ISGET, IET)
+        </h1>
+
+        <h2 class="sub-title">🧙‍♂️ One Token to rule them all 🧙‍♂️</h2>
+        <h3 class="title-extra"><a [routerLink]="['/assets/whitepaper.pdf']" target="_blank">📝 Read the whitepaper </a>
+        </h3>
+
+        <div class="details">
+            <h3 class="title">We have decided to split our initial sale into three rounds of pre-sales which will be
+                basically
+                crowdfunding the project. </h3>
+            <h3 class="title">
+                We have a Token Amount to 500.000.000 ISEGT (Isengard Exclusive Token) which can be burned over time.
+                The
+                Presale will
+                be split into 3 rounds and will amount to a maximum of 16% of the total ISGT supply. For more details
+                about
+                ISGT Tokenomics, please read <a [routerLink]="['/assets/whitepaper.pdf']"
+                    routerLinkActive="router-link-active" target="_blank">the whitepaper</a>. Below are the presale
+                dates
+                and
+                the current status of the goal we have set for each presale. The private sale will begin on the 1st of
+                November.
+
+                For participating in the private sale, you can leave a message on the Discord channel in the Token Sale
+                Section. Private sale is taking place between 5 and 10 Nov 2021.
+            </h3>
+            <div class="presales">
+                <div class="presale-wrapper">
+                    <h2 class="title">Presale Round #1 ( 15 Nov 2021 - 5 Dec 2021 )</h2>
+                    <h3 class="title">Price:<span class=egld-price>0.0001 EGLD</span> <span class="usdt-price">( $0.0269
+                            )</span> </h3>
+                    <h3 class="title">Goal: 0.5% of the Total supply. Total : <span class=egld-price>Only 2.500.000 ISGT
+                            left this round</span></h3>
+                </div>
+
+                <div class="presale-wrapper">
+                    <h2 class="title">Presale Round #2 ( 5 Dec 2021 - 31 Dec 2021 )</h2>
+                    <h3 class="title">Price: <span class=egld-price>0.0002 EGLD</span> <span class="usdt-price">(
+                            $0.0531
+                            )</span> </h3>
+                    <h3 class="title"> Goal: 2% of the Total supply. Total : <span class=egld-price>Only 10.000.000 IET
+                            will
+                            be available for sale</span></h3>
+                </div>
+
+                <div class="presale-wrapper">
+                    <h2 class="title">Presale Round #3 ( 15 Ian 2022 - 30 Ian 2022 )</h2>
+                    <h3 class="title">Price: <span class=egld-price>0.0004 EGLD</span> <span class="usdt-price">(
+                            $0.2160
+                            )</span> </h3>
+                    <h3 class="title">Goal: TBD</h3>
+                </div>
+            </div>
+
+
+            <h2 class="sub-title">We are currently in the Private Sale period. The IET token price is 0.00005 EGLD (
+                $0.0134
+                )</h2>
+
+            <!-- Enforce max buy for wallet.  -->
+
+
+            <form>
+                <input type="number" class="ietInput" name="ietCount" disabled [(ngModel)]="ietCount"
+                    max="{{maxIetCount1}}">
+                <h3 class="title"> You will buy {{ietCount}} IET = {{egldValue(ietCount)}} EGLD </h3>
+
+                <div matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
+                    <button class="buy-btn"> ⚡ Buy IET⚡ </button>
+                </div>
+
+            </form>
+
+            <div class="why-buy">
+                <h2 class="title">Primary use cases of the IET (Isengard Exclusive Token) </h2>
+                <h3 class="title"> 💰 Earn up to 20% APR by Staking ( Coming soon )</h3>
+                <h3 class="title"> 🤴🏽 You will be able to use ISGT to access the featured market which contains
+                    exclusive offers.
+                </h3>
+                <h3 class="title"> 💹 Owning ISGT will allow you to purchase NFTs for an ABSOLUTE 0% fee. That's right.
+                    NO FEE if
+                    you're
+                    using ISGT.</h3>
+                <h3 class="title"> 🎁 You willbe able join drops and raffles on Isengard Marketplace</h3>
+                <h3 class="title"> 🛍️ You will be able buy exclusive content for your profile.</h3>
+
+                <h3 class="title">📈 We plan to list Isengard Token on the Maiar DEX so you can for example be one of
+                    the first to
+                    create a staking
+                    pool for ISGT. </h3>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+<div class="roadmap-section">
+
+    <div class="wrapper">
+        <h1 class="title roadmap">Isengard Roadmap</h1>
+
+        <h2 class="title">Q2 2021</h2>
+        <h3 class="sub-title">Initial Planning of NFT Marketplace ✔️</h3>
+        <h3 class="sub-title">Initial Planning of Tokenomics ✔️</h3>
+
+        <h2 class="title">Q3 2021</h2>
+        <h3 class="sub-title">Development and Devnet deployment of the Isengard Marketplace ✔️</h3>
+
+        <h2 class="title">Q4 2021</h2>
+        <h3 class="sub-title">Elrond NFT Marketplace ⚙️</h3>
+        <h3 class="sub-title">Maiar DeFi Login ⚙️</h3>
+        <h3 class="sub-title">Maiar App Login ⚙️</h3>
+        <h3 class="sub-title">First Round of Exclusive Token sale </h3>
+        <h3 class="sub-title">Second Round of Exclusive Token sale </h3>
+
+        <h2 class="title">Q1 2022</h2>
+        <h3 class="sub-title">Third round of Exclusive Token Sale </h3>
+
+        <h2 class="title">Q2 2022</h2>
+        <h3 class="sub-title">Listing Isengard Exclusive Token on Maiar DEX </h3>
+        <h3 class="sub-title">Featured section on Isengard Marketplace</h3>
+
+        <h2 class="title">Q3 2022</h2>
+        <h3 class="sub-title">Isengard Marketplace 2.0 </h3>
+
+        <h2 class="title">Q4 2022 and later</h2>
+        <h3 class="sub-title">TBD 🔮</h3>
+
+    </div>
+
+</div>
+
+<div class="footer-section">
+    <div class="wrapper">
+        <p class="footer">Made with <span class="heart">&#10084;</span> by the Isengard Team on the Elrond Blockchain
+        </p>
+    </div>
+</div>
+
+<!-- 
+    30% Team ( 6% de fiecare. Mai cumparati si voi. )
+    5% Development
+    30% Liquidity provided to DEX
+    10% Marketing
+    5% Advisors
+    TBD // Out in the wild - Rest + what remains from the presales.
+
+    Presale 1 : 1%
+    Preasele2: 5%
+    Presale 3: TBD; 
+
+
+    50000/4 => 12.500 $ de fiecare la pretul EGLD de acum. 
+    25000 $ + 12.500
+
+    
+
+
+    Maxe saleable all (theoreticall 5% if all is sold already.)
+    Soon, Staking.
+
+
+    Enforce max buy for wallet.
+    Freeze for 1 month after last presale. -> Dump protection mechanism.
+    50% of the prease provided as liquidity pool. 
+    Staking to provide more ISGT (more at the beginning, and lower to the n) on the market so people can buy it for its usecase.
+    Burn when it's used 10%. In order to increase value overt time.
+
+    Burn/Stake amost 1:1 -> maybe stake 1.1 (more than burn.)
+    Buy ISGT from use (use price from DEX) // but capped.
+
+    You will be able to use ISGT to access the featured market for 24hrs.
+    You will be able to put tokens on sale for ISGT and they will have 0% fee.
+    You can join drops/raffles
+    You can buy exclusive content for your profile.
+
+    Theoretical example:
+
+-->

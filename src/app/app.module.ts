@@ -20,6 +20,7 @@ import { CollectionPageModule } from './features/collection-page/collection-page
 import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
 import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
 import { MaterialModule } from './shared/material-module/material-shared.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MaterialModule } from './shared/material-module/material-shared.module'
     ArtistPageModule,
     NFTPageModule,
     ReactiveFormsModule,
-    CollectionPageModule
+    CollectionPageModule,
+    MatTooltipModule,
   ],
   providers: [AuthGuardMaintenance],
   bootstrap: [AppComponent],

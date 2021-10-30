@@ -17,6 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from "@angular/material/button";
 import { MatRippleModule } from "@angular/material/core";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatRippleModule } from "@angular/material/core";
     MatSidenavModule,
     MatSelectModule,
     MatButtonModule,
-    MatRippleModule
+    MatRippleModule, 
+    MatTooltipModule
   ],
   exports: [
     NFTCardComponent,
