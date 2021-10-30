@@ -1,11 +1,13 @@
 <h2 mat-dialog-title>Bid for this Nft</h2>
 <mat-dialog-content class="mat-typography">
 
-    Your bid
-    <input type="number" [(ngModel)]="data.bid"> EGLD
-
+  <mat-form-field appearance="outline">
+    <mat-label> Your bid </mat-label>
+    <input type="number" matInput [(ngModel)]="data.bid">
+  </mat-form-field>
+  EGLD
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onYesClick()" cdkFocusInitial>Bid</button>
-    <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-stroked-button (click)="onYesClick()" cdkFocusInitial>Bid</button>
+  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
 </mat-dialog-actions>

@@ -55,7 +55,6 @@ export class ProfileEditComponent implements OnInit {
   }
 
   async updateProfile() {
-
     var form = new FormData();
     form.append('profilePhoto', this.mediaFileProfile);
     form.append('coverPhoto', this.mediaFileCover);
@@ -69,7 +68,8 @@ export class ProfileEditComponent implements OnInit {
         await this.profileService.updateCoverImageAsync(form, this.username);
       }
 
-      this.authService.updateProfile(this.profile);
+      let profile = await this.profileService.getProfileAsync(this.profile.username!);
+      this.authService.updateProfile(profile);
     }
 
     alert('Profile updated successfully');

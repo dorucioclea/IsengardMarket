@@ -1,5 +1,5 @@
 <app-search-navbar [initalStyle]="'white'"></app-search-navbar>
-
+<div class="navbar-invisible-shadow"></div>
 
 <div class="cover">
   <div class="nft-container">
@@ -34,7 +34,6 @@
         @{{ownerUsername}}
       </h3>
     </div>
-    <!--   -->
 
     <ul class="button-list">
       <li class="shadow" (click)="openAuctionNft()"
@@ -62,13 +61,13 @@
           </mat-icon>
         </div>
       </li>
-      <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Share">
+      <!-- <li class="shadow" matTooltipPosition="above" matTooltipClass="tooltip" matTooltip="Share">
         <div>
           <mat-icon aria-hidden="false" class="grey-share">
             share
           </mat-icon>
         </div>
-      </li>
+      </li> -->
     </ul>
 
 
@@ -76,27 +75,22 @@
 </div>
 
 
-
-
 <div class="container info-container">
-
   <div class="user-profile-container">
 
     <h1>{{nft?.name}}</h1>
     <h2>Description:</h2>
     <p class="description">{{nft?.metadata?.description}}</p>
     <h2>Collection:</h2>
-    <a [routerLink]="['/collection', collection?.collection ]" routerLinkActive="router-link-active">
-      <div class="collection-container">
-        <div class="collection-image-container">
-          <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
-        </div>
-        <div class="collection-data-container">
-          <p class="collection-name">{{collection?.name}}</p>
-          <p class="collection-ticker">{{collection?.ticker}}</p>
-        </div>
+    <div class="collection-container" [routerLink]="['/collection', collection?.collection ]">
+      <div class="collection-image-container">
+        <img src="https://devnet-media.elrond.com/nfts/asset/QmU1FVD88akcHt3C8QW8KL69LhXJVncBRF23eCy2zPzL8P">
       </div>
-    </a>
+      <div class="collection-data-container">
+        <p class="collection-name">{{collection?.name}}</p>
+        <p class="collection-ticker">{{collection?.ticker}}</p>
+      </div>
+    </div>
 
     <h2>Tags:</h2>
 

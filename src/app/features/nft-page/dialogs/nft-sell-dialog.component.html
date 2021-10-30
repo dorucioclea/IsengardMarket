@@ -1,12 +1,14 @@
 <h2 mat-dialog-title>Sell this Nft</h2>
 <mat-dialog-content class="mat-typography">
 
-    Price
-    <input type="number" [(ngModel)]="data.price"> 
-    EGLD
+  <mat-form-field appearance="outline">
+    <mat-label> Price </mat-label>
+    <input type="number" matInput [(ngModel)]="data.price">
+  </mat-form-field>
+  EGLD
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onYesClick()" cdkFocusInitial>List for sale</button>
-    <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-stroked-button (click)="onYesClick()" cdkFocusInitial>List for sale</button>
+  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
 </mat-dialog-actions>

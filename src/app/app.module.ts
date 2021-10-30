@@ -15,16 +15,11 @@ import { LogoutComponent } from './shared/logout/logout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarketComponent } from './features/market/market.component';
 import { ProfileEditComponent } from './features/profile-edit/profile-edit.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
 import { CollectionPageModule } from './features/collection-page/collection-page.module';
 import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
 import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
+import { MaterialModule } from './shared/material-module/material-shared.module';
 
 @NgModule({
   declarations: [
@@ -46,17 +41,12 @@ import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSnackBarModule,
+    MaterialModule,
     SharedClassicModule,
     HttpClientModule,
     ArtistPageModule,
     NFTPageModule,
-    MatFormFieldModule,
     ReactiveFormsModule,
-    MatSliderModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-    MatIconModule,
     CollectionPageModule
   ],
   providers: [AuthGuardMaintenance],

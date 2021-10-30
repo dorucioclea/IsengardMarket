@@ -1,15 +1,42 @@
 <h2 mat-dialog-title>Auction this Nft</h2>
 <mat-dialog-content class="mat-typography">
 
-    Starting Price:
-    <input type="number" [(ngModel)]="data.starting_price"> EGLD
-    Final Price:
-    <input type="number" [(ngModel)]="data.final_price"> EGLD 
+  <mat-form-field appearance="outline">
+    <mat-label> Starting Price: </mat-label>
+    <input type="number" matInput [(ngModel)]="data.starting_price">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label> Final Price: </mat-label>
+    <input type="number" matInput [(ngModel)]="data.final_price">
+  </mat-form-field> EGLD
+
+  <div>
+    Auction Start Time:
+
+    <mat-form-field appearance="outline">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="data.startTime">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!-- <input type="datetime-local" min="2021-10-01T08:30" max="2021-11-30T16:30" [(ngModel)]="data.deadline"> -->
+  </div>
+
+
+  <div>
     Auction Deadline:
-    <input type="datetime-local" min="2021-10-01T08:30" max="2021-11-30T16:30" [(ngModel)]="data.deadline"> 
+
+    <mat-form-field appearance="outline">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="data.deadline">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <!-- <input type="datetime-local" min="2021-10-01T08:30" max="2021-11-30T16:30" [(ngModel)]="data.deadline"> -->
+  </div>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onYesClick()" cdkFocusInitial>List for sale</button>
-    <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-stroked-button (click)="onYesClick()" cdkFocusInitial>List for sale</button>
+  <button mat-stroked-button (click)="onNoClick()">Cancel</button>
 </mat-dialog-actions>
