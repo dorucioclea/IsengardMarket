@@ -3,7 +3,7 @@ export interface NFTCollection {
   name: string;
   ticker: string;
   issuer?: string;
-  timeStamp: number;
+  timestamp: number;
   canUpgrade: boolean;
   canMint: boolean;
   canBurn: boolean;
