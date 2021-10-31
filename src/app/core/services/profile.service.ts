@@ -27,22 +27,26 @@ export class ProfileService {
   }
 
   async loginAsync(wallet: string, signature: string): Promise<AuthResponse> {
-    return this.http.post<AuthResponse>(this.apiUrl + '/auth/login?address=' + wallet +'&signature=' + signature, '').toPromise();
+    return this.http.post<AuthResponse>(this.apiUrl + '/auth/login?address=' + wallet + '&signature=' + signature, '').toPromise();
   }
 
-  async getUserSecretNonceAsync(address: string){
+  async getUserSecretNonceAsync(address: string, refferer: string | undefined = undefined) {
+    if (refferer != undefined) {
+      console.log("MERGE");
+      return this.http.get<string>(this.apiUrl + '/auth/login/' + address + '?refferer=' + refferer).toPromise();
+    }
     return this.http.get<string>(this.apiUrl + '/auth/login/' + address).toPromise();
   }
 
-  async updateProfileImageAsync(formData: FormData, address: string): Promise<any>{
+  async updateProfileImageAsync(formData: FormData, address: string): Promise<any> {
     return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/profilePhoto', formData).toPromise();
   }
 
-  async updateProfileAsync(profile:Profile,username:string):Promise<any>{
+  async updateProfileAsync(profile: Profile, username: string): Promise<any> {
     return this.http.put<any>(this.apiUrl + '/profiles/' + username + '', profile).toPromise();
   }
 
-  async updateCoverImageAsync(formData: FormData, address: string) : Promise<any>{
+  async updateCoverImageAsync(formData: FormData, address: string): Promise<any> {
     return this.http.post<any>(this.apiUrl + '/profiles/' + address + '/coverPhoto', formData).toPromise()
   }
 }

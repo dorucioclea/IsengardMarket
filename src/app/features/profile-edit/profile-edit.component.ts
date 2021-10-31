@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Profile } from 'src/app/core/models/profile';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -22,6 +24,8 @@ export class ProfileEditComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer, 
     private authService: AuthService, 
+    private snackbarService : SnackbarService,
+    private router: Router,
     private profileService: ProfileService) {
      }
 
@@ -72,8 +76,8 @@ export class ProfileEditComponent implements OnInit {
       this.authService.updateProfile(profile);
     }
 
-    alert('Profile updated successfully');
-
+    this.snackbarService.positiveSentiment('Profile updated successfully');
+    this.router.navigate(['/artist',this.profile!.username!])
   }
 
 }

@@ -22,6 +22,7 @@ export class ArtistPageComponent implements OnInit {
   public favouritedNFTs: NFT[] = [];
   public profileName: string | undefined;
   public profile: Profile | undefined;
+  public reffererProfile : Profile | undefined;
   public joinedDate: string | undefined;
   public userBrowsing = false;
   mockedNFTS: NFT[] = favoritesMockNFTS;
@@ -40,12 +41,17 @@ export class ArtistPageComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
+    this.activatedRoute.params.subscribe(async routeParams => {
+      await this.loadData();
+    });
+  }
+
+  private async loadData(){
     this.coreService.getAllNFTS().subscribe(
       (data) => {
         this.nfts = data;
       }
     );
-
 
     if (this.profileName != undefined) {
 
@@ -54,12 +60,17 @@ export class ArtistPageComponent implements OnInit {
       }
 
       this.profile = await this.profileService.getProfileAsync(this.profileName);
+      if(this.profile.refferer != undefined){
+        this.reffererProfile = await this.profileService.getProfileAsync(this.profile.refferer)
+      }else{
+        this.reffererProfile = undefined;
+      }
+      
+      this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
+
       this.createdNFTs = await this.nftService.getNFTsByCreatorAsync(this.profile.accountId!);
       this.ownedNFTs = await this.nftService.getOwnedNFTsAsync(this.profile.accountId!);
-      this.joinedDate = moment(this.profile!.createdAt).format('MMMM YYYY');
     }
-
-
   }
 
   public select(page: string) {

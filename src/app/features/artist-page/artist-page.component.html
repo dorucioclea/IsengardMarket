@@ -1,4 +1,4 @@
-<artist-page-header [profile]="profile"></artist-page-header>
+<artist-page-header [profile]="profile!"></artist-page-header>
 <div style="position: relative;">
   <artist-page-top-info [profile]="profile!"></artist-page-top-info>
   <div class="edit-icon-profile">
@@ -10,7 +10,7 @@
 
 <div class="wrapper">
   <div class="left-grid">
-    <app-artist-page-info [profile]="profile!" [joinedDate]="joinedDate"></app-artist-page-info>
+    <app-artist-page-info [profile]="profile!" [reffererProfile]="reffererProfile!" [joinedDate]="joinedDate!"></app-artist-page-info>
   </div>
   <div class="right-grid">
     <mat-tab-group mat-align-tabs="start">
