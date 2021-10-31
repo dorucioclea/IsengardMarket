@@ -5,6 +5,9 @@ import { loadAbiRegistry } from '@elrondnetwork/erdjs/out/testutils';
 import { environment } from '@isengard/env/environment';
 import { Economics } from 'src/app/core/models/economics.model';
 import { CoreService } from 'src/app/core/services/core.service';
+import { SnackbarService } from "src/app/core/services/snackbar.service";
+import { ActivatedRoute } from "@angular/router";
+import { CryptoService } from "src/app/core/services/crypto.service";
 @Component({
   selector: 'app-maintenance',
   templateUrl: './maintenance.component.html',
@@ -16,20 +19,22 @@ export class MaintenanceComponent implements OnInit {
   private gatewayUrl = environment.gatewayUri;
   private contractAddress = environment.contractAddress;
   private tokenContractAddress = environment.tokenContractAddress
+  private marketUrl = environment.marketUrl;
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
   private nftIdentifier: string | undefined;
   public economics: Economics | undefined;
+  public refferer: string | undefined;
 
-  public sale1Sold: number =0;
-  public sale1Goal: number =2500000;
-  public sale2Sold: number =0;
-  public sale2Goal: number =10000000;
-  public sale3Sold: number =0;
-  public sale3Goal: number =20000000;
+  public sale1Sold: number = 0;
+  public sale1Goal: number = 2500000;
+  public sale2Sold: number = 0;
+  public sale2Goal: number = 10000000;
+  public sale3Sold: number = 0;
+  public sale3Goal: number = 20000000;
 
   public email: string | undefined = undefined;
-  public isetCount: number = 100;
+  public isetCount: number = 10;
 
   ietValue1 = 0.0001;
   maxisetCount1 = 40000;
@@ -37,9 +42,17 @@ export class MaintenanceComponent implements OnInit {
   maxisetCount3 = 160000;
   ietValue2 = 0.0002;
   ietValue3 = 0.0004;
-  constructor(private coreService: CoreService) {
+  constructor(private coreService: CoreService,
+    private activatedRoute: ActivatedRoute,
+    private cryptoService: CryptoService,
+    private snackbarService: SnackbarService) {
     this.extProvider = ExtensionProvider.getInstance();
     this.provider = new ProxyProvider(this.gatewayUrl);
+
+
+    this.activatedRoute.queryParams.subscribe(qp => {
+      this.refferer = qp.reffer;
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -75,12 +88,10 @@ export class MaintenanceComponent implements OnInit {
     let provider = ExtensionProvider.getInstance();
     await provider.init();
     let user = await this.syncUser();
-    alert("refferer/" + user.address);
-
-
+    this.snackbarService.positiveSentiment(`Copy and share this url: \r\n \n\n ${this.marketUrl}/landing?reffer=${user.address}`);
   }
 
-  public async buyToken() {
+  public async buyToken(refferer: string | undefined = undefined) {
     if (this.privateSale) {
       return;
     }
@@ -89,23 +100,55 @@ export class MaintenanceComponent implements OnInit {
 
     let user = await this.syncUser();
 
-    let tx = new Transaction({
-      sender: new Address(user.address),
-      receiver: new Address(this.tokenContractAddress),
-      value: Balance.egld(this.egldValue(this.isetCount)),
-      gasLimit: new GasLimit(500000000),
-      chainID: new ChainID("D"), // cham
-      data: new TransactionPayload("buy_presale1"),
-    });
-    tx.setNonce(user.nonce);
+    if (refferer == undefined) {
+      let tx = new Transaction({
+        sender: new Address(user.address),
+        receiver: new Address(this.tokenContractAddress),
+        value: Balance.egld(this.egldValue(this.isetCount)),
+        gasLimit: new GasLimit(500000000),
+        chainID: new ChainID("D"), 
+        data: new TransactionPayload("buy_presale1"),
+      });
 
-    let signedTransaction = await this.extProvider.signTransaction(tx);
-    await signedTransaction.send(this.provider);
-    await signedTransaction.awaitExecuted(this.provider);
+      tx.setNonce(user.nonce);
+
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+      await signedTransaction.send(this.provider);
+      await signedTransaction.awaitExecuted(this.provider);
+
+    } else {
+      let payload = this.generateBuyPresaleMessage();
+      let tx = new Transaction({
+        sender: new Address(user.address),
+        receiver: new Address(this.tokenContractAddress),
+        value: Balance.egld(this.egldValue(this.isetCount)),
+        gasLimit: new GasLimit(500000000),
+        chainID: new ChainID("D"), 
+        data: new TransactionPayload(payload),
+      });
+
+      tx.setNonce(user.nonce);
+
+      let signedTransaction = await this.extProvider.signTransaction(tx);
+      await signedTransaction.send(this.provider);
+      await signedTransaction.awaitExecuted(this.provider);
+    }
+  }
+
+  public async buyTokenWithReffer() {
+    console.log("WITH REFFER");
+    this.buyToken(this.refferer);
   }
 
   public egldValue(ietCount: number) {
     return this.ietValue1 * ietCount;
+  }
+
+  private generateBuyPresaleMessage() {
+    let address = new Address(this.refferer); // Collection in hex
+    let presaleMsg = `buy_presale1_reffered@${address.hex()}`;
+
+    return presaleMsg;
   }
 
   private async loadEconomics() {

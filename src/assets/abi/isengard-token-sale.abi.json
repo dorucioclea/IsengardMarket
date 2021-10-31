@@ -106,6 +106,20 @@
             "outputs": []
         },
         {
+            "name": "buy_presale1_reffered",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "refferer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "buy_presale2",
             "mutability": "mutable",
             "payableInTokens": [

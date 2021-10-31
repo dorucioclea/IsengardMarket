@@ -56,6 +56,11 @@
                 </a>
             </ul>
         </div>
+        <div class="token-sale-initiator" click>
+            <h3 class="title">Check out our token sale blow</h3>
+            <h3 class="title arrow"><img width="50px" src="assets/images/arrow_bottom.png"></h3>
+        </div>
+
     </div>
 
 
@@ -96,12 +101,19 @@
                     <h2 class="title">Presale Round #1 ( 15 Nov 2021 - 5 Dec 2021 )</h2>
                     <h3 class="title">Price:<span class=egld-price>0.0001 EGLD</span> <span class="usdt-price">( $0.0269
                             )</span> </h3>
-                    <h3 class="title">Goal: 0.5% of the Total supply. Total : <span class=egld-price>Only 2.500.000 ISET
+                    <h3 class="title">Goal: 0.5% of the Total supply. Total : <span class=egld-price>Only {{sale1Goal -
+                            sale1Sold | number}} ISET
                             left this round</span></h3>
-                            <h3 class="title">30% of the bought tokens are received on spot.</h3>
-                            <h3 class="title">70% of the tokens will have a esting period: 5 months, then 17.5% / month claimable</h3>
+                    <h3 class="title">30% of the bought tokens are received on spot. 70% of the tokens will have a
+                        vesting period: 5 months, then 17.5% / month
+                        claimable</h3>
+                    <div class="progress-bar">
+                        <h3 class="title"> Goal reached {{sale1Sold/sale1Goal}} %</h3>
+                        <div style="width:{{sale1Sold/sale1Goal}}%" class="progress">
 
-                            <h3 class="title"> Goal reached {{sale1Sold/sale1Goal}} %</h3>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="presale-wrapper">
@@ -109,13 +121,19 @@
                     <h3 class="title">Price: <span class=egld-price>0.0002 EGLD</span> <span class="usdt-price">(
                             $0.0531
                             )</span> </h3>
-                    <h3 class="title"> Goal: 2% of the Total supply. Total : <span class=egld-price>Only 10.000.000 ISET
+                    <h3 class="title"> Goal: 2% of the Total supply. Total : <span class=egld-price>Only {{sale2Goal -
+                            sale2Sold | number}} ISET
                             will
                             be available for sale</span></h3>
-                            <h3 class="title">30% of the bought tokens are received on spot.</h3>
-                            <h3 class="title">70% of the tokens will have a esting period: 3 months, then 17.5% / month claimable</h3>
-
+                    <h3 class="title">30% of the bought tokens are received on spot. 70% of the tokens will have a
+                        vesting period: 3 months, then 17.5% / month
+                        claimable</h3>
+                    <div class="progress-bar">
+                        <div style="width:{{sale2Sold/sale2Goal}}%" class="progress">
                             <h3 class="title"> Goal reached {{sale2Sold/sale2Goal}} %</h3>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="presale-wrapper">
@@ -124,33 +142,37 @@
                             $0.2160
                             )</span> </h3>
 
-                            <h3 class="title">30% of the bought tokens are received on spot.</h3>
-                            <h3 class="title">70% of the tokens will have a esting period: 1 month, then 17.5% / month claimable</h3>
+                    <h3 class="title">30% of the bought tokens are received on spot. 70% of the tokens will have a
+                        vesting period: 1 month, then 17.5% / month claimable
+                    </h3>
 
+                    <div class="progress-bar">
+                        <div style="width:{{sale3Sold/sale3Goal}}%" class="progress">
                             <h3 class="title"> Goal reached {{sale3Sold/sale3Goal}} %</h3>
-                    <h3 class="title">Goal: TBD</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
-            <h2 class="sub-title">We are currently in the Private Sale period. The ISET token price is 0.00005 EGLD (
-                $0.0134
-                )</h2>
-
-            <!-- Enforce max buy for wallet.  -->
+            <h2 class="sub-title">We are currently in the Private Sale period. The ISET token price is 0.00005 EGLD
+                ($0.0134)</h2>
 
 
             <form>
-                <input type="number" class="ietInput" name="isetCount" [(ngModel)]="isetCount"
+                <input type="number" class="ietInput" name="isetCount" min="10" [(ngModel)]="isetCount"
                     max="{{maxisetCount1}}">
-                <h3 class="title"> You will buy {{isetCount}} ISET = {{egldValue(isetCount)}} EGLD </h3>
+                <h3 class="title"> You will buy {{isetCount!}} ISET = {{egldValue(isetCount!)}} EGLD ( $
+                    {{economics?.price! * egldValue(isetCount!)}}) </h3>
 
-                <div matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
+                <div *ngIf="refferer == undefined" matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
                     <button class="buy-btn" (click)="buyToken()"> ⚡ Buy ISET⚡ </button>
+
                 </div>
 
-                <div matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
-                    <button class="buy-btn" (click)="refferFriend()"> ⚡ Reffer a friend ⚡ </button>
+                <div *ngIf="refferer != undefined" matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
+                    <button class="buy-btn" (click)="buyTokenWithReffer()"> ⚡ Buy ISET⚡ </button>
+
                 </div>
 
             </form>
@@ -173,6 +195,14 @@
                     create a staking
                     pool for ISET. </h3>
             </div>
+
+
+
+            <div matTooltipClass="tooltip">
+                <button class="buy-btn" (click)="refferFriend()"> ⚡ Reffer a friend ⚡ </button>
+            </div>
+            <h3 class="title">When reffering a friend, you will both INSTANTLY receive 1% of the purchase as a gift from
+                us.</h3>
         </div>
 
 
@@ -183,6 +213,94 @@
 <div class="roadmap-section">
 
     <div class="wrapper">
+
+        <h1 class="title team-title">Isengard Team</h1>
+        <div class="team-member-wrapper">
+            <div class="team-member-container">
+                <img src="assets/images/people/merdi.jpg">
+                <h2>Razvan Merdescu</h2>
+                <p>Tech Entrepreneur. Co-Founder & CEO CeComand. Software Engineer. Blockchain Enthusiast</p>
+                <ul class="team-member-links">
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/merdescurazvan/"><img
+                                src="https://icon-library.com/images/linkedin-icon-vector-white/linkedin-icon-vector-white-26.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/mrazvanalex"><img src="assets/images/logos/twitter.png"></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="team-member-container">
+                <img src="assets/images/people/vlad.jpg">
+                <h2>Vlad Popescu</h2>
+                <p>Head of PR & Market Research, Software Engineer</p>
+                <ul class="team-member-links">
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/vladpopescugabriel/"><img
+                                src="https://icon-library.com/images/linkedin-icon-vector-white/linkedin-icon-vector-white-26.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/vladpopescu28"><img src="assets/images/logos/twitter.png"></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="team-member-container">
+                <img src="assets/images/people/panic.jpeg">
+                <h2>Marius Brinzaru</h2>
+                <p>Lead Frontend Engineer, Crypto Enthusiast</p>
+                <ul class="team-member-links">
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/marius-brinzaru-97131888/"><img
+                                src="https://icon-library.com/images/linkedin-icon-vector-white/linkedin-icon-vector-white-26.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/MariusAndreiTgn"><img src="assets/images/logos/twitter.png"></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="team-member-container">
+                <img src="assets/images/people/bogdan.jpg">
+                <h2>Bogdan Savu</h2>
+                <p>Lead Software Engineer, Specialization in Serverside Computation Technology.</p>
+                <ul class="team-member-links">
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/bogdan-george-savu-2166a5151/"><img
+                                src="https://icon-library.com/images/linkedin-icon-vector-white/linkedin-icon-vector-white-26.jpg"></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="team-member-container">
+                <img src="assets/images/people/andrei.jpg">
+                <h2>Andrei Suica</h2>
+                <p>Aeronautics Software Engineer</p>
+                <ul class="team-member-links">
+
+                    <li>
+                        <a href="https://www.linkedin.com/in/andrei-suica-351245152/"><img
+                                src="https://icon-library.com/images/linkedin-icon-vector-white/linkedin-icon-vector-white-26.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/AndreiSuica"><img src="assets/images/logos/twitter.png"></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+
         <h1 class="title roadmap">Isengard Roadmap</h1>
 
         <h2 class="title">Q2 2021</h2>
@@ -211,6 +329,8 @@
 
         <h2 class="title">Q4 2022 and later</h2>
         <h3 class="sub-title">TBD 🔮</h3>
+
+
 
     </div>
 
