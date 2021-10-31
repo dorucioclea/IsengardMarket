@@ -17,6 +17,9 @@ import { MatRippleModule } from "@angular/material/core";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
 import { MaterialModule } from "./material-module/material-shared.module";
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -42,7 +45,7 @@ import { MaterialModule } from "./material-module/material-shared.module";
     MatSelectModule,
     MatButtonModule,
     MatRippleModule, 
-    MatTooltipModule
+    MatTooltipModule,
     MaterialModule
   ],
   exports: [
