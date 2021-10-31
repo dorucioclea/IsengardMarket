@@ -141,9 +141,9 @@
 
 
             <form>
-                <input type="number" class="ISETInput" name="ISETCount" disabled [(ngModel)]="ISETCount"
-                    max="{{maxISETCount1}}">
-                <h3 class="title"> You will buy {{ISETCount}} ISET = {{egldValue(ISETCount)}} EGLD </h3>
+                <input type="number" class="ietInput" name="isetCount" [(ngModel)]="isetCount"
+                    max="{{maxisetCount1}}">
+                <h3 class="title"> You will buy {{isetCount}} ISET = {{egldValue(isetCount)}} EGLD </h3>
 
                 <div matTooltipClass="tooltip" matTooltip="Disabled in Private Sale">
                     <button class="buy-btn" (click)="buyToken()"> ⚡ Buy ISET⚡ </button>

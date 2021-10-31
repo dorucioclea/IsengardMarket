@@ -29,12 +29,12 @@ export class MaintenanceComponent implements OnInit {
   public sale3Goal: number =20000000;
 
   public email: string | undefined = undefined;
-  public ietCount: number = 100;
+  public isetCount: number = 100;
 
   ietValue1 = 0.0001;
-  maxIetCount1 = 40000;
-  maxIetCount2 = 80000;
-  maxIetCount3 = 160000;
+  maxisetCount1 = 40000;
+  maxisetCount2 = 80000;
+  maxisetCount3 = 160000;
   ietValue2 = 0.0002;
   ietValue3 = 0.0004;
   constructor(private coreService: CoreService) {
@@ -92,7 +92,7 @@ export class MaintenanceComponent implements OnInit {
     let tx = new Transaction({
       sender: new Address(user.address),
       receiver: new Address(this.tokenContractAddress),
-      value: Balance.egld(this.egldValue(this.ietCount)),
+      value: Balance.egld(this.egldValue(this.isetCount)),
       gasLimit: new GasLimit(500000000),
       chainID: new ChainID("D"), // cham
       data: new TransactionPayload("buy_presale1"),
