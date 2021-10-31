@@ -2,17 +2,17 @@
   <div class="collection-drop">
     <span class="isengard-text">COLLECTION DROP</span>
   </div>
-  <img src="../../../assets/mona.jpg" width="300px" height="450px">
+  <img src="{{collection!.uri}}" width="300px" height="450px">
   <div class="collection-info">
     <div class="collection-name">
-      Mona Lisa
+      {{collection!.name}}
     </div>
     <div class="label">Collection</div>
   </div>
 
   <div class="artist-container">
     <div class="artist-buble">
-      <div class="artist">@abstractor</div>
+      <div class="artist">@{{collection!.creator}}</div>
     </div>
   </div>
 </div>

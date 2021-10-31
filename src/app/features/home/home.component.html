@@ -6,8 +6,8 @@
   <div>View all drops</div>
 </div>
 <div class="responsive-list-collection">
-  <ng-container *ngFor="let nftCollection of [1,2,3,4]">
-    <app-nft-collection></app-nft-collection>
+  <ng-container *ngFor="let nftCollection of nftCollections">
+    <app-nft-collection [collection]="nftCollection"></app-nft-collection>
   </ng-container>
 </div>
 

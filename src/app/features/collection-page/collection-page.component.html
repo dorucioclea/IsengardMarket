@@ -2,7 +2,7 @@
 <div class="header-wrapper">
   <div class="header-info">
     <div class="collection-photo center">
-      <img src="assets\mona.jpg" alt="">
+      <img src="assets/images/mona.jpg" alt="">
     </div>
     <div class="collection-name center">
       <span>{{collection?.name}}</span>
@@ -74,9 +74,18 @@
     <input type="text" name="" id="" placeholder="Price: High to Low">
   </div>
 </div>
-<div class="collection-wrapper">
-  <collection-nft-card *ngFor="let nft of nfts" [collectionName]="collection?.name" [name]="nft.name" [photo]="nft.url">
-  </collection-nft-card>
-</div>
+
+<ng-container *ngIf="collection; else loadingTemplate">
+  <div class="collection-wrapper">
+    <collection-nft-card *ngFor="let nft of nfts" [collectionName]="collection?.name" [name]="nft.name"
+      [photo]="nft.url">
+    </collection-nft-card>
+  </div>
+</ng-container>
+<ng-template #loadingTemplate>
+  <div class="spinner-container">
+    <mat-spinner [color]="'primary'" [strokeWidth]="8" [diameter]="60"></mat-spinner>
+  </div>
+</ng-template>
 
 <app-info-footer></app-info-footer>

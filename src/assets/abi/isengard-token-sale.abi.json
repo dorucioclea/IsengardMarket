@@ -1,0 +1,227 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.57.0-nightly",
+            "commitHash": "308dffd25cb55bbb4a1fbee9822cf82c6a5d012d",
+            "commitDate": "2021-09-22",
+            "channel": "Nightly",
+            "short": "rustc 1.57.0-nightly (308dffd25 2021-09-22)"
+        },
+        "contractCrate": {
+            "name": "isengard-token-sale",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.21.0"
+        }
+    },
+    "name": "TokenSale",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "start_time1",
+                "type": "u64"
+            },
+            {
+                "name": "end_time1",
+                "type": "u64"
+            },
+            {
+                "name": "start_time2",
+                "type": "u64"
+            },
+            {
+                "name": "end_time2",
+                "type": "u64"
+            },
+            {
+                "name": "start_time3",
+                "type": "u64"
+            },
+            {
+                "name": "end_time3",
+                "type": "u64"
+            },
+            {
+                "name": "egld_price1",
+                "type": "BigUint"
+            },
+            {
+                "name": "egld_price2",
+                "type": "BigUint"
+            },
+            {
+                "name": "egld_price3",
+                "type": "BigUint"
+            },
+            {
+                "name": "max_tokens1",
+                "type": "BigUint"
+            },
+            {
+                "name": "max_tokens2",
+                "type": "BigUint"
+            },
+            {
+                "name": "max_tokens3",
+                "type": "BigUint"
+            },
+            {
+                "name": "token_type",
+                "type": "TokenIdentifier"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "fund",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "set_presale3_price",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "price",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale1",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale1_reffered",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "refferer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale2",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale2_reffered",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "refferer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale3",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "buy_presale3_reffered",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "refferer",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claim_tokens",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "get_owner",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getPresale",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "presale_no",
+                    "type": "i32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Presale"
+                }
+            ]
+        }
+    ],
+    "types": {
+        "Presale": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "max_tokens",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "sold_tokens",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "start_time",
+                    "type": "u64"
+                },
+                {
+                    "name": "end_time",
+                    "type": "u64"
+                },
+                {
+                    "name": "price",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}

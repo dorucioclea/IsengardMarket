@@ -10,9 +10,11 @@ export class ArtistPageTopInfoComponent implements OnInit {
   @Input() profile!: Profile;
 
   constructor() {
+    console.log("WOA3");
   }
 
   ngOnInit() {
+    console.log("WOA3");
   }
 
 }

@@ -1,8 +1,7 @@
 <div class="container">
 
   <div class="artist-name">
-    <div>{{profile?.firstName}}</div>
-    <div>{{profile?.lastName}}</div>
+    <div>{{profile?.firstName}} {{profile?.lastName}}</div>
   </div>
   <div class="artist-username">
     <div class="username-wrapper">
@@ -40,23 +39,41 @@
       {{profile?.bio}}
     </span>
   </div>
-  <div class="invited-by">
-    <span>Invited by @mrazvanalex</span>
+
+  <a [routerLink]="['/artist',reffererProfile?.username]" routerLinkActive="router-link-active" class="invited-by"
+    *ngIf="reffererProfile != undefined">
+    <a href=""></a>
+    <span>Invited by {{reffererProfile?.username}}</span>
     <div class="inviter-photo">
-      <img src="assets/images/people/merdi.jpg" alt="">
+      <img src="{{reffererProfile?.profilePicture}}" alt="">
     </div>
 
-  </div>
+  </a>
   <div class="links-info">
     <div class="title">
       <span>Links</span>
     </div>
-    <div class="links">
+    <a href="https://twitter.com/{{profile?.twitter}}" target="_blank" class="links" *ngIf="profile?.twitter">
       <div class="icon">
-        <img src="assets/icons/instagram.png" alt="">
+        <img src="assets/images/logos/twitter.png" alt="">
       </div>
-      <span>suicanul</span>
-    </div>
+      <span>{{profile?.instagram}}</span>
+    </a>
+
+    <a href="https://intagr.am/{{profile?.twitter}}" target="_blank" class="links" *ngIf="profile?.instagram">
+      <div class="icon">
+        <img src="assets/images/logos/instagram.png" alt="">
+      </div>
+      <span>{{profile?.instagram}}</span>
+    </a>
+
+    <a href="https://discordapp.com/users/{{profile?.twitter}}" target="_blank" class="links"
+      *ngIf="profile?.instagram">
+      <div class="icon">
+        <img src="assets/images/logos/discord.png" alt="">
+      </div>
+      <span>{{profile?.discord}}</span>
+    </a>
 
   </div>
   <div class="joined">

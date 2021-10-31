@@ -1,12 +1,13 @@
 import BigNumber from "bignumber.js";
 import { Component, OnInit } from '@angular/core';
-import { Address, GasLimit, Interaction, ProxyProvider, SmartContract, SmartContractAbi, TokenIdentifierValue, U64Value } from '@elrondnetwork/erdjs/out';
+import { Address, GasLimit, Interaction, NetworkConfig, ProxyProvider, SmartContract, SmartContractAbi, TokenIdentifierValue, U64Value } from '@elrondnetwork/erdjs/out';
 import { loadAbiRegistry } from '@elrondnetwork/erdjs/out/testutils';
 import { environment } from '@isengard/env/environment';
 import { NFT } from 'src/app/core/models/nft.model';
 import { NftService } from 'src/app/core/services/nft.service';
+import { CoreService } from "src/app/core/services/core.service";
 
-export enum SaleType{
+export enum SaleType {
   Sale,
   Auction
 }
@@ -26,9 +27,10 @@ export class MarketComponent implements OnInit {
   public auctions: NFT[] = []; //TODO: Create separate model maybe?
   public sales: NFT[] = []; //TODO: Create separate model maybe?
 
-  constructor(private nftService: NftService) {
+  constructor(private nftService: NftService,
+    private coreService: CoreService) {
     this.provider = new ProxyProvider(this.gatewayUrl);
-    
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -42,44 +44,41 @@ export class MarketComponent implements OnInit {
     let contract = new SmartContract({ address: new Address(this.contractAddress), abi: abi });
 
     // Compute type of nft sale and display data. // Maybe create separate types for auction and sale?. Actually sure!
-    onSaleNfts.forEach( async nft => {
+    onSaleNfts.forEach(async nft => {
       let nonce = new U64Value(new BigNumber(nft.nonce));
       let collection = new TokenIdentifierValue(Buffer.from(nft.collection, 'ascii'));
-  
+
       let testInteraction = <Interaction>contract.methods.getWrapper([collection, nonce]).withGasLimit(new GasLimit(this.GAS_LIMIT));
-  
+
       let query = testInteraction.buildQuery()
       let response = await this.provider.queryContract(query);
-  
+
       if (response.isSuccess()) {
         let parsedResponse = testInteraction.interpretQueryResponse(response);
         var auction = parsedResponse.values[0].valueOf().auction; // here is the struct of the auction -> maybe map in separate obj / nullable
         var sale = parsedResponse.values[0].valueOf().sale; // here is the struct of the sale -> maybe map in separate obj / nullable
         var state = parsedResponse.values[0].valueOf().state;
-        
+
         console.log(state);
         console.log(auction);
         console.log(sale);
-        if(state == "Sale"){
+        if (state == "Sale") {
           this.sales.push(nft)
-        }else{
+        } else {
           this.auctions.push(nft);
         }
       }
-
-    })
-   
-
-    // Should 
     
+    })
+    // Should 
+
 
 
     // Load NFTs
     // Flow -> get NFTs of contract -> get new struct for each of those by Id.
 
-     // Implement infinite load with this paginated results :)
-    
+    // Implement infinite load with this paginated results :)
+
 
   }
-
 }

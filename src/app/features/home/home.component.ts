@@ -17,14 +17,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.coreService.getAllCollections().subscribe(
+    this.coreService.getAllCollectionsFake().subscribe(
       (data) => {
         this.nftCollections = data;
-      }
-    );
-    this.coreService.getAllNFTS().subscribe(
-      (data) => {
-        this.nfts = data;
       }
     );
   }

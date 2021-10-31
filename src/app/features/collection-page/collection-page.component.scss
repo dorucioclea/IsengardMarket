@@ -1,148 +1,157 @@
 .header-wrapper {
-    background-image: url("../../../assets/nft-cover.jpg");
-    background-size: cover;
-    background-position: 50% 50%;
-    z-index: 100;
-    height: 490px;
-    font-family: Poppins;
+  background-image: url("/assets/images/nft-cover.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
+  z-index: 100;
+  height: 490px;
+  font-family: Poppins;
 
-    .header-info {
-        display: flex;
-        flex-direction: column;
-        padding: 65px 0;
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    padding: 65px 0;
 
-        .collection-photo {
-            img {
-                width: 200px;
-                height: 200px;
-                border: 5px solid white;
-                border-radius: 18px;
-            }
-        }
-
-        .collection-name {
-            font-size: 60px;
-            text-shadow: 2px 3px 8px #0000004a;
-            color: white;
-            margin: 25px 0;
-        }
-
-        .collection-description {
-            font-size: 14px;
-            text-shadow: 2px 3px 8px #0000004a;
-            color: white;
-
-            .span-wrapper {
-                width: 50%;
-            }
-        }
+    .collection-photo {
+      img {
+        width: 200px;
+        height: 200px;
+        border: 5px solid white;
+        border-radius: 18px;
+      }
     }
 
-    .header-navbar {
-        display: flex;
-        justify-content: space-around;
-        .info {
-            display: flex;
-            box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-
-            .info-tab {
-                background-color: white;
-                padding: 10px 20px;
-
-                .title {
-                    font-size: 15px;
-                    color: #5b5b5b;
-                }
-
-                .number {
-                    font-size: 30px;
-                    color: #353535;
-                }
-            }
-
-            .info-tab:first-child {
-                border-bottom-left-radius: 10px;
-                border-top-left-radius: 10px;
-            }
-
-            .info-tab:last-child {
-                border-bottom-right-radius: 10px;
-                border-top-right-radius: 10px;
-            }
-        }
-
-        .social {
-            display: flex;
-
-            .social-tab {
-                width: 30px;
-                height: 30px;
-                background-color: white;
-                margin: 0 10px;
-                padding: 10px;
-                border-radius: 25px;
-                box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
+    .collection-name {
+      font-size: 60px;
+      text-shadow: 2px 3px 8px #0000004a;
+      color: white;
+      margin: 25px 0;
     }
+
+    .collection-description {
+      font-size: 14px;
+      text-shadow: 2px 3px 8px #0000004a;
+      color: white;
+
+      .span-wrapper {
+        width: 50%;
+      }
+    }
+  }
+
+  .header-navbar {
+    display: flex;
+    justify-content: space-around;
+    .info {
+      display: flex;
+      box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+
+      .info-tab {
+        background-color: white;
+        padding: 10px 20px;
+
+        .title {
+          font-size: 15px;
+          color: #5b5b5b;
+        }
+
+        .number {
+          font-size: 30px;
+          color: #353535;
+        }
+      }
+
+      .info-tab:first-child {
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+
+      .info-tab:last-child {
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+    }
+
+    .social {
+      display: flex;
+
+      .social-tab {
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        margin: 0 10px;
+        padding: 10px;
+        border-radius: 25px;
+        box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
 }
 
 .search-wrapper {
-    margin-top: 70px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    font-family: Poppins;
+  margin-top: 70px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  font-family: Poppins;
 
-    .searchbar {
-        width: 52%;
+  .searchbar {
+    width: 52%;
 
-        input {
-            width: 96%;
-            padding: 10px 15px;
-            border: none;
-            box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-            border-radius: 6px;
-        }
+    input {
+      width: 96%;
+      padding: 10px 15px;
+      border: none;
+      box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+      border-radius: 6px;
     }
+  }
 
-    .filters {
-        width: 22%;
+  .filters {
+    width: 22%;
 
-        input {
-            width: 90%;
-            padding: 10px 15px;
-            border: none;
-            box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
-            border-radius: 6px;
-        }
+    input {
+      width: 90%;
+      padding: 10px 15px;
+      border: none;
+      box-shadow: 0 3px 10px -3px rgb(0 0 0 / 25%);
+      border-radius: 6px;
     }
+  }
 }
 
 .collection-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    font-family: Poppins;
-    margin-bottom: 50px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-family: Poppins;
+  margin-bottom: 50px;
 }
 
 .center {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .flex-end {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .flex-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.spinner-container {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

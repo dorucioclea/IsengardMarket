@@ -20,6 +20,10 @@ import { CollectionPageModule } from './features/collection-page/collection-page
 import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
 import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
 import { MaterialModule } from './shared/material-module/material-shared.module';
+import { TOSComponent } from './core/tos/tos.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { QRCodeModule } from 'angular2-qrcode';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,7 @@ import { MaterialModule } from './shared/material-module/material-shared.module'
     MarketComponent,
     ProfileEditComponent,
     MaintenanceComponent,
+    TOSComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,9 +52,12 @@ import { MaterialModule } from './shared/material-module/material-shared.module'
     ArtistPageModule,
     NFTPageModule,
     ReactiveFormsModule,
-    CollectionPageModule
+    CollectionPageModule,
+    MatTooltipModule,
+    QRCodeModule
   ],
-  providers: [AuthGuardMaintenance],
+  providers: [AuthGuardMaintenance,
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } },],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
