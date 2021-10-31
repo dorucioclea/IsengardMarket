@@ -4,19 +4,13 @@ import { MagicCardCaruselComponent } from './magic-card-carusel/magic-card-carus
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 import { SearchNavbarComponent } from "./search-navbar/search-navbar.component";
 import { NFTCardComponent } from "./nft-card/nft-card.component";
 import { HeroNFTComponent } from './hero-nft/hero-nft.component';
 import { NameCardComponent } from './name-card/name-card.component';
 import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from "@angular/material/button";
-import { MatRippleModule } from "@angular/material/core";
+import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
+import { MaterialModule } from "./material-module/material-shared.module";
 
 @NgModule({
   declarations: [
@@ -26,21 +20,15 @@ import { MatRippleModule } from "@angular/material/core";
     MagicCardCaruselComponent,
     HeroNFTComponent,
     NameCardComponent,
-    NFTCollectionComponent
+    NFTCollectionComponent,
+    LoadingOverlayComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatRippleModule
+    MaterialModule
   ],
   exports: [
     NFTCardComponent,
@@ -49,7 +37,8 @@ import { MatRippleModule } from "@angular/material/core";
     MagicCardCaruselComponent,
     HeroNFTComponent,
     NameCardComponent,
-    NFTCollectionComponent
+    NFTCollectionComponent,
+    LoadingOverlayComponent
   ]
 })
 
