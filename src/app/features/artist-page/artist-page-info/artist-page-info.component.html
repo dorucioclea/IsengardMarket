@@ -1,8 +1,7 @@
 <div class="container">
 
   <div class="artist-name">
-    <div>{{profile?.firstName}}</div>
-    <div>{{profile?.lastName}}</div>
+    <div>{{profile?.firstName}} {{profile?.lastName}}</div> 
   </div>
   <div class="artist-username">
     <div class="username-wrapper">
@@ -51,11 +50,27 @@
     <div class="title">
       <span>Links</span>
     </div>
-    <div class="links">
+    <div class="links" *ngIf="profile?.twitter">
+      
       <div class="icon">
-        <img src="assets/icons/instagram.png" alt="">
+        <img src="assets/images/logos/twitter.png" alt="">
       </div>
-      <span>suicanul</span>
+      <span>{{profile?.instagram}}</span>
+    </div>
+
+    <div class="links" *ngIf="profile?.instagram">
+      
+      <div class="icon">
+        <img src="assets/images/logos/instagram.png" alt="">
+      </div>
+      <span>{{profile?.instagram}}</span>
+    </div>
+    <div class="links" *ngIf="profile?.instagram">
+      
+      <div class="icon">
+        <img src="assets/images/logos/discord.png" alt="">
+      </div>
+      <span>{{profile?.discord}}</span>
     </div>
 
   </div>

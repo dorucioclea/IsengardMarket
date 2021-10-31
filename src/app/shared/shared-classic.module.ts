@@ -9,8 +9,17 @@ import { NFTCardComponent } from "./nft-card/nft-card.component";
 import { HeroNFTComponent } from './hero-nft/hero-nft.component';
 import { NameCardComponent } from './name-card/name-card.component';
 import { NFTCollectionComponent } from "./nft-collection/nft-collection.component";
+import { MatIconModule } from "@angular/material/icon";
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from "@angular/material/button";
+import { MatRippleModule } from "@angular/material/core";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
 import { MaterialModule } from "./material-module/material-shared.module";
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -28,6 +37,15 @@ import { MaterialModule } from "./material-module/material-shared.module";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    MatInputModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatRippleModule, 
+    MatTooltipModule,
     MaterialModule
   ],
   exports: [

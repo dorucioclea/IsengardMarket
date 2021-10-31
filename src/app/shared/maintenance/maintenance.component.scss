@@ -1,4 +1,5 @@
 .background {
+    font-family     : Poppins;
     min-height      : 100vh;
     background-color: #18181d;
     position        : relative;
@@ -37,35 +38,83 @@
     .info {
         padding     : 15px;
         z-index     : 8;
-        position    : absolute;
+        position    : relative;
         margin-left : auto;
         margin-right: auto;
         left        : 0;
         right       : 0;
         text-align  : center;
+
+        .token-sale-initiator {
+            display: none;
+        }
     }
 }
 
-.heart{
-    color:rgb(204, 44, 44);
+.heart {
+    color: rgb(204, 44, 44);
+}
+
+
+.wrapper {
+    padding     : 10px;
+    max-width   : 1600px;
+    margin-left : auto;
+    margin-right: auto;
 }
 
 h1 {
-
-    text-align    : center;
-    margin-top    : 70px;
     font-size     : 50px;
     text-transform: uppercase;
     color         : #d6d7ff;
     font-family   : Poppins;
     font-weight   : 600;
-    margin-bottom : 30px;
+    line-height   : 50px;
+}
+
+.market-name {
+    font-size: 17px;
+    color    : #fff;
 }
 
 h2 {
-    color     : #8983a7;
+    color      : #b1acc9;
+    font-family: Poppins;
+    font-size  : 20px;
+    line-height: 20px;
+    font-weight: 400;
+}
+
+.title {
+    margin-bottom: 10px;
+    text-align   : center;
+}
+
+.sub-title {
+    margin    : 10px;
+    margin-top: 20px;
     text-align: center;
-    ;
+}
+
+.title-extra {
+    margin-top: 20px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color          : #d6d7ff;
+    transition     : 0.3s;
+}
+
+a:hover {
+    text-decoration: none;
+    color          : #fff;
+    transition     : 0.3s;
+}
+
+h3 {
+    color      : #8983a7;
     font-family: Poppins;
     font-size  : 16px;
     line-height: 20px;
@@ -73,7 +122,7 @@ h2 {
 }
 
 .input-wrapper {
-    margin-top  : 80px;
+    margin-top  : 120px;
     margin-left : auto;
     margin-right: auto;
     height      : 70px;
@@ -104,13 +153,13 @@ input {
 }
 
 .subscribe-btn {
-    background-color  : #231d43;
+    background-color  : #36287e;
     margin            : 50px auto;
     width             : 90%;
     max-width         : 330px;
     padding           : 15px;
     text-align        : center;
-    color             : #8983a7;
+    color             : #fff;
     text-transform    : uppercase;
     line-height       : 30px;
     cursor            : pointer;
@@ -119,12 +168,57 @@ input {
     -webkit-box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow   : 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
     box-shadow        : 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
-    outline: 0;
-    border: 1px solid black;
+    outline           : 0;
+    border            : 1px solid black;
 }
 
 .subscribe-btn:hover {
-    background-color: #2f2858;
+    background-color: #231d43;
+    ;
+    margin        : 50px auto;
+    width         : 90%;
+    max-width     : 330px;
+    padding       : 15px;
+    text-align    : center;
+    color         : #c0bece;
+    text-transform: uppercase;
+    line-height   : 30px;
+    cursor        : pointer;
+    border-radius : 50px;
+    transition    : 0.3s;
+    outline       : none;
+}
+
+.buy-btn {
+    background-color     : #5743c1;
+    margin               : 50px auto;
+    width                : 90%;
+    max-width            : 330px;
+    padding              : 15px;
+    text-align           : center;
+    color                : #fff;
+    text-transform       : uppercase;
+    line-height          : 30px;
+    cursor               : pointer;
+    border-radius        : 50px;
+    transition           : 0.3s;
+    // -webkit-box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
+    // -moz-box-shadow   : 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
+    // box-shadow        : 0px 4px 16px 0px rgba(0, 0, 0, 0.75);
+    outline              : 0;
+    border               : 1px solid #1f174a;
+    margin-left          : auto;
+    display              : block;
+    margin-right         : auto;
+}
+
+.details {
+    padding-top   : 50px;
+    padding-bottom: 20px;
+}
+
+.buy-btn:hover {
+    background-color: #8370eb;
     margin          : 50px auto;
     width           : 90%;
     max-width       : 330px;
@@ -133,44 +227,76 @@ input {
     color           : #c0bece;
     text-transform  : uppercase;
     line-height     : 30px;
-    cursor          : pointer;
     border-radius   : 50px;
     transition      : 0.3s;
-    outline: none;
+    outline         : none;
+}
+
+.ietInput {
+    background-color: #161229;
+    margin          : 50px auto;
+    width           : 80%;
+    max-width       : 330px;
+    padding         : 10px;
+    text-align      : center;
+    color           : #c0bece;
+    text-transform  : uppercase;
+    line-height     : 30px;
+    border-radius   : 50px;
+    transition      : 0.3s;
+    outline         : none;
 }
 
 .footer {
-    color     : #8983a7;
-    text-align: center;
-    position  : absolute;
-    bottom    : 0;
-    z-index   : 10;
+    color       : #8983a7;
+    text-align  : center;
+    position    : relative;
+    bottom      : 0;
+    padding-top : 40px;
+    z-index     : 10;
     margin-left : auto;
     margin-right: auto;
     left        : 0;
     right       : 0;
     text-align  : center;
-    
 }
 
 .social-wrapper {
-    text-align: center;
+    text-align    : center;
+    padding-top   : 30px;
+    padding-bottom: 30px;
+
+    .social-message {
+        margin-bottom: 20px;
+        color        : #8983a7;
+    }
 
     .social-list {
         margin         : 0 auto;
-        display        : inline-block;
+        height         : 100%;
         list-style-type: none;
         padding        : 0px;
+        position       : relative;
+        display        : flex;
+        flex-wrap      : wrap;
+
+        a {
+            flex           : 50%;
+            margin         : 0px auto;
+            padding        : 20px 0px 20px 0px;
+            text-align     : center;
+            align-items    : center;
+            justify-content: center;
+        }
 
         li {
+            margin          : 0 auto;
+            text-align      : center;
             width           : 50px;
             height          : 50px;
             border-radius   : 100%;
-            float           : left;
             padding         : 5px;
-            margin-left     : 20px;
-            margin-right    : 20px;
-            background-color: #231d43;
+            background-color: #36287e;
             transition      : 0.1s;
         }
 
@@ -178,31 +304,293 @@ input {
             width           : 50px;
             height          : 50px;
             border-radius   : 100%;
-            float           : left;
             padding         : 5px;
-            margin-left     : 20px;
-            margin-right    : 20px;
             background-color: #ffffff;
             transition      : 0.1s;
         }
 
-        #twitter img {
-            height: 50px;
-        }
-
-        #instagram img {
-            height: 50px;
-        }
-
-        #telegram img {
+        li img {
             height: 50px;
         }
     }
+}
+
+
+.token-section {
+    padding-top     : 50px;
+    min-height      : 100vh;
+    background-color: #231d43;
+
+    input {
+        max-width   : 80%;
+        margin-left : auto;
+        display     : block;
+        margin-right: auto;
+    }
+
+    h1 {
+        margin     : 0px;
+        line-height: 50px;
+    }
+
+    .presales {
+        margin-top: 50px;
+
+        .presale-wrapper {
+            margin        : 20px;
+            padding-top   : 20px;
+            padding-bottom: 10px;
+
+            .progress-bar {
+                width           : 100%;
+                height          : 40px;
+                background-color: #000;
+
+                .title {
+                    height     : 40px;
+                    line-height: 20px;
+                    position   : absolute;
+                    padding    : 10px;
+                    text-align : center;
+                    left       : 0;
+                    right      : 0;
+                }
+
+                .progress {
+                    height          : 40px;
+                    width           : 50%;
+                    background-color: #fff;
+                }
+            }
+
+            .egld-price {
+                color: rgb(228, 228, 228);
+            }
+
+            .usdt-price {
+                font-size: 13px;
+                color    : #807a9d
+            }
+        }
+    }
+
+    .why-buy {
+        h2 {
+            margin-top: 20px;
+        }
+    }
+}
+
+.roadmap {
+    margin-top    : 50px;
+    font-size     : 30px;
+    text-transform: none;
+    margin-bottom : 50px;
+}
+
+.team-title {
+    font-size: 30px;
+}
+
+.roadmap-section {
+    padding-top     : 20px;
+    background-color: #18181d;
+
+    .team-member-container {
+        font-family     : Poppins;
+        text-align      : center;
+        background-color: #121116;
+        padding         : 5px;
+        padding-top     : 20px;
+        color           : #fff;
+
+        h2 {
+            padding-top: 20px;
+            font-family: Poppins;
+            font-size  : 18px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+        img {
+            width: 70%;
+
+            margin       : 0 auto;
+            border-radius: 100%;
+            display      : block;
+            text-align   : center;
+        }
+
+        .team-member-links {
+            list-style-type: none;
+            padding        : 0px;
+            margin         : 0px;
+            display        : flex;
+            justify-content: center;
+
+            li {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+
+                a {
+                    display        : flex;
+                    align-items    : center;
+                    justify-content: center;
+
+                    img {
+                        max-width: 70px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.footer-section {
+    padding-top     : 20px;
+    min-height      : 4vh;
+    background-color: #18181d;
+    border-top      : 1px solid #1a1a1f;
 }
 
 @media (min-width: 45em) {
+
     .info {
-        margin-top: 220px;
+        padding-top: 220px !important;
+
+        h1 {
+            padding-top   : 50px;
+            padding-bottom: 20px;
+        }
+
+        .token-sale-initiator {
+            padding-top: 150px;
+            display    : block !important;
+
+            .arrow img {
+                position  : absolute;
+                transition: 0.3s;
+                left      : 0;
+                right     : 0;
+                margin    : 0 auto;
+            }
+
+            .arrow img:hover {
+                padding-top: 3px;
+                transition : 0.3s;
+                left       : 0;
+                right      : 0;
+                margin     : 0 auto;
+            }
+        }
+
+    }
+
+    .roadmap {
+        margin-top    : 150px;
+        font-size     : 50px;
+        text-transform: none;
+        margin-bottom : 50px;
+    }
+
+    .team-title {
+        font-size  : 50px !important;
+        font-family: Poppins;
+        font-weight: 500;
+    }
+
+    h2 {
+        color      : #b1acc9;
+        font-family: Poppins;
+        font-size  : 26px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+    .token-section {
+        input {
+            max-width   : 200px;
+            margin-left : auto;
+            display     : block;
+            margin-right: auto;
+            border      : 1px solid #2c2554;
+            box-shadow  : 0px 1px 10px -5px #000000;
+        }
+    }
+
+
+    .social-wrapper {
+        text-align    : center;
+        padding-top   : 30px;
+        padding-bottom: 30px;
+
+
+        .social-message {
+            margin-bottom: 20px;
+            color        : #8983a7;
+        }
+
+        .social-list {
+            margin         : 0 auto;
+            display        : inline-block;
+            height         : 100%;
+            list-style-type: none;
+            padding        : 0px;
+            position       : relative;
+
+            li {
+                width           : 50px;
+                height          : 50px;
+                border-radius   : 100%;
+                float           : left;
+                padding         : 5px;
+                margin-left     : 20px;
+                margin-right    : 20px;
+                background-color: #36287e;
+                transition      : 0.1s;
+            }
+
+            li:hover {
+                width           : 50px;
+                height          : 50px;
+                border-radius   : 100%;
+                float           : left;
+                padding         : 5px;
+                margin-left     : 20px;
+                margin-right    : 20px;
+                background-color: #ffffff;
+                transition      : 0.1s;
+            }
+
+            li img {
+                height: 50px;
+            }
+        }
+    }
+
+    .team-title {
+        margin-top: 50px;
+    }
+
+    .team-member-wrapper {
+
+
+        display: flex;
+
+        .team-member-container {
+            background-color: transparent;
+            width           : 300px;
+
+            h1 {
+                cursor: default;
+            }
+
+            p {
+                height: 60px;
+            }
+        }
     }
 }
-
