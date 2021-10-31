@@ -8,6 +8,13 @@ import { CoreService } from 'src/app/core/services/core.service';
 import { SnackbarService } from "src/app/core/services/snackbar.service";
 import { ActivatedRoute } from "@angular/router";
 import { CryptoService } from "src/app/core/services/crypto.service";
+
+export interface PresaleData {
+  sold: number;
+  goal: number;
+  start: Date;
+  end: Date;
+}
 @Component({
   selector: 'app-maintenance',
   templateUrl: './maintenance.component.html',
@@ -19,6 +26,7 @@ export class MaintenanceComponent implements OnInit {
   private gatewayUrl = environment.gatewayUri;
   private contractAddress = environment.contractAddress;
   private tokenContractAddress = environment.tokenContractAddress
+  private chainId = environment.chainID
   private marketUrl = environment.marketUrl;
   private extProvider: ExtensionProvider;
   private provider: ProxyProvider;
@@ -28,10 +36,16 @@ export class MaintenanceComponent implements OnInit {
 
   public sale1Sold: number = 0;
   public sale1Goal: number = 2500000;
+  public sale1Start: Date = new Date();
+  public sale1End: Date = new Date();
   public sale2Sold: number = 0;
   public sale2Goal: number = 10000000;
   public sale3Sold: number = 0;
   public sale3Goal: number = 20000000;
+
+  public presale1: PresaleData | undefined;
+  public presale2: PresaleData | undefined;
+  public presale3: PresaleData | undefined;
 
   public email: string | undefined = undefined;
   public isetCount: number = 10;
@@ -48,7 +62,6 @@ export class MaintenanceComponent implements OnInit {
     private snackbarService: SnackbarService) {
     this.extProvider = ExtensionProvider.getInstance();
     this.provider = new ProxyProvider(this.gatewayUrl);
-
 
     this.activatedRoute.queryParams.subscribe(qp => {
       this.refferer = qp.reffer;
@@ -106,7 +119,7 @@ export class MaintenanceComponent implements OnInit {
         receiver: new Address(this.tokenContractAddress),
         value: Balance.egld(this.egldValue(this.isetCount)),
         gasLimit: new GasLimit(500000000),
-        chainID: new ChainID("D"), 
+        chainID: new ChainID(this.chainId),
         data: new TransactionPayload("buy_presale1"),
       });
 
@@ -123,7 +136,7 @@ export class MaintenanceComponent implements OnInit {
         receiver: new Address(this.tokenContractAddress),
         value: Balance.egld(this.egldValue(this.isetCount)),
         gasLimit: new GasLimit(500000000),
-        chainID: new ChainID("D"), 
+        chainID: new ChainID(this.chainId),
         data: new TransactionPayload(payload),
       });
 
@@ -165,29 +178,35 @@ export class MaintenanceComponent implements OnInit {
     let abi = new SmartContractAbi(abiRegistry, ["TokenSale"]);
     let contract = new SmartContract({ address: new Address(this.tokenContractAddress), abi: abi });
 
-    let nonce = new I32Value(1);
-    let presale1Interaction = <Interaction>contract.methods.getPresale([nonce]).withGasLimit(new GasLimit(6000000));
+    this.presale1 = await this.loadPresaleData(contract, new I32Value(1));
+    this.presale2 = await this.loadPresaleData(contract, new I32Value(2));
+    this.presale3 = await this.loadPresaleData(contract, new I32Value(3));
 
-    let query = presale1Interaction.buildQuery()
+    console.log("presale");
+    console.log(this.presale1);
+  }
+
+  private async loadPresaleData(contract: SmartContract, presaleNumber: I32Value) : Promise<PresaleData | undefined> {
+    let presaleInteraction = <Interaction>contract.methods.getPresale([presaleNumber]).withGasLimit(new GasLimit(6000000));
+
+    let query = presaleInteraction.buildQuery()
     let response = await this.provider.queryContract(query);
     console.log(response);
     if (response.isSuccess()) {
-      let parsedResponse = presale1Interaction.interpretQueryResponse(response);
-      console.log("PRESALE ENDS:");
-      console.log(new Date(parsedResponse.values[0].valueOf().end_time.toNumber()));
-      console.log("PRESALE Maximum Tokens:");
-      console.log(this.nominatePrice(parsedResponse.values[0].valueOf().max_tokens.toNumber()));
-      console.log("PRESALE PRICE:");
-      console.log(this.nominatePriceFull(parsedResponse.values[0].valueOf().price.toNumber()));
-      console.log("SOLD TOKENS:");
-      console.log(this.nominatePrice(parsedResponse.values[0].valueOf().sold_tokens.toNumber()));
-      console.log("PRESALE STARTED:");
-      console.log(new Date(parsedResponse.values[0].valueOf().start_time.toNumber()));
+      let parsedResponse = presaleInteraction.interpretQueryResponse(response);
 
-      this.sale1Sold = this.nominatePrice(parsedResponse.values[0].valueOf().sold_tokens.toNumber());
-      this.sale1Goal = this.nominatePrice(parsedResponse.values[0].valueOf().max_tokens.toNumber());
+      let result: PresaleData = {
+        end : new Date(parsedResponse.values[0].valueOf().end_time.toNumber() * 1000),
+        start : new Date(parsedResponse.values[0].valueOf().start_time.toNumber() * 1000),
+        sold : this.nominatePrice(parsedResponse.values[0].valueOf().sold_tokens.toNumber()),
+        goal : this.nominatePrice(parsedResponse.values[0].valueOf().max_tokens.toNumber())
+      };
+
+      return result;
+
+    }else{
+      return undefined;
     }
-
   }
 
   private async syncUser(): Promise<Account> {

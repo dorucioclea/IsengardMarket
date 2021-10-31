@@ -6,6 +6,7 @@ export interface Profile {
     createdAt?: Date;
     profilePicture?: string;
     coverPicture? : string;
+    refferer?: string;
     bio?: string;
     email?: string;
     discord?: string;

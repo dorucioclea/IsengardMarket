@@ -98,7 +98,7 @@
             </h3>
             <div class="presales">
                 <div class="presale-wrapper">
-                    <h2 class="title">Presale Round #1 ( 15 Nov 2021 - 5 Dec 2021 )</h2>
+                    <h2 class="title">Presale Round #1 ( {{presale1?.start | date}} - {{presale1?.end | date}} )</h2>
                     <h3 class="title">Price:<span class=egld-price>0.0001 EGLD</span> <span class="usdt-price">( $0.0269
                             )</span> </h3>
                     <h3 class="title">Goal: 0.5% of the Total supply. Total : <span class=egld-price>Only {{sale1Goal -
@@ -108,16 +108,15 @@
                         vesting period: 5 months, then 17.5% / month
                         claimable</h3>
                     <div class="progress-bar">
-                        <h3 class="title"> Goal reached {{sale1Sold/sale1Goal}} %</h3>
-                        <div style="width:{{sale1Sold/sale1Goal}}%" class="progress">
-
+                        <div style="width:{{presale1!.sold/presale1!.goal}}%" class="progress">
+                            <h3 class="title"> Goal reached {{presale1!.sold/presale1!.goal}} %</h3>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="presale-wrapper">
-                    <h2 class="title">Presale Round #2 ( 5 Dec 2021 - 31 Dec 2021 )</h2>
+                    <h2 class="title">Presale Round #2  ( {{presale2?.start | date}} - {{presale2?.end | date}} )</h2>
                     <h3 class="title">Price: <span class=egld-price>0.0002 EGLD</span> <span class="usdt-price">(
                             $0.0531
                             )</span> </h3>
@@ -129,15 +128,15 @@
                         vesting period: 3 months, then 17.5% / month
                         claimable</h3>
                     <div class="progress-bar">
-                        <div style="width:{{sale2Sold/sale2Goal}}%" class="progress">
-                            <h3 class="title"> Goal reached {{sale2Sold/sale2Goal}} %</h3>
+                        <div style="width:{{presale2!.sold/presale2!.goal}}%" class="progress">
+                            <h3 class="title"> Goal reached {{presale2!.sold/presale2!.goal}} %</h3>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="presale-wrapper">
-                    <h2 class="title">Presale Round #3 ( 15 Ian 2022 - 30 Ian 2022 )</h2>
+                    <h2 class="title">Presale Round #3  ( {{presale3?.start | date}} - {{presale3?.end | date}} )</h2>
                     <h3 class="title">Price: <span class=egld-price>0.0004 EGLD</span> <span class="usdt-price">(
                             $0.2160
                             )</span> </h3>
@@ -147,8 +146,8 @@
                     </h3>
 
                     <div class="progress-bar">
-                        <div style="width:{{sale3Sold/sale3Goal}}%" class="progress">
-                            <h3 class="title"> Goal reached {{sale3Sold/sale3Goal}} %</h3>
+                        <div style="width:{{presale3!.sold/presale3!.goal}}%" class="progress">
+                            <h3 class="title"> Goal reached {{presale3!.sold/presale3!.goal}} %</h3>
                         </div>
                     </div>
                 </div>
@@ -195,8 +194,6 @@
                     create a staking
                     pool for ISET. </h3>
             </div>
-
-
 
             <div matTooltipClass="tooltip">
                 <button class="buy-btn" (click)="refferFriend()"> ⚡ Reffer a friend ⚡ </button>
