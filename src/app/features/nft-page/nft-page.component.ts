@@ -19,6 +19,7 @@ import { CoreService } from 'src/app/core/services/core.service';
 import { AuthService } from "src/app/core/services/auth.service";
 import { NftAuctionDialog } from "./dialogs/nft-auction-dialog.component";
 import { BidAuctionDialog } from "./dialogs/bid-auction-dialog.component";
+import { CryptoService } from "src/app/core/services/crypto.service";
 
 export enum NftState {
   Default,
@@ -67,6 +68,7 @@ export class NFTPageComponent implements OnInit {
     private transactionService: TransactionService,
     private snackbarService: SnackbarService,
     private authService: AuthService,
+    private cryptoService: CryptoService,
     public dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe(params => {
@@ -188,7 +190,7 @@ export class NFTPageComponent implements OnInit {
         let signedTransaction = await this.extProvider.signTransaction(tx);
         await signedTransaction.send(this.provider);
         await signedTransaction.awaitExecuted(this.provider);
-        alert('Transaction executed');
+        this.snackbarService.positiveSentiment('Transaction executed');
       }
     }
   }
@@ -337,7 +339,7 @@ export class NFTPageComponent implements OnInit {
       let signedTransaction = await this.extProvider.signTransaction(tx);
       await signedTransaction.send(this.provider);
       await signedTransaction.awaitExecuted(this.provider);
-      alert('Transaction executed');
+      this.snackbarService.positiveSentiment('Transaction executed');
     }
   }
 
@@ -354,7 +356,7 @@ export class NFTPageComponent implements OnInit {
       let signedTransaction = await this.extProvider.signTransaction(tx);
       await signedTransaction.send(this.provider);
       await signedTransaction.awaitExecuted(this.provider);
-      alert('Transaction executed');
+      this.snackbarService.positiveSentiment('Transaction executed');
     }
   }
 
@@ -371,13 +373,13 @@ export class NFTPageComponent implements OnInit {
       let signedTransaction = await this.extProvider.signTransaction(tx);
       await signedTransaction.send(this.provider);
       await signedTransaction.awaitExecuted(this.provider);
-      alert('Transaction executed');
+      this.snackbarService.positiveSentiment('Transaction executed');
 
     }
   }
 
   private generateBidNftMessageData(collection: string, nonce: number) {
-    let collectionHex = this.ascii_to_hex(collection); // Collection in hex
+    let collectionHex = this.cryptoService.ascii_to_hex(collection); // Collection in hex
     let nonceHex = nonce.toString(16); // Nonce in hex number
     if (nonceHex.length == 1) {
       nonceHex = "0" + nonceHex;
@@ -389,7 +391,7 @@ export class NFTPageComponent implements OnInit {
   }
 
   private generateCancelSaleMessageData(collection: string, nonce: number): string {
-    let collectionHex = this.ascii_to_hex(collection);
+    let collectionHex = this.cryptoService.ascii_to_hex(collection);
     let nonceHex = nonce.toString(16)
     if (nonceHex.length == 1) {
       nonceHex = "0" + nonceHex;
@@ -401,7 +403,7 @@ export class NFTPageComponent implements OnInit {
   }
 
   private generateEndAuctionMessageData(collection: string, nonce: number): string {
-    let collectionHex = this.ascii_to_hex(collection);
+    let collectionHex = this.cryptoService.ascii_to_hex(collection);
     let nonceHex = nonce.toString(16)
     if (nonceHex.length == 1) {
       nonceHex = "0" + nonceHex;
@@ -419,9 +421,9 @@ export class NFTPageComponent implements OnInit {
     }
 
     let priceHex = this.getPriceFromNumber(price)
-    let collectionHex = this.ascii_to_hex(collection);
+    let collectionHex = this.cryptoService.ascii_to_hex(collection);
     let contractAddressBech32 = new Address(this.contractAddress).hex();
-    let fnameHex = this.ascii_to_hex("add_nft_for_sale").toUpperCase();
+    let fnameHex = this.cryptoService.ascii_to_hex("add_nft_for_sale").toUpperCase();
     let countHex = "01"; // 1 in hex
 
     let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${priceHex}`;
@@ -437,9 +439,9 @@ export class NFTPageComponent implements OnInit {
 
     let startPriceHex = this.getPriceFromNumber(starting_price);
     let lastPriceHex = this.getPriceFromNumber(final_price);
-    let collectionHex = this.ascii_to_hex(collection);
+    let collectionHex = this.cryptoService.ascii_to_hex(collection);
     let contractAddressBech32 = new Address(this.contractAddress).hex();
-    let fnameHex = this.ascii_to_hex("add_nft_for_auction").toUpperCase();
+    let fnameHex = this.cryptoService.ascii_to_hex("add_nft_for_auction").toUpperCase();
     let countHex = "01"; // 1 in hex
 
     let nftSaleMessage = `ESDTNFTTransfer@${collectionHex}@${nonceHex}@${countHex}@${contractAddressBech32}@${fnameHex}@${startPriceHex}@${lastPriceHex}@${startTime}@${deadline}`;
@@ -448,7 +450,7 @@ export class NFTPageComponent implements OnInit {
   }
 
   private generateBuyItemMessageData(collection: string, nonce: number): string {
-    let collectionHex = this.ascii_to_hex(collection); // Collection in hex
+    let collectionHex = this.cryptoService.ascii_to_hex(collection); // Collection in hex
     let nonceHex = nonce.toString(16); // Nonce in hex number
     if (nonceHex.length == 1) {
       nonceHex = "0" + nonceHex;
@@ -490,14 +492,5 @@ export class NFTPageComponent implements OnInit {
 
   private nominatePrice(price: number): number {
     return price / 1000000000000000000;
-  }
-
-  private ascii_to_hex(str: string) {
-    var arr1 = [];
-    for (var n = 0, l = str.length; n < l; n++) {
-      var hex = Number(str.charCodeAt(n)).toString(16);
-      arr1.push(hex);
-    }
-    return arr1.join('');
   }
 }
