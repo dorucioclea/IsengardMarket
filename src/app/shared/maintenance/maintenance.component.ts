@@ -21,8 +21,6 @@ export interface PresaleData {
   styleUrls: ['./maintenance.component.scss']
 })
 export class MaintenanceComponent implements OnInit {
-
-  private privateSale = false;
   private gatewayUrl = environment.gatewayUri;
   private contractAddress = environment.contractAddress;
   private tokenContractAddress = environment.tokenContractAddress
@@ -94,10 +92,6 @@ export class MaintenanceComponent implements OnInit {
   }
 
   public async refferFriend() {
-    if (this.privateSale) {
-      return;
-    }
-
     let provider = ExtensionProvider.getInstance();
     await provider.init();
     let user = await this.syncUser();
@@ -105,9 +99,12 @@ export class MaintenanceComponent implements OnInit {
   }
 
   public async buyToken(refferer: string | undefined = undefined) {
-    if (this.privateSale) {
+
+    if(this.presale1!.start < new Date()){
+      this.snackbarService.negativeSentiment("The sale has not started.")
       return;
     }
+    
     let provider = ExtensionProvider.getInstance();
     await provider.init();
 
@@ -149,12 +146,18 @@ export class MaintenanceComponent implements OnInit {
   }
 
   public async buyTokenWithReffer() {
-    console.log("WITH REFFER");
     this.buyToken(this.refferer);
   }
 
   public egldValue(ietCount: number) {
     return this.ietValue1 * ietCount;
+  }
+
+  public calculatePercent(presale: PresaleData | undefined){
+    if(presale!= undefined){
+      return presale.sold/presale.goal;
+    }
+    return 0;
   }
 
   private generateBuyPresaleMessage() {
@@ -181,9 +184,6 @@ export class MaintenanceComponent implements OnInit {
     this.presale1 = await this.loadPresaleData(contract, new I32Value(1));
     this.presale2 = await this.loadPresaleData(contract, new I32Value(2));
     this.presale3 = await this.loadPresaleData(contract, new I32Value(3));
-
-    console.log("presale");
-    console.log(this.presale1);
   }
 
   private async loadPresaleData(contract: SmartContract, presaleNumber: I32Value) : Promise<PresaleData | undefined> {
@@ -191,7 +191,6 @@ export class MaintenanceComponent implements OnInit {
 
     let query = presaleInteraction.buildQuery()
     let response = await this.provider.queryContract(query);
-    console.log(response);
     if (response.isSuccess()) {
       let parsedResponse = presaleInteraction.interpretQueryResponse(response);
 

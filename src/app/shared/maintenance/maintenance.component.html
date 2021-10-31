@@ -108,8 +108,8 @@
                         vesting period: 5 months, then 17.5% / month
                         claimable</h3>
                     <div class="progress-bar">
-                        <div style="width:{{presale1!.sold/presale1!.goal}}%" class="progress">
-                            <h3 class="title"> Goal reached {{presale1!.sold/presale1!.goal}} %</h3>
+                        <div style="width:{{calculatePercent(presale1)}}%" class="progress">
+                            <h3 class="title"> Goal reached {{calculatePercent(presale1)}} %</h3>
                         </div>
                     </div>
 
@@ -128,8 +128,8 @@
                         vesting period: 3 months, then 17.5% / month
                         claimable</h3>
                     <div class="progress-bar">
-                        <div style="width:{{presale2!.sold/presale2!.goal}}%" class="progress">
-                            <h3 class="title"> Goal reached {{presale2!.sold/presale2!.goal}} %</h3>
+                        <div style="width:{{calculatePercent(presale2)}}%" class="progress">
+                            <h3 class="title"> Goal reached {{calculatePercent(presale2)}} %</h3>
                         </div>
                     </div>
 
@@ -146,8 +146,8 @@
                     </h3>
 
                     <div class="progress-bar">
-                        <div style="width:{{presale3!.sold/presale3!.goal}}%" class="progress">
-                            <h3 class="title"> Goal reached {{presale3!.sold/presale3!.goal}} %</h3>
+                        <div style="width:{{calculatePercent(presale3)}}%" class="progress">
+                            <h3 class="title"> Goal reached {{calculatePercent(presale3)}} %</h3>
                         </div>
                     </div>
                 </div>
