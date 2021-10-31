@@ -6,9 +6,12 @@
   </div>
   <div class="artist-username">
     <div class="username-wrapper">
-      <span>@{{profile?.username | slice:0:22}}...</span>
+      <span>@{{profile?.username | slice:0:22}}...
+        <button mat-icon-button style="cursor: pointer;" [cdkCopyToClipboard]="profile?.accountId!">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </span>
     </div>
-
   </div>
   <!-- TODO THIS IN V2 -->
   <!-- <div class="followers-info">

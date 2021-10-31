@@ -72,3 +72,14 @@
     }
   }
 }
+
+@media (max-width: 959.98px) {
+  .hero-container {
+    flex-direction: column;
+  }
+
+  .nft-info-container {
+    display: contents;
+
+  }
+}

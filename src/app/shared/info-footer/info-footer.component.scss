@@ -12,7 +12,7 @@
   }
   .divider {
     width: 90%;
-    border: 1px solid #ffffff7a;
+    border-bottom: 1px solid #ffffff7a;
   }
 
   .bottom-container {
@@ -101,5 +101,11 @@
 @media (max-width: 450px) {
   .bottom-container {
     font-size: 8px !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .bottom-container {
+    font-size: 6px !important;
   }
 }

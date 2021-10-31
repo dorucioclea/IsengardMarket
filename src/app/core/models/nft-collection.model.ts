@@ -2,8 +2,8 @@ export interface NFTCollection {
   collection: string;
   name: string;
   ticker: string;
-  issuer: string;
-  timestamp: number;
+  issuer?: string;
+  timeStamp: number;
   canUpgrade: boolean;
   canMint: boolean;
   canBurn: boolean;
@@ -13,5 +13,8 @@ export interface NFTCollection {
   canWipe: boolean;
   canAddSpecialRoles: boolean;
   canTransferNFTCreateRole: boolean;
-  NFTCreateStopped: boolean;
+  nftCreateStopped: boolean;
+  creator: string;
+  releaseDate: Date;
+  uri: string
 }

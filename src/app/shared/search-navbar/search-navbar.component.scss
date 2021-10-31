@@ -26,7 +26,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 25px;
   }
   .menu-list {
     display: flex;
@@ -56,6 +55,7 @@
   padding: 4px;
   height: 30px;
   border-radius: 300px;
+  background-color: white;
   box-shadow: $shadows-1;
 
   // style of the actual input field
@@ -230,6 +230,10 @@ input {
   .menu-list-sidenav {
     font-size: 16px !important;
     align-items: flex-start;
+  }
+
+  .logo-short {
+    margin-left: 10px;
   }
 
   .logo {

@@ -13,11 +13,12 @@ import { CollectionPageComponent } from './features/collection-page/collection-p
 import { CreateNFTComponent } from './features/create-nft/create.-nft.component';
 import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
 import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
+import { TOSComponent } from './core/tos/tos.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardMaintenance] },
-  { path: 'activity', component: ActivityPageComponent, canActivate: [AuthGuardMaintenance]},
+  { path: 'activity', component: ActivityPageComponent, canActivate: [AuthGuardMaintenance] },
   { path: 'nft/create', component: CreateNFTComponent, canActivate: [AuthGuardMaintenance] },
   { path: 'nft/:nftAddress', component: NFTPageComponent, canActivate: [AuthGuardMaintenance] },
   { path: 'artist/:artistAddress', component: ArtistPageComponent, canActivate: [AuthGuardMaintenance] },
@@ -27,7 +28,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuardMaintenance] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardMaintenance] },
   { path: 'collection/:collectionAddress', component: CollectionPageComponent, canActivate: [AuthGuardMaintenance] },
-  { path: 'landing', component: MaintenanceComponent}
+  { path: 'termsofservice', component: TOSComponent },
+  { path: 'landing', component: MaintenanceComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

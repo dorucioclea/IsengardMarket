@@ -4,9 +4,6 @@ import { MagicCardCaruselComponent } from './magic-card-carusel/magic-card-carus
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 import { SearchNavbarComponent } from "./search-navbar/search-navbar.component";
 import { NFTCardComponent } from "./nft-card/nft-card.component";
 import { HeroNFTComponent } from './hero-nft/hero-nft.component';
@@ -18,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from "@angular/material/button";
 import { MatRippleModule } from "@angular/material/core";
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
+import { MaterialModule } from "./material-module/material-shared.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +26,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MagicCardCaruselComponent,
     HeroNFTComponent,
     NameCardComponent,
-    NFTCollectionComponent
+    NFTCollectionComponent,
+    LoadingOverlayComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatRippleModule, 
     MatTooltipModule
+    MaterialModule
   ],
   exports: [
     NFTCardComponent,
@@ -51,7 +52,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MagicCardCaruselComponent,
     HeroNFTComponent,
     NameCardComponent,
-    NFTCollectionComponent
+    NFTCollectionComponent,
+    LoadingOverlayComponent
   ]
 })
 

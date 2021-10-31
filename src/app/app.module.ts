@@ -20,6 +20,7 @@ import { CollectionPageModule } from './features/collection-page/collection-page
 import { MaintenanceComponent } from './shared/maintenance/maintenance.component';
 import { AuthGuardMaintenance } from './core/guards/auth-guard.service';
 import { MaterialModule } from './shared/material-module/material-shared.module';
+import { TOSComponent } from './core/tos/tos.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MarketComponent,
     ProfileEditComponent,
     MaintenanceComponent,
+    TOSComponent,
   ],
   imports: [
     BrowserModule,
